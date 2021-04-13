@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.summary          = 'High-performance, high-fidelity mobile apps.'
   s.description      = <<-DESC
 Flutter provides an easy and productive way to build and deploy high-performance mobile apps for Android and iOS.
-                       DESC
+                      DESC
   s.homepage         = 'https://flutter.io'
   s.license          = { :type => 'MIT' }
   s.author           = { 'Flutter Dev Team' => 'flutter-dev@googlegroups.com' }
