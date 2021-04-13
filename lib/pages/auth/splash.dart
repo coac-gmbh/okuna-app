@@ -26,12 +26,12 @@ class OBAuthSplashPageState extends State<OBAuthSplashPage> {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: new AssetImage('assets/images/splash-background.png'),
-                fit: BoxFit.cover),
-        color: Colors.white),
-        padding: EdgeInsets.symmetric(horizontal: 40.0),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //         image: new AssetImage('assets/images/splash-background.png'),
+        //         fit: BoxFit.cover),
+        //     color: Colors.white),
+        // padding: EdgeInsets.symmetric(horizontal: 40.0),
         child: Center(child: SingleChildScrollView(child: _buildLogo())),
       ),
       bottomNavigationBar: _buildBottomBar(),
@@ -48,9 +48,7 @@ class OBAuthSplashPageState extends State<OBAuthSplashPage> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Expanded(
-              child: _buildCreateAccountButton(context: context)
-            ),
+            Expanded(child: _buildCreateAccountButton(context: context)),
             Expanded(
               child: _buildLoginButton(context: context),
             ),
@@ -61,7 +59,7 @@ class OBAuthSplashPageState extends State<OBAuthSplashPage> {
   }
 
   Widget _buildLogo() {
-    String headlineText = localizationService.trans('auth__headline');
+    // String headlineText = localizationService.trans('auth__headline');
 
     return Column(
       children: <Widget>[
@@ -69,12 +67,12 @@ class OBAuthSplashPageState extends State<OBAuthSplashPage> {
         const SizedBox(
           height: 20.0,
         ),
-        Text(headlineText,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 22.0,
-              //color: Colors.white
-            ))
+        // Text(headlineText,
+        //     textAlign: TextAlign.center,
+        //     style: TextStyle(
+        //       fontSize: 22.0,
+        //       //color: Colors.white
+        //     ))
       ],
     );
   }
@@ -119,5 +117,4 @@ class OBAuthSplashPageState extends State<OBAuthSplashPage> {
       },
     );
   }
-
 }
