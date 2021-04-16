@@ -26,11 +26,11 @@ class ThemeService {
     OBTheme(
         id: 1,
         name: 'H2pro3',
-        primaryAccentColor: '#045DE9, #7bd1e0',
+        primaryAccentColor: '#107BA0, #00A7E7',
         primaryTextColor: '#505050',
         secondaryTextColor: '#676767',
         primaryColor: '#ffffff',
-        successColor: '#00a7e7',
+        successColor: '#51ABE4',
         successColorAccent: '#ffffff',
         dangerColor: '#FF3860',
         dangerColorAccent: '#ffffff',
