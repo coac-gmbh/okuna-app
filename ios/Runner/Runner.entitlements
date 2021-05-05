@@ -9,10 +9,5 @@
 		<string>applinks:www.openbook.social</string>
 		<string>applinks:www.okuna.io</string>
 	</array>
-	<key>com.apple.security.application-groups</key>
-	<array>
-		<string>group.social.openbook.app</string>
-		<string>group.social.openbook.app.onesignal</string>
-	</array>
 </dict>
 </plist>
