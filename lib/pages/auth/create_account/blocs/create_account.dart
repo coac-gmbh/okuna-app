@@ -281,16 +281,13 @@ class CreateAccountBloc {
     _createAccountInProgressSubject.add(true);
 
     var accountWasCreated = false;
-
-    print(userRegistrationData);
-
+    
     try {
       HttpieStreamedResponse response = await _authApiService.createUser(
           email: userRegistrationData.email,
           isOfLegalAge: true,
           name: userRegistrationData.name,
           username: userRegistrationData.username,
-          token: userRegistrationData.token,
           password: userRegistrationData.password,
           areGuidelinesAccepted: true,
           avatar: userRegistrationData.avatar);
@@ -300,7 +297,7 @@ class CreateAccountBloc {
       Map<String, dynamic> responseData =
           jsonDecode(await response.readAsString());
       setUsername(responseData['username']);
-      _userService.loginWithAuthToken(responseData['token']);
+      _userService.loginWithCredentials(username: userRegistrationData.username, password: userRegistrationData.password);
     } catch (error) {
       if (error is HttpieConnectionRefusedError) {
         _onCreateAccountValidationError(error.toHumanReadableMessage());
