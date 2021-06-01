@@ -90,7 +90,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.7.0
-  intl_translation: ^0.17.10+1
+  # intl_translation: ^0.17.10+1
+  # intl_translation: ^0.17.6
 
 flutter_icons:
   android: true
