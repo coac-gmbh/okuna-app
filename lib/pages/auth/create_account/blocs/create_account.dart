@@ -297,7 +297,7 @@ class CreateAccountBloc {
       Map<String, dynamic> responseData =
           jsonDecode(await response.readAsString());
       setUsername(responseData['username']);
-      _userService.loginWithCredentials(username: userRegistrationData.username, password: userRegistrationData.password);
+      _userService.loginWithAuthToken(responseData['token']);
     } catch (error) {
       if (error is HttpieConnectionRefusedError) {
         _onCreateAccountValidationError(error.toHumanReadableMessage());
