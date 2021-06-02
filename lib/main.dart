@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:Okuna/delegates/localization_delegate.dart';
 import 'package:Okuna/pages/auth/create_account/accept_step.dart';
-import 'package:Okuna/pages/auth/create_account/create_account.dart';
 import 'package:Okuna/pages/auth/create_account/done_step/done_step.dart';
 import 'package:Okuna/pages/auth/create_account/email_step.dart';
 import 'package:Okuna/pages/auth/create_account/suggested_communities/suggested_communities.dart';
@@ -149,10 +148,6 @@ class _MyAppState extends State<MyApp> {
               '/auth': (BuildContext context) {
                 bootstrapOpenbookProviderInContext(context);
                 return OBAuthSplashPage();
-              },
-              '/auth/token': (BuildContext context) {
-                bootstrapOpenbookProviderInContext(context);
-                return OBAuthCreateAccountPage();
               },
               '/auth/get-started': (BuildContext context) {
                 bootstrapOpenbookProviderInContext(context);
