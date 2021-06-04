@@ -30,6 +30,7 @@ class OBMarkdown extends StatelessWidget {
 
     var themeService = openbookProvider.themeService;
 
+// return Container();
     return StreamBuilder(
       stream: themeService.themeChange,
       initialData: themeService.getActiveTheme(),
