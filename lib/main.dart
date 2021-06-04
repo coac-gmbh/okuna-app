@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:Okuna/delegates/localization_delegate.dart';
 import 'package:Okuna/pages/auth/create_account/accept_step.dart';
-import 'package:Okuna/pages/auth/create_account/create_account.dart';
 import 'package:Okuna/pages/auth/create_account/done_step/done_step.dart';
 import 'package:Okuna/pages/auth/create_account/email_step.dart';
 import 'package:Okuna/pages/auth/create_account/suggested_communities/suggested_communities.dart';
@@ -27,7 +26,6 @@ import 'package:Okuna/services/universal_links/universal_links.dart';
 import 'package:Okuna/widgets/toast.dart';
 import 'package:Okuna/translation/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_networkimage/provider.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'dart:async';
@@ -67,7 +65,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void bootstrap() {
-    DiskCache().maxEntries = MAX_NETWORK_IMAGE_CACHE_ENTRIES;
+    
+    // DiskCache().maxEntries = MAX_NETWORK_IMAGE_CACHE_ENTRIES;
     //DiskCache().maxSizeBytes = MAX_NETWORK_IMAGE_CACHE_MB * 1000000; // 200mb
   }
 
@@ -149,10 +148,6 @@ class _MyAppState extends State<MyApp> {
               '/auth': (BuildContext context) {
                 bootstrapOpenbookProviderInContext(context);
                 return OBAuthSplashPage();
-              },
-              '/auth/token': (BuildContext context) {
-                bootstrapOpenbookProviderInContext(context);
-                return OBAuthCreateAccountPage();
               },
               '/auth/get-started': (BuildContext context) {
                 bootstrapOpenbookProviderInContext(context);

@@ -281,16 +281,13 @@ class CreateAccountBloc {
     _createAccountInProgressSubject.add(true);
 
     var accountWasCreated = false;
-
-    print(userRegistrationData);
-
+    
     try {
       HttpieStreamedResponse response = await _authApiService.createUser(
           email: userRegistrationData.email,
           isOfLegalAge: true,
           name: userRegistrationData.name,
           username: userRegistrationData.username,
-          token: userRegistrationData.token,
           password: userRegistrationData.password,
           areGuidelinesAccepted: true,
           avatar: userRegistrationData.avatar);

@@ -145,7 +145,6 @@ class AuthApiService {
 
   Future<HttpieStreamedResponse> createUser(
       {@required String email,
-      @required String token,
       @required String name,
       @required String username,
       @required bool isOfLegalAge,
@@ -154,7 +153,7 @@ class AuthApiService {
       File avatar}) {
     Map<String, dynamic> body = {
       'email': email,
-      'token': token,
+      'token': '',
       'name': name,
       'username': username,
       'is_of_legal_age': isOfLegalAge,

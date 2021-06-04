@@ -237,8 +237,8 @@ class OBSaveCommunityModalState extends State<OBSaveCommunityModal> {
                                 : const SizedBox(),
                             OBCategoriesField(
                               title: _localizationService.community__save_community_name_category,
-                              min: 1,
-                              max: 3,
+                              min: 0,
+                              max: 6,
                               controller: _categoriesFieldController,
                               displayErrors: _formWasSubmitted,
                               onChanged: _onCategoriesChanged,
