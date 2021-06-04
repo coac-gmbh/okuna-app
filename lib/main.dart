@@ -106,7 +106,7 @@ class _MyAppState extends State<MyApp> {
               }
               return this.locale;
             },
-            title: 'Okuna',
+            title: 'H2pro3',
             supportedLocales: supportedLocales,
             localizationsDelegates: [
               const LocalizationServiceDelegate(),
