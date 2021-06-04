@@ -228,9 +228,7 @@ class ThemeService {
   }
 
   Future<OBTheme> _getThemeWithId(int id) async {
-    return _themes.firstWhere((OBTheme theme) {
-      return theme.id == id;
-    });
+    return _themes.firstWhere((OBTheme theme) => theme.id == id, orElse: () => _themes[0]);
   }
 
   Future<int> _getStoredActiveThemeId() async {
