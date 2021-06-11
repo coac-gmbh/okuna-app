@@ -129,6 +129,7 @@ class OBIcon extends StatelessWidget {
 }
 
 class OBIcons {
+  static const matchmaking = OBIconData(nativeIcon: Icons.groups);
   static const home = OBIconData(nativeIcon: Icons.home);
   static const explore = OBIconData(nativeIcon: Icons.public);
   static const trending = OBIconData(nativeIcon: Icons.whatshot);
