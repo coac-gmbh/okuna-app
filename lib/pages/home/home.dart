@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:Okuna/matchmaking/pages/SwipeScreen.dart';
-import 'package:Okuna/matchmaking/pages/matchScreen.dart';
+import 'package:Okuna/matchmaking/pages/MatchScreen.dart';
 import 'package:Okuna/models/push_notification.dart';
 import 'package:Okuna/pages/home/lib/poppable_page_controller.dart';
 import 'package:Okuna/services/intercom.dart';

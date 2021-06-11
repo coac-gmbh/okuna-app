@@ -34,7 +34,7 @@ dependencies:
   shared_preferences: ^2.0.6
   flutter_markdown: ^0.6.2
   file_picker: ^3.0.2+2
-  sentry_flutter: ^5.1.0
+  sentry_flutter: ^5.0.0
   screen: ^0.0.5
   back_button_interceptor: ^5.0.0
   flutter_colorpicker: any
