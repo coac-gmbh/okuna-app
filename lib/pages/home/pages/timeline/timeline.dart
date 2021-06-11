@@ -85,7 +85,6 @@ class OBTimelinePageState extends State<OBTimelinePage>
     _hideFloatingButtonAnimation.forward();
 
     _previousScrollPixels = 0;
-    //_getLoggedInNotifications();
 
     _timelinePostsStreamScrollController.addListener(() {
       double newScrollPixelPosition =
@@ -253,13 +252,6 @@ class OBTimelinePageState extends State<OBTimelinePage>
     if (loggedInUser != null) {
     print('here2');
       loggedInUser.resetUnreadNotificationsCount();
-      _setUnreadNotifications(loggedInUser.unreadNotificationsCount);
-    }
-  }
-
-  void _getLoggedInNotifications(){
-    User loggedInUser = _userService.getLoggedInUser();
-    if (loggedInUser != null) {
       _setUnreadNotifications(loggedInUser.unreadNotificationsCount);
     }
   }
