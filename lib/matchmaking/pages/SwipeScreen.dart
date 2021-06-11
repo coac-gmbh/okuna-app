@@ -109,8 +109,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     }
     // Show a loader until FlutterFire is initialized
     if (!_initialized) {
-
-    print('here2');
       return Container(
         color: Colors.white,
         child: Center(
@@ -127,8 +125,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-
-      print('waiting');
             return Center(
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Color(COLOR_ACCENT)),
@@ -282,7 +278,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   Widget _buildCard(User tinderUser) {
-    print(tinderUser.profilePictureURL);
     return GestureDetector(
       onTap: () async {
         _launchDetailsScreen(tinderUser);
@@ -294,33 +289,36 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
               child: Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(25),
-                  child:  Container()
-                  
-                  
-                  //  CachedNetworkImage(
-                  //   width: double.infinity,
-                  //   height: double.infinity,
-                  //   fit: BoxFit.cover,
-                  //   imageUrl: tinderUser.profilePictureURL == DEFAULT_AVATAR_URL
-                  //       ? ''
-                  //       : tinderUser.profilePictureURL != null 
-                  //           ? tinderUser.profilePictureURL 
-                  //           : DEFAULT_AVATAR_URL,
-                  //   placeholder: (context, imageUrl) {
-                  //     return Icon(
-                  //       Icons.account_circle,
-                  //       size: MediaQuery.of(context).size.height * .5,
-                  //       color: Colors.white,
-                  //     );
-                  //   },
-                  //   errorWidget: (context, imageUrl, error) {
-                  //     return Icon(
-                  //       Icons.account_circle,
-                  //       size: MediaQuery.of(context).size.height * .5,
-                  //       color: Colors.white,
-                  //     );
-                  //   },
-                  // ),
+                  child:  ExtendedImage.network(
+                    tinderUser.profilePictureURL,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    cache: true,
+                    timeLimit: const Duration(minutes: 1),
+                    loadStateChanged: (ExtendedImageState state) {
+                        switch (state.extendedImageLoadState) {
+                          case LoadState.loading:
+                            return Center(child: CircularProgressIndicator());
+                            break;
+                          case LoadState.completed:
+                            return null;
+                            break;
+                          case LoadState.failed:
+                            return Image.asset(
+                              "assets/images/fallbacks/avatar-fallback-color.png",
+                              fit: BoxFit.cover,
+                            );
+                            break;
+                          default:
+                            return Image.asset(
+                              "assets/images/fallbacks/avatar-fallback-color.png",
+                              fit: BoxFit.cover,
+                            );
+                            break;  
+                        }
+                      },
+                    ),            
                 ),
               ),
             ),
@@ -524,10 +522,8 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
   }
 
   _setupTinder() async {
-    print('here');
     tinderUsers = _fireStoreUtils.getTinderUsers();
   //   await _fireStoreUtils.matchChecker(context);
-    print('here1');
   }
 
   /// login with email and password with firebase
@@ -542,7 +538,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
       setState(() {
         currentUser = result;
       });
-      print('logged');
     } else if (result != null && result is String) {
       setState(() {
         _error = true;
