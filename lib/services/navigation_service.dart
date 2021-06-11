@@ -53,6 +53,7 @@ import 'package:Okuna/pages/home/pages/menu/pages/settings/pages/account_setting
 import 'package:Okuna/pages/home/pages/menu/pages/settings/pages/application_settings.dart';
 import 'package:Okuna/pages/home/pages/menu/pages/settings/pages/developer_settings.dart';
 import 'package:Okuna/pages/home/pages/menu/pages/terms_of_use.dart';
+import 'package:Okuna/pages/home/pages/notifications/notifications.dart';
 import 'package:Okuna/pages/home/pages/profile/pages/edit_profile/manage_profile.dart';
 import 'package:Okuna/pages/home/pages/profile/pages/edit_profile/pages/profile_posts_excluded_communities/profile_posts_excluded_communities.dart';
 import 'package:Okuna/pages/home/pages/profile/pages/follow_requests.dart';
@@ -687,6 +688,16 @@ class NavigationService {
           slidableKey: _getKeyRandomisedWithWord('connectionsCirclesPageRoute'),
           builder: (BuildContext context) {
             return OBConnectionsCirclesPage();
+          }),
+    );
+  }
+  Future navigateToNotifications({@required BuildContext context, OBNotificationsPageController controller}) {
+    return Navigator.push(
+      context,
+      OBSlideRightRoute<dynamic>(
+          slidableKey: _getKeyRandomisedWithWord('notificationsPage'),
+          builder: (BuildContext context) {
+            return OBNotificationsPage(controller: controller,);
           }),
     );
   }

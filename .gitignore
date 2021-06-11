@@ -10,6 +10,7 @@ android/key.properties
 .flutter-plugins
 /.idea
 android/.idea
+android/app/google-services.json
 .env.json
 /codesigndoc_exports
 Appfile

@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:Okuna/matchmaking/pages/SwipeScreen.dart';
 import 'package:Okuna/models/push_notification.dart';
 import 'package:Okuna/pages/home/lib/poppable_page_controller.dart';
 import 'package:Okuna/services/intercom.dart';
-import 'package:Okuna/services/media/media.dart';
 import 'package:Okuna/services/push_notifications/push_notifications.dart';
 import 'package:Okuna/models/user.dart';
 import 'package:Okuna/pages/home/pages/communities/communities.dart';
-import 'package:Okuna/pages/home/pages/notifications/notifications.dart';
 import 'package:Okuna/pages/home/pages/own_profile.dart';
 import 'package:Okuna/pages/home/pages/timeline/timeline.dart';
 import 'package:Okuna/pages/home/pages/menu/menu.dart';
@@ -22,10 +21,8 @@ import 'package:Okuna/services/modal_service.dart';
 import 'package:Okuna/services/share.dart';
 import 'package:Okuna/services/toast.dart';
 import 'package:Okuna/services/user.dart';
-import 'package:Okuna/services/user_preferences.dart';
 import 'package:Okuna/translation/constants.dart';
 import 'package:Okuna/widgets/avatars/avatar.dart';
-import 'package:Okuna/widgets/badges/badge.dart';
 import 'package:Okuna/widgets/icon.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,9 +43,7 @@ class OBHomePageState extends State<OBHomePage>
   PushNotificationsService _pushNotificationsService;
   IntercomService _intercomService;
   ModalService _modalService;
-  UserPreferencesService _userPreferencesService;
   ShareService _shareService;
-  MediaService _mediaService;
 
   int _currentIndex;
   int _lastIndex;
@@ -64,9 +59,8 @@ class OBHomePageState extends State<OBHomePage>
   OBMainSearchPageController _searchPageController;
   OBMainMenuPageController _mainMenuPageController;
   OBCommunitiesPageController _communitiesPageController;
-  OBNotificationsPageController _notificationsPageController;
+  OBSwipePageController _swipePageController;
 
-  int _loggedInUserUnreadNotifications;
   String _loggedInUserAvatarUrl;
 
   @override
@@ -75,7 +69,6 @@ class OBHomePageState extends State<OBHomePage>
     BackButtonInterceptor.add(_backButtonInterceptor);
     WidgetsBinding.instance.addObserver(this);
     _needsBootstrap = true;
-    _loggedInUserUnreadNotifications = 0;
     _lastIndex = 0;
     _currentIndex = 0;
     _timelinePageController = OBTimelinePageController();
@@ -83,7 +76,7 @@ class OBHomePageState extends State<OBHomePage>
     _searchPageController = OBMainSearchPageController();
     _mainMenuPageController = OBMainMenuPageController();
     _communitiesPageController = OBCommunitiesPageController();
-    _notificationsPageController = OBNotificationsPageController();
+    _swipePageController = OBSwipePageController();
   }
 
   @override
@@ -111,9 +104,7 @@ class OBHomePageState extends State<OBHomePage>
       _intercomService = openbookProvider.intercomService;
       _toastService = openbookProvider.toastService;
       _modalService = openbookProvider.modalService;
-      _userPreferencesService = openbookProvider.userPreferencesService;
       _shareService = openbookProvider.shareService;
-      _mediaService = openbookProvider.mediaService;
       _bootstrap();
       _needsBootstrap = false;
     }
@@ -145,10 +136,8 @@ class OBHomePageState extends State<OBHomePage>
           controller: _searchPageController,
         );
         break;
-      case OBHomePageTabs.notifications:
-        page = OBNotificationsPage(
-          controller: _notificationsPageController,
-        );
+      case OBHomePageTabs.swipe:
+        page = SwipeScreen();
         break;
       case OBHomePageTabs.communities:
         page = OBMainCommunitiesPage(
@@ -214,24 +203,10 @@ class OBHomePageState extends State<OBHomePage>
           }
         }
 
-        if (currentTab == OBHomePageTabs.notifications) {
-          // If we're coming from the notifications page, make sure to clear!
-          _resetLoggedInUserUnreadNotificationsCount();
+        if (tappedTab == OBHomePageTabs.swipe &&
+            currentTab == OBHomePageTabs.swipe) {
+          _swipePageController.popUntilFirstRoute();
         }
-
-        if (tappedTab == OBHomePageTabs.notifications) {
-          _notificationsPageController.setIsActivePage(true);
-          if (currentTab == OBHomePageTabs.notifications) {
-            if (_notificationsPageController.isFirstRoute()) {
-              _notificationsPageController.scrollToTop();
-            } else {
-              _notificationsPageController.popUntilFirstRoute();
-            }
-          }
-        } else {
-          _notificationsPageController.setIsActivePage(false);
-        }
-
         if (tappedTab == OBHomePageTabs.menu &&
             currentTab == OBHomePageTabs.menu) {
           _mainMenuPageController.popUntilFirstRoute();
@@ -266,26 +241,12 @@ class OBHomePageState extends State<OBHomePage>
           ),
         ),
         BottomNavigationBarItem(
-          title: const SizedBox(),
-          icon: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
-              const OBIcon(OBIcons.notifications),
-              _loggedInUserUnreadNotifications != null
-                  && _loggedInUserUnreadNotifications > 0 ? Positioned(
-                      right: -8,
-                      child: OBBadge(
-                        size: 10,
-                      ),
-                    )
-                  : const SizedBox()
-            ],
-          ),
+            title: const SizedBox(),
+          icon: const OBIcon(OBIcons.matchmaking),
           activeIcon: const OBIcon(
-            OBIcons.notifications,
+            OBIcons.matchmaking,
             themeColor: OBIconThemeColor.primaryAccent,
-          ),
-        ),
+          ),),
         BottomNavigationBarItem(
             title: const SizedBox(),
             icon: OBAvatar(
@@ -350,8 +311,8 @@ class OBHomePageState extends State<OBHomePage>
     PoppablePageController currentTabController;
 
     switch (currentTab) {
-      case OBHomePageTabs.notifications:
-        currentTabController = _notificationsPageController;
+      case OBHomePageTabs.swipe:
+        currentTabController = _swipePageController;
         break;
       case OBHomePageTabs.communities:
         currentTabController = _communitiesPageController;
@@ -416,21 +377,15 @@ class OBHomePageState extends State<OBHomePage>
   }
 
   void _onPushNotification(PushNotification pushNotification) {
-    OBHomePageTabs currentTab = OBHomePageTabs.values[_lastIndex];
-
-    if (currentTab != OBHomePageTabs.notifications) {
-      // When a user taps in notifications, notifications count should be removed
-      // Therefore if the user is already there, dont increment.
       User loggedInUser = _userService.getLoggedInUser();
       if (loggedInUser != null) {
         loggedInUser.incrementUnreadNotificationsCount();
       }
-    }
   }
 
   void _onPushNotificationOpened(
       PushNotificationOpenedResult pushNotificationOpenedResult) {
-    //_navigateToTab(OBHomePageTabs.notifications);
+    _navigateToTab(OBHomePageTabs.timeline);
   }
 
   Future<bool> _onShare({String text, File image, File video}) async {
@@ -468,33 +423,12 @@ class OBHomePageState extends State<OBHomePage>
 
   void _onLoggedInUserUpdate(User user) {
     _setAvatarUrl(user.getProfileAvatar());
-    OBHomePageTabs currentTab = _getCurrentTab();
-    if (currentTab != OBHomePageTabs.notifications) {
-      _setUnreadNotifications(user.unreadNotificationsCount);
-    }
   }
 
   void _setAvatarUrl(String avatarUrl) {
     setState(() {
       _loggedInUserAvatarUrl = avatarUrl;
     });
-  }
-
-  void _setUnreadNotifications(int unreadNotifications) {
-    setState(() {
-      _loggedInUserUnreadNotifications = unreadNotifications;
-    });
-  }
-
-  OBHomePageTabs _getCurrentTab() {
-    return OBHomePageTabs.values[_lastIndex];
-  }
-
-  void _resetLoggedInUserUnreadNotificationsCount() {
-    User loggedInUser = _userService.getLoggedInUser();
-    if (loggedInUser != null) {
-      loggedInUser.resetUnreadNotificationsCount();
-    }
   }
 
   void _onError(error) async {
@@ -515,7 +449,7 @@ enum OBHomePageTabs {
   timeline,
   search,
   communities,
-  notifications,
+  swipe,
   profile,
   menu
 }
