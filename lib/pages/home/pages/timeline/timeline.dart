@@ -6,6 +6,7 @@ import 'package:Okuna/models/follows_list.dart';
 import 'package:Okuna/models/post.dart';
 import 'package:Okuna/models/user.dart';
 import 'package:Okuna/pages/home/lib/poppable_page_controller.dart';
+import 'package:Okuna/pages/home/pages/notifications/notifications.dart';
 import 'package:Okuna/provider.dart';
 import 'package:Okuna/services/localization.dart';
 import 'package:Okuna/services/modal_service.dart';
@@ -62,13 +63,19 @@ class OBTimelinePageState extends State<OBTimelinePage>
   AnimationController _hideFloatingButtonAnimation;
   double _previousScrollPixels;
 
+
+  OBNotificationsPageController _notificationsPageController;
+  int _loggedInUserUnreadNotifications;
+
   @override
   void initState() {
     super.initState();
     _timelinePostsStreamController = OBPostsStreamController();
     _timelinePostsStreamScrollController = ScrollController();
+    _notificationsPageController = OBNotificationsPageController();
     widget.controller.attach(context: context, state: this);
     _needsBootstrap = true;
+    _loggedInUserUnreadNotifications = 0;
     _loggedInUserBootstrapped = false;
     _filteredCircles = [];
     _filteredFollowsLists = [];
@@ -78,6 +85,7 @@ class OBTimelinePageState extends State<OBTimelinePage>
     _hideFloatingButtonAnimation.forward();
 
     _previousScrollPixels = 0;
+    //_getLoggedInNotifications();
 
     _timelinePostsStreamScrollController.addListener(() {
       double newScrollPixelPosition =
@@ -98,6 +106,7 @@ class OBTimelinePageState extends State<OBTimelinePage>
 
       _previousScrollPixels = newScrollPixelPosition;
     });
+
   }
 
   @override
@@ -114,6 +123,10 @@ class OBTimelinePageState extends State<OBTimelinePage>
 
   @override
   Widget build(BuildContext context) {
+
+    var openbookProvider = OpenbookProvider.of(context);
+    var navigationService = openbookProvider.navigationService;
+
     if (_needsBootstrap) {
       var openbookProvider = OpenbookProvider.of(context);
       _modalService = openbookProvider.modalService;
@@ -126,11 +139,38 @@ class OBTimelinePageState extends State<OBTimelinePage>
       _needsBootstrap = false;
     }
 
+  Widget _buildNotificationsButton(){
+    return Stack(
+            clipBehavior: Clip.none, children: <Widget>[
+              OBIconButton(
+          OBIcons.notifications,
+          themeColor: OBIconThemeColor.primaryAccent,
+          onPressed: () async{
+            await navigationService.navigateToNotifications(
+                                context: context, controller: _notificationsPageController);
+            _resetLoggedInUserUnreadNotificationsCount();                    
+          },
+        ),
+              _loggedInUserUnreadNotifications != null
+                  && _loggedInUserUnreadNotifications > 0 ? Positioned(
+                      right: -8,
+                      child: OBBadge(
+                        size: 10,
+                      ),
+                    )
+                  : const SizedBox()
+            ],
+          );
+  }
+
     return OBCupertinoPageScaffold(
         backgroundColor: _themeValueParserService
             .parseColor(_themeService.getActiveTheme().primaryColor),
         navigationBar: OBThemedNavigationBar(
-            title: 'Home', trailing: _buildFiltersButton()),
+            title: 'Home', 
+            trailing: _buildNotificationsButton(),
+            leading:  _buildFiltersButton(),
+          ),
         child: Stack(
           children: <Widget>[
             _loggedInUserBootstrapped
@@ -159,6 +199,8 @@ class OBTimelinePageState extends State<OBTimelinePage>
                                 size: OBIconSize.large, color: Colors.white)))))
           ],
         ));
+
+        
   }
 
   List<Widget> _buildPostsStreamPrependedItems() {
@@ -199,9 +241,33 @@ class OBTimelinePageState extends State<OBTimelinePage>
     );
   }
 
+  void _setUnreadNotifications(int unreadNotifications) {
+    setState(() {
+      _loggedInUserUnreadNotifications = unreadNotifications;
+    });
+  }
+
+  void _resetLoggedInUserUnreadNotificationsCount() {
+    print('here');
+    User loggedInUser = _userService.getLoggedInUser();
+    if (loggedInUser != null) {
+    print('here2');
+      loggedInUser.resetUnreadNotificationsCount();
+      _setUnreadNotifications(loggedInUser.unreadNotificationsCount);
+    }
+  }
+
+  void _getLoggedInNotifications(){
+    User loggedInUser = _userService.getLoggedInUser();
+    if (loggedInUser != null) {
+      _setUnreadNotifications(loggedInUser.unreadNotificationsCount);
+    }
+  }
+
   void _onLoggedInUserChange(User newUser) async {
     if (newUser == null) return;
     List<Post> initialPosts = (await _userService.getStoredFirstPosts()).posts;
+    _setUnreadNotifications(newUser.unreadNotificationsCount);
     setState(() {
       _loggedInUserBootstrapped = true;
       _initialPosts = initialPosts;
