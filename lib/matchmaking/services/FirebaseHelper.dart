@@ -124,15 +124,12 @@ class FireStoreUtils {
   Stream<List<User>> getTinderUsers() async* {
     tinderCardsStreamController = StreamController<List<User>>();
     List<User> tinderUsers = [];
-    print('GETTINSUEDSE');
       await firestore
           .collection(USERS)
           .where('showMe', isEqualTo: true)
           .get()
           .then((value) async {
         value.docs.forEach((DocumentSnapshot tinderUser) async {
-          print('Heretpp');
-          print(SwipeScreenState.currentUser);
           try {
             if (tinderUser.id != SwipeScreenState.currentUser.userID) {
               User user = User.fromJson(tinderUser.data() ?? {});
@@ -277,6 +274,61 @@ class FireStoreUtils {
         },
       ),
     );
+  }
+
+
+  Future<void> deleteImage(String imageFileUrl) async {
+    var fileUrl = Uri.decodeFull(Path.basename(imageFileUrl))
+        .replaceAll(new RegExp(r'(\?alt).*'), '');
+
+    final Reference firebaseStorageRef =
+    FirebaseStorage.instance.ref().child(fileUrl);
+    await firebaseStorageRef.delete();
+  }
+
+
+  /// this method is used to upload the user image to firestore
+  /// @param image file to be uploaded to firestore
+  /// @param userID the userID used as part of the image name on firestore
+  /// @return the full download url used to view the image
+  static Future<String> uploadUserImageToFireStorage(
+      File image, String userID) async {
+    File compressedImage = await compressImage(image);
+    Reference upload = storage.child("images/$userID.png");
+    UploadTask uploadTask = upload.putFile(compressedImage);
+    var downloadUrl =
+        await (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
+    return downloadUrl.toString();
+  }
+
+  /// compress image file to make it load faster but with lower quality,
+  /// change the quality parameter to control the quality of the image after
+  /// being compressed(100 = max quality - 0 = low quality)
+  /// @param file the image file that will be compressed
+  /// @return File a new compressed file with smaller size
+  static Future<File> compressImage(File file) async {
+    File compressedImage = await FlutterNativeImage.compressImage(
+      file.path,
+      quality: 25,
+    );
+    return compressedImage;
+  }
+
+  /// compress video file to make it load faster but with lower quality,
+  /// change the quality parameter to control the quality of the video after
+  /// being compressed
+  /// @param file the video file that will be compressed
+  /// @return File a new compressed file with smaller size
+  Future<File> _compressVideo(File file) async {
+    final _flutterVideoCompress = FlutterVideoCompress();
+    MediaInfo info = await _flutterVideoCompress.compressVideo(
+      file.path,
+      quality: VideoQuality.MediumQuality,
+      deleteOrigin: false,
+      includeAudio: true,
+    );
+    File compressedVideo = File(info.path);
+    return compressedVideo;
   }
 }
 
