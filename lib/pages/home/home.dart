@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:Okuna/matchmaking/pages/SwipeScreen.dart';
+import 'package:Okuna/matchmaking/pages/HomeScreen.dart';
 import 'package:Okuna/models/push_notification.dart';
 import 'package:Okuna/pages/home/lib/poppable_page_controller.dart';
 import 'package:Okuna/services/intercom.dart';
@@ -59,7 +59,7 @@ class OBHomePageState extends State<OBHomePage>
   OBMainSearchPageController _searchPageController;
   OBMainMenuPageController _mainMenuPageController;
   OBCommunitiesPageController _communitiesPageController;
-  OBSwipePageController _swipePageController;
+  OBHomeScreenController _homeScreenController;
 
   String _loggedInUserAvatarUrl;
 
@@ -76,7 +76,7 @@ class OBHomePageState extends State<OBHomePage>
     _searchPageController = OBMainSearchPageController();
     _mainMenuPageController = OBMainMenuPageController();
     _communitiesPageController = OBCommunitiesPageController();
-    _swipePageController = OBSwipePageController();
+    _homeScreenController = OBHomeScreenController();
   }
 
   @override
@@ -136,8 +136,8 @@ class OBHomePageState extends State<OBHomePage>
           controller: _searchPageController,
         );
         break;
-      case OBHomePageTabs.swipe:
-        page = SwipeScreen();
+      case OBHomePageTabs.home:
+        page = HomeScreen();
         break;
       case OBHomePageTabs.communities:
         page = OBMainCommunitiesPage(
@@ -203,9 +203,9 @@ class OBHomePageState extends State<OBHomePage>
           }
         }
 
-        if (tappedTab == OBHomePageTabs.swipe &&
-            currentTab == OBHomePageTabs.swipe) {
-          _swipePageController.popUntilFirstRoute();
+        if (tappedTab == OBHomePageTabs.home &&
+            currentTab == OBHomePageTabs.home) {
+          _homeScreenController.popUntilFirstRoute();
         }
         if (tappedTab == OBHomePageTabs.menu &&
             currentTab == OBHomePageTabs.menu) {
@@ -311,8 +311,8 @@ class OBHomePageState extends State<OBHomePage>
     PoppablePageController currentTabController;
 
     switch (currentTab) {
-      case OBHomePageTabs.swipe:
-        currentTabController = _swipePageController;
+      case OBHomePageTabs.home:
+        currentTabController = _homeScreenController;
         break;
       case OBHomePageTabs.communities:
         currentTabController = _communitiesPageController;
@@ -449,7 +449,7 @@ enum OBHomePageTabs {
   timeline,
   search,
   communities,
-  swipe,
+  home,
   profile,
   menu
 }
