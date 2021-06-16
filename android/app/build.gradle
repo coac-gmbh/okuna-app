@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         // ...
         // OneSignal-Gradle-Plugin
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.6, 0.99.99]'
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.3'
     }
 }
 
@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
+    // TODO: implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
 }
 
 apply plugin: 'com.google.gms.google-services'

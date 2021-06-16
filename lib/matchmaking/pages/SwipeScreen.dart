@@ -5,16 +5,17 @@ import 'package:Okuna/matchmaking/pages/UserDetailsScreen.dart';
 import 'package:Okuna/matchmaking/pages/MatchScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
-import 'package:Okuna/pages/home/lib/poppable_page_controller.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SwipeScreen extends StatefulWidget {
+  final User user;
+
+  const SwipeScreen({Key key, this.user}) : super(key: key);
+  
   @override
   SwipeScreenState createState() => SwipeScreenState();
 }
@@ -34,13 +35,14 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   void initializeFlutterFire() async {
+    setState(() {
+      currentUser = widget.user;
+    });
     try {
-      await Firebase.initializeApp();
-      await _loginWithEmailAndPassword();
+      _setupTinder();
       setState(() {
         _initialized = true;
       });
-    _setupTinder();
     } catch (e) {
       setState(() {
         _error = true;
@@ -117,6 +119,8 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
       );
     }
     
+
+
     return StreamBuilder<List<User>>(
       stream: tinderUsers,
       initialData: [],
@@ -525,33 +529,4 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     tinderUsers = _fireStoreUtils.getTinderUsers();
   //   await _fireStoreUtils.matchChecker(context);
   }
-
-  /// login with email and password with firebase
-  /// @param email user email
-  /// @param password user password
-  _loginWithEmailAndPassword() async {
-    // dynamic result = await FireStoreUtils.loginWithEmailAndPassword(
-    //     email!.trim(), password!.trim());
-    dynamic result = await FireStoreUtils.loginWithEmailAndPassword(
-        'danielarias@abc.com', '12345ABcd\$');
-    if (result != null && result is User) {
-      setState(() {
-        currentUser = result;
-      });
-    } else if (result != null && result is String) {
-      setState(() {
-        _error = true;
-      });
-      showAlertDialog(context, 'Couldn\'t Authenticate', result);
-    } else {
-      setState(() {
-        _error = true;
-      });
-      showAlertDialog(context, 'Couldn\'t Authenticate',
-          'Login failed, Please try again.');
-    }
-  }    
 }
-
-
-class OBSwipePageController extends PoppablePageController {}
