@@ -111,6 +111,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    // TODO: implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
 }
 
 apply plugin: 'com.google.gms.google-services'
