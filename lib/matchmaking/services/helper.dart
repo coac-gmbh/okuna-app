@@ -1,7 +1,10 @@
 
+import 'dart:async';
+
 import 'package:Okuna/matchmaking/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 //helper method to show progress
@@ -129,4 +132,44 @@ Widget displayCircleImage(String picUrl, double size, hasBorder) =>
         placeholder: (context, url) =>
             _getPlaceholderOrErrorImage(size, hasBorder),
         errorWidget: (context, url, error) =>
-            _getPlaceholderOrErrorImage(size, hasBorder));
+            _getPlaceholderOrErrorImage(size, hasBorder));            _getPlaceholderOrErrorImage(size, hasBorder));
+
+String setLastSeen(int seconds) {
+  var format = DateFormat('hh:mm a');
+  var date = new DateTime.fromMillisecondsSinceEpoch(seconds * 1000);
+  var diff = DateTime.now().millisecondsSinceEpoch - (seconds * 1000);
+  if (diff < 24 * HOUR_MILLIS) {
+    return format.format(date);
+  } else if (diff < 48 * HOUR_MILLIS) {
+    return 'Yesterday at ${format.format(date)}';
+  } else {
+    format = DateFormat('MMM d');
+    return '${format.format(date)}';
+  }
+}
+
+
+String updateTime(Timer timer) {
+  Duration callDuration = Duration(seconds: timer.tick);
+  String twoDigits(int n) {
+    if (n >= 10) return "$n";
+    return "0$n";
+  }
+
+  String twoDigitsHours(int n) {
+    if (n >= 10) return "$n:";
+    if (n == 0) return '';
+    return "0$n:";
+  }
+
+  String twoDigitMinutes = twoDigits(callDuration.inMinutes.remainder(60));
+  String twoDigitSeconds = twoDigits(callDuration.inSeconds.remainder(60));
+  return "${twoDigitsHours(callDuration.inHours)}$twoDigitMinutes:$twoDigitSeconds";
+}
+
+
+String formatTimestamp(int timestamp) {
+  var format = new DateFormat('hh:mm a');
+  var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  return format.format(date);
+}
