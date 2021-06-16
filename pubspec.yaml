@@ -178,6 +178,10 @@ flutter:
     - assets/images/fallbacks/cover-fallback.jpg
     - assets/images/fallbacks/avatar-fallback.jpg
     - assets/images/fallbacks/avatar-fallback-color.png
+    - assets/images/matchmaking/chat_arrow_left.png
+    - assets/images/matchmaking/chat_arrow_right.png
+    - assets/images/matchmaking/error_image.png
+    - assets/images/matchmaking/placeholder.jpg
     - assets/other/public_suffix_list.dat
     - .env.json
 
