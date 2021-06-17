@@ -1,5 +1,6 @@
 import 'package:Okuna/matchmaking/constants.dart';
 import 'package:Okuna/matchmaking/model/User.dart';
+import 'package:Okuna/matchmaking/pages/ConversationsScreen.dart';
 import 'package:Okuna/matchmaking/pages/ProfileScreen.dart';
 import 'package:Okuna/matchmaking/pages/SwipeScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
@@ -10,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-
-
   static bool onGoingCall = false;
 
   @override
@@ -54,7 +53,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.initState();
     initializeFlutterFire();
     WidgetsBinding.instance?.addObserver(this);
-    // if (CALLS_ENABLED) _listenForCalls();
   }
 
   @override
@@ -65,61 +63,66 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: GestureDetector(
-          onTap: () {
-            setState(() {
-              _appBarTitle = 'Swipe';
-              _currentWidget = SwipeScreen();
-            });
-          },
-          child: Image.asset(
-            'assets/images/icon-adaptive-foreground.png',
-            width: _appBarTitle == 'Swipe' ? 60 : 45,
-            height: _appBarTitle == 'Swipe' ? 60 : 45,
-            color: _appBarTitle == 'Swipe'
-                ? Color(COLOR_PRIMARY)
-                : Colors.grey,
-          ),
-        ),
-        leading: IconButton(
-            icon: Icon(
-              Icons.person,
-              color: _appBarTitle == 'Profile'
-                  ? Color(COLOR_PRIMARY)
-                  : Colors.grey,
+    return ChangeNotifierProvider.value(
+      value: currentUser,
+      child: Consumer<User>(
+        builder: (context, user, _) {
+          return Scaffold(
+            appBar: AppBar(
+              title: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _appBarTitle = 'Swipe';
+                    _currentWidget = SwipeScreen();
+                  });
+                },
+                child: Image.asset(
+                  'assets/images/icon-adaptive-foreground.png',
+                  width: _appBarTitle == 'Swipe' ? 60 : 45,
+                  height: _appBarTitle == 'Swipe' ? 60 : 45,
+                  color: _appBarTitle == 'Swipe'
+                      ? Color(COLOR_PRIMARY)
+                      : Colors.grey,
+                ),
+              ),
+              leading: IconButton(
+                  icon: Icon(
+                    Icons.person,
+                    color: _appBarTitle == 'Profile'
+                        ? Color(COLOR_PRIMARY)
+                        : Colors.grey,
+                  ),
+                  iconSize: _appBarTitle == 'Profile' ? 35 : 24,
+                  onPressed: () {
+                    setState(() {
+                      _appBarTitle = 'Profile';
+                      _currentWidget = ProfileScreen(user: currentUser);
+                    });
+                  }
+              ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.message),
+                  onPressed: () {
+                    setState(() {
+                      _appBarTitle = 'Conversations';
+                      _currentWidget = ConversationsScreen(user: currentUser);
+                    });
+                  },
+                  color: _appBarTitle == 'Conversations'
+                      ? Color(COLOR_PRIMARY)
+                      : Colors.grey,
+                  iconSize: _appBarTitle == 'Conversations' ? 35 : 24,
+                )
+              ],  
+              backgroundColor: Colors.transparent,
+              brightness: Brightness.light,
+              centerTitle: true,
+              elevation: 0,      
             ),
-            iconSize: _appBarTitle == 'Profile' ? 35 : 24,
-            onPressed: () {
-              setState(() {
-                _appBarTitle = 'Profile';
-                _currentWidget = ProfileScreen(user: currentUser);
-              });
-            }
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.message),
-            onPressed: () {
-              setState(() {
-                _appBarTitle = 'Conversations';
-                // _currentWidget = ConversationsScreen(user: user);
-              });
-            },
-            color: _appBarTitle == 'Conversations'
-                ? Color(COLOR_PRIMARY)
-                : Colors.grey,
-            iconSize: _appBarTitle == 'Conversations' ? 35 : 24,
-          )
-        ],  
-        backgroundColor: Colors.transparent,
-        brightness: Brightness.light,
-        centerTitle: true,
-        elevation: 0,      
-      ),
-            body: _currentWidget,
-    );
+                  body: _currentWidget,
+          );
+        }));
   }
 
   /// login with email and password with firebase
@@ -129,7 +132,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // dynamic result = await FireStoreUtils.loginWithEmailAndPassword(
     //     email!.trim(), password!.trim());
     dynamic result = await FireStoreUtils.loginWithEmailAndPassword(
-        'rodrigoperez@abc.com', '12345ABcd\$');
+        'angelaramiez@abc.com', '12345ABcd\$');
     if (result != null && result is User) {
       setState(() {
         currentUser = result;
