@@ -428,8 +428,8 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     CardSwipeOrientation result = await Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (context) => UserDetailsScreen(
-          // user: tinderUser,
-          // isMatch: false,
+          user: tinderUser,
+          isMatch: false,
         ),
       ),
     );
