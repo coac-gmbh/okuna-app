@@ -132,7 +132,7 @@ Widget displayCircleImage(String picUrl, double size, hasBorder) =>
         placeholder: (context, url) =>
             _getPlaceholderOrErrorImage(size, hasBorder),
         errorWidget: (context, url, error) =>
-            _getPlaceholderOrErrorImage(size, hasBorder));            _getPlaceholderOrErrorImage(size, hasBorder));
+            _getPlaceholderOrErrorImage(size, hasBorder));
 
 String setLastSeen(int seconds) {
   var format = DateFormat('hh:mm a');
