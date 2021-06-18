@@ -122,6 +122,37 @@ class FireStoreUtils {
     }
   }
 
+  Future<void> loginWithCustomToken(String token) async{
+    try {
+      auth.UserCredential result = await auth.FirebaseAuth.instance.signInWithCustomToken(token);
+      DocumentSnapshot documentSnapshot =
+          await firestore.collection(USERS).doc(result.user?.uid ?? '').get();
+      User user;
+      if (documentSnapshot.exists) {
+        user = User.fromJson(documentSnapshot.data() ?? {});
+        user.fcmToken = await firebaseMessaging.getToken() ?? '';
+        await updateCurrentUser(user);
+      }
+    } on auth.FirebaseAuthException catch (error) {
+      print(error.toString() + '${error.stackTrace}');
+      String message = 'Couldn\'t sign up';
+      switch (error.code) {
+        case 'custom-token-mismatch':
+          message = 'Credentials are wrong!';
+          break;
+        case 'invalid-custom-token':
+          message = 'Invalid credentials format';
+          break;
+      }
+      throw message;
+    } catch (e) {
+      print(e);
+      throw 'Couldn\'t sign up';
+    }
+  }
+
+
+
 
   Stream<List<User>> getTinderUsers() async* {
     tinderCardsStreamController = StreamController<List<User>>();

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/models/categories_list.dart';
 import 'package:Okuna/models/category.dart';
 import 'package:Okuna/models/circle.dart';
@@ -113,6 +114,9 @@ class UserService {
   DraftService _draftService;
   PushNotificationsService _pushNotificationService;
   IntercomService _intercomService;
+
+
+  final FireStoreUtils _fireStoreUtils = FireStoreUtils();
 
   // If this is null, means user logged out.
   Stream<User> get loggedInUserChange => _loggedInUserChangeSubject.stream;
@@ -341,6 +345,8 @@ class UserService {
     if (response.isOk()) {
       var parsedResponse = response.parseJsonBody();
       var authToken = parsedResponse['token'];
+      var firebaseToken = parsedResponse['firebase_token'];
+      await _fireStoreUtils.loginWithCustomToken(firebaseToken);
       await loginWithAuthToken(authToken);
     } else if (response.isUnauthorized()) {
       throw CredentialsMismatchError('The provided credentials do not match.');
