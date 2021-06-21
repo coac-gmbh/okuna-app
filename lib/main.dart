@@ -25,6 +25,8 @@ import 'package:Okuna/services/localization.dart';
 import 'package:Okuna/services/universal_links/universal_links.dart';
 import 'package:Okuna/widgets/toast.dart';
 import 'package:Okuna/translation/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -58,8 +60,30 @@ class _MyAppState extends State<MyApp> {
   static const MAX_NETWORK_IMAGE_CACHE_MB = 200;
   static const MAX_NETWORK_IMAGE_CACHE_ENTRIES = 1000;
 
+
+  // Set default `_initialized` and `_error` state to false
+  bool _initialized = false;
+  bool _error = false;
+
+  // Define an async function to initialize FlutterFire
+  void initializeFlutterFire() async {
+    try {
+      // Wait for Firebase to initialize and set `_initialized` state to true
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (e) {
+      // Set `_error` state to true if Firebase initialization fails
+      setState(() {
+        _error = true;
+      });
+    }
+  }
+
   @override
   void initState() {
+    initializeFlutterFire();
     super.initState();
     _needsBootstrap = true;
   }
@@ -75,6 +99,29 @@ class _MyAppState extends State<MyApp> {
     if (_needsBootstrap) {
       bootstrap();
       _needsBootstrap = false;
+    }
+
+
+    // Show error message if initialization failed
+    if (_error) {
+      return Container(
+        color: Colors.white,
+        child: Center(
+            child: Column(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 25,
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Failed to initialise firebase!',
+              style: TextStyle(color: Colors.red, fontSize: 25),
+            ),
+          ],
+        )),
+      );
     }
 
     var textTheme = _defaultTextTheme();

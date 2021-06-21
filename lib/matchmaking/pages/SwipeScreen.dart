@@ -88,7 +88,16 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
 
-    // Show error message if initialization failed
+    // Show a loader until FlutterFire is initialized
+    if (!_initialized) {
+      return Container(
+        color: Colors.white,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    
     if (_error) {
       return Container(
         color: Colors.white,
@@ -102,24 +111,13 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
             ),
             SizedBox(height: 16),
             Text(
-              'Failed to initialise firebase!',
+              'Oh no! There is an error. Try again later',
               style: TextStyle(color: Colors.red, fontSize: 25),
             ),
           ],
         )),
       );
     }
-    // Show a loader until FlutterFire is initialized
-    if (!_initialized) {
-      return Container(
-        color: Colors.white,
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-    
-
 
     return StreamBuilder<List<User>>(
       stream: tinderUsers,
