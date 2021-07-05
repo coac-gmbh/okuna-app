@@ -1,32 +1,45 @@
 import 'package:Okuna/matchmaking/CustomFlutterTinderCard.dart';
 import 'package:Okuna/matchmaking/constants.dart';
-import 'package:Okuna/matchmaking/model/User.dart';
+import 'package:Okuna/matchmaking/model/User.dart' as current;
+import 'package:Okuna/matchmaking/pages/CardProfileScreen.dart';
 import 'package:Okuna/matchmaking/pages/UserDetailsScreen.dart';
 import 'package:Okuna/matchmaking/pages/MatchScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
+import 'package:Okuna/models/user_profile.dart';
+import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/profile_card.dart';
+import 'package:Okuna/pages/home/pages/profile/widgets/profile_cover.dart';
+import 'package:Okuna/widgets/buttons/actions/follow_button.dart';
+import 'package:Okuna/widgets/nav_bars/themed_nav_bar.dart';
+import 'package:Okuna/widgets/theming/actionable_smart_text.dart';
+import 'package:Okuna/widgets/theming/primary_color_container.dart';
+import 'package:Okuna/widgets/theming/secondary_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:Okuna/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SwipeScreen extends StatefulWidget {
-  final User user;
+  final current.User user;
+  final User cardUser;
 
-  const SwipeScreen({Key key, this.user}) : super(key: key);
+  const SwipeScreen({Key key, this.user, this.cardUser}) : super(key: key);
   
   @override
   SwipeScreenState createState() => SwipeScreenState();
 }
 
 class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
-  static User currentUser;
+  static current.User currentUser;
+  static User cardUser;
   FireStoreUtils _fireStoreUtils = FireStoreUtils();
-  Stream<List<User>> tinderUsers;
-  List<User> swipedUsers = [];
-  List<User> users = [];
+  Stream<List<current.User>> tinderUsers;
+  List<current.User> swipedUsers = [];
+  List<current.User> users = [];
   CardController controller = CardController();
+
 
 
   // Set default `_initialized` and `_error` state to false
@@ -37,6 +50,29 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
   void initializeFlutterFire() async {
     setState(() {
       currentUser = widget.user;
+      cardUser = User(
+        id: 8,
+        uuid: 'df6e0a85-39fb-4a8e-adc0-73cf66115e33', 
+        dateJoined: DateTime.parse('2021-06-01 15:03:00.765629').toLocal() , 
+        connectionsCircleId: 9, 
+        email: 'ashley@helixsoft.com.co', 
+        username: 'ash',
+        visibility: UserVisibility.public, 
+        notificationsSettings: null, 
+        followersCount: null, 
+        followingCount: 1, 
+        postsCount: 4, 
+        isBlocked: false,
+        profile: 
+          UserProfile(
+              id: 7, 
+              name: 'Ashley', 
+              avatar: 'http://h2.dev.altix.co/media/users/8/038ea871-bd31-4609-8450-c9fc2117b38a.jpg', 
+              cover: 'http://h2.dev.altix.co/media/users/8/e3954a8c-9cd4-4dd8-a000-29c28adeb0f3.jpg', 
+              bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in metus id eros vulputate molestie vel vel nulla. In et dictum metus. Nam in orci elit. Maecenas elit nulla, lacinia vitae orci in, ultricies pharetra velit. Nulla lorem lorem, dapibus mollis condimentum et, tempus sed lectus. Praesent lobortis, libero quis porttitor ultricies, diam ipsum accumsan dui, id imperdiet dui turpis sed velit. Integer eu aliquet lorem.', 
+              url: null, location: null, badges: []),
+              
+      );
     });
     try {
       _setupTinder();
@@ -119,7 +155,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
       );
     }
 
-    return StreamBuilder<List<User>>(
+    return StreamBuilder<List<current.User>>(
       stream: tinderUsers,
       initialData: [],
       builder: (context, snapshot) {
@@ -142,7 +178,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
   }
 
 
-  Widget _asyncCards(BuildContext context, List<User> data) {
+  Widget _asyncCards(BuildContext context, List<current.User> data) {
     users = data ?? [];
     if (data == null || data.isEmpty)
       return Center(
@@ -199,7 +235,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                     if (orientation == CardSwipeOrientation.LEFT ||
                         orientation == CardSwipeOrientation.RIGHT) {
                         if (orientation == CardSwipeOrientation.RIGHT) {
-                          User result =
+                          current.User result =
                               await _fireStoreUtils.onSwipeRight(data[index]);
                           if (result != null) {
                             data.removeAt(index);
@@ -266,9 +302,9 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                   backgroundColor: Colors.white,
                   mini: false,
                   child: Icon(
-                    Icons.favorite,
+                    Icons.thumb_up,
                     color: Colors.green,
-                    size: 40,
+                    size: 35,
                   ),
                 )
               ],
@@ -279,7 +315,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
 
-  Widget _buildCard(User tinderUser) {
+  Widget _buildCard(current.User tinderUser) {
     return GestureDetector(
       onTap: () async {
         _launchDetailsScreen(tinderUser);
@@ -287,49 +323,13 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
       child: Card(
         child: Stack(
           children: <Widget>[
-            Container(
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child:  ExtendedImage.network(
-                    tinderUser.profilePictureURL,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                    cache: true,
-                    timeLimit: const Duration(minutes: 1),
-                    loadStateChanged: (ExtendedImageState state) {
-                        switch (state.extendedImageLoadState) {
-                          case LoadState.loading:
-                            return Center(child: CircularProgressIndicator());
-                            break;
-                          case LoadState.completed:
-                            return null;
-                            break;
-                          case LoadState.failed:
-                            return Image.asset(
-                              "assets/images/fallbacks/avatar-fallback-color.png",
-                              fit: BoxFit.cover,
-                            );
-                            break;
-                          default:
-                            return Image.asset(
-                              "assets/images/fallbacks/avatar-fallback-color.png",
-                              fit: BoxFit.cover,
-                            );
-                            break;  
-                        }
-                      },
-                    ),            
-                ),
-              ),
-            ),
+            CardProfileScreen(user: cardUser,),
             Positioned(
               right: 5,
               child: IconButton(
                 icon: Icon(
                   Icons.keyboard_arrow_down,
-                  color: Colors.white,
+                  color: Colors.grey,
                 ),
                 iconSize: 30,
                 onPressed: () => _onCardSettingsClick(tinderUser),
@@ -352,77 +352,19 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                verticalDirection: VerticalDirection.down,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      tinderUser.age.isEmpty
-                          ? '${tinderUser.fullName()}'
-                          : '${tinderUser.fullName()}, ${tinderUser.age}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.school,
-                        color: Colors.white,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          '${tinderUser.school}',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.location_on,
-                        color: Colors.white,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          '${tinderUser.milesAway}',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
           ],
         ),
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
           borderRadius: BorderRadius.circular(25),
         ),
-        color: Color(COLOR_PRIMARY),
+        color: Colors.white,
       ),
     );
   }
 
 
-  Future<void> _launchDetailsScreen(User tinderUser) async {
+  Future<void> _launchDetailsScreen(current.User tinderUser) async {
     CardSwipeOrientation result = await Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (context) => UserDetailsScreen(
@@ -440,7 +382,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     }
   }
 
-  _onCardSettingsClick(User user) {
+  _onCardSettingsClick(current.User user) {
     final action = CupertinoActionSheet(
       message: Text(
         user.fullName(),
@@ -517,7 +459,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   _undo() async {
-      User undoUser = swipedUsers.removeLast();
+      current.User undoUser = swipedUsers.removeLast();
       users.insert(0, undoUser);
       _fireStoreUtils.updateCardStream(users);
       await _fireStoreUtils.undo(undoUser);
