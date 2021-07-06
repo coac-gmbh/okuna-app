@@ -416,21 +416,21 @@ packages:
       name: flutter_sound_lite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.1.4"
+    version: "8.1.9"
   flutter_sound_platform_interface:
     dependency: transitive
     description:
       name: flutter_sound_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.1.4"
+    version: "8.1.9"
   flutter_sound_web:
     dependency: transitive
     description:
       name: flutter_sound_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.1.4"
+    version: "8.1.9"
   flutter_spinkit:
     dependency: transitive
     description:
@@ -751,6 +751,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.0"
+  permission_handler:
+    dependency: "direct main"
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.1.2"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.6.0"
   petitparser:
     dependency: transitive
     description:
