@@ -1,4 +1,6 @@
 import 'package:Okuna/models/badge.dart';
+import 'package:Okuna/models/categories_list.dart';
+import 'package:Okuna/models/category.dart';
 import 'package:Okuna/models/circle.dart';
 import 'package:Okuna/models/circles_list.dart';
 import 'package:Okuna/models/community.dart';
@@ -52,6 +54,7 @@ class User extends UpdatableModel<User> {
   FollowsListsList followLists;
   CommunityMembershipList communitiesMemberships;
   CommunityInviteList communitiesInvites;
+  CategoriesList categories;
 
   static final navigationUsersFactory = UserFactory(
       cache:
@@ -130,6 +133,9 @@ class User extends UpdatableModel<User> {
       'communities_invites': communitiesInvites?.communityInvites
           ?.map((CommunityInvite invite) => invite.toJson())
           ?.toList(),
+      'categories': categories?.categories
+          ?.map((Category category) => category.toJson())
+          ?.toList()
     };
   }
 
@@ -152,6 +158,7 @@ class User extends UpdatableModel<User> {
       this.connectionsCircleId,
       this.username,
       this.visibility,
+      this.categories,
       this.email,
       this.profile,
       this.language,
