@@ -6,7 +6,10 @@ import 'package:Okuna/matchmaking/pages/HomeScreen.dart';
 import 'package:Okuna/matchmaking/pages/chat/ChatScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
+import 'package:Okuna/widgets/progress_indicator.dart';
+import 'package:Okuna/widgets/theming/text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +26,9 @@ class MatchScreen extends StatefulWidget {
 class _MatchScreenState extends State<MatchScreen> {
   final FireStoreUtils _fireStoreUtils = FireStoreUtils();
 
+  static const String DEFAULT_AVATAR_ASSET =
+      'assets/images/fallbacks/cover-fallback.jpg';
+
   @override
   void dispose() {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -34,9 +40,31 @@ class _MatchScreenState extends State<MatchScreen> {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return Material(
       child: Stack(fit: StackFit.expand, children: <Widget>[
-        CachedNetworkImage(
-          imageUrl: widget.matchedUser.profilePictureURL,
+        ExtendedImage.network(
+          widget.matchedUser.profilePictureURL,
           fit: BoxFit.cover,
+          cache: true,
+          loadStateChanged: (ExtendedImageState state) {
+            switch (state.extendedImageLoadState) {
+              case LoadState.loading:
+                return Center(child: OBProgressIndicator());
+                break;
+              case LoadState.completed:
+                return null;
+                break;
+              case LoadState.failed:
+                return Image.asset(
+                  DEFAULT_AVATAR_ASSET,
+                  fit: BoxFit.cover,
+                );
+                break;
+              default:
+                return Image.asset(
+                  DEFAULT_AVATAR_ASSET,
+                  fit: BoxFit.cover,
+                );
+                break;  
+            }
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 40.0),

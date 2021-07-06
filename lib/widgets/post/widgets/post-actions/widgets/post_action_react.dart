@@ -6,9 +6,10 @@ import 'package:Okuna/services/localization.dart';
 import 'package:Okuna/services/toast.dart';
 import 'package:Okuna/widgets/buttons/button.dart';
 import 'package:Okuna/widgets/icon.dart';
+import 'package:Okuna/widgets/progress_indicator.dart';
 import 'package:Okuna/widgets/theming/text.dart';
 import 'package:async/async.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class OBPostActionReact extends StatefulWidget {
@@ -57,14 +58,22 @@ class OBPostActionReactState extends State<OBPostActionReact> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             hasReaction
-                ? CachedNetworkImage(
+                ? ExtendedImage.network(
+                    reaction.getEmojiImage(),
                     height: 18.0,
-                    imageUrl: reaction.getEmojiImage(),
-                    errorWidget:
-                        (BuildContext context, String url, Object error) {
-                      return SizedBox(
-                        child: Center(child: Text('?')),
-                      );
+                    cache: true,
+                    loadStateChanged: (ExtendedImageState state) {
+                      switch (state.extendedImageLoadState) {
+                        case LoadState.loading:
+                          return Center(child: OBProgressIndicator());
+                          break;
+                        case LoadState.failed:
+                          return Center(child: const OBText('?'));
+                          break;
+                        default:
+                          return Center(child: const OBText('?'));
+                          break;  
+                      }
                     },
                   )
                 : const OBIcon(

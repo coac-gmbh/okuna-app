@@ -12,8 +12,8 @@ import 'package:Okuna/matchmaking/pages/HomeScreen.dart';
 import 'package:Okuna/matchmaking/pages/chat/PlayerWidget.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -709,14 +709,25 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
                 child: Hero(
                   tag: mediaUrl,
-                  child: CachedNetworkImage(
-                    imageUrl: mediaUrl,
-                    placeholder: (context, url) =>
-                        Image.asset('assets/images/matchmaking/img_placeholder'
-                            '.png'),
-                    errorWidget: (context, url, error) =>
-                        Image.asset('assets/images/matchmaking/error_image'
-                            '.png'),
+                  child: ExtendedImage.network(
+                    mediaUrl,
+                    fit: BoxFit.cover,
+                    cache: true,
+                    loadStateChanged: (ExtendedImageState state) {
+                      switch (state.extendedImageLoadState) {
+                        case LoadState.loading:
+                          return Center(child: OBProgressIndicator());
+                          break;
+                        case LoadState.failed:
+                          return Image.asset('assets/images/matchmaking/error_image'
+                                        '.png');
+                          break;
+                        default:
+                          return Image.asset('assets/images/matchmaking/img_placeholder'
+                                        '.png');
+                          break;  
+                      }
+                    },
                   ),
                 ),
               ),
@@ -912,14 +923,25 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
                 child: Hero(
                   tag: mediaUrl,
-                  child: CachedNetworkImage(
-                    imageUrl: mediaUrl,
-                    placeholder: (context, url) =>
-                        Image.asset('assets/images/matchmaking/img_placeholder'
-                            '.png'),
-                    errorWidget: (context, url, error) =>
-                        Image.asset('assets/images/matchmaking/error_image'
-                            '.png'),
+                  child: ExtendedImage.network(
+                    mediaUrl,
+                    fit: BoxFit.cover,
+                    cache: true,
+                    loadStateChanged: (ExtendedImageState state) {
+                      switch (state.extendedImageLoadState) {
+                        case LoadState.loading:
+                          return Center(child: OBProgressIndicator());
+                          break;
+                        case LoadState.failed:
+                          return Image.asset('assets/images/matchmaking/error_image'
+                                        '.png');
+                          break;
+                        default:
+                          return Image.asset('assets/images/matchmaking/img_placeholder'
+                                        '.png');
+                          break;  
+                      }
+                    },
                   ),
                 ),
               ),

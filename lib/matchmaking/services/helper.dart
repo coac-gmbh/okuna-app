@@ -2,7 +2,8 @@
 import 'dart:async';
 
 import 'package:Okuna/matchmaking/constants.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:Okuna/widgets/progress_indicator.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -125,14 +126,28 @@ Widget _getPlaceholderOrErrorImage(double size, hasBorder) => Container(
 );
 
 Widget displayCircleImage(String picUrl, double size, hasBorder) =>
-    CachedNetworkImage(
-        imageBuilder: (context, imageProvider) =>
-            _getCircularImageProvider(imageProvider, size, false),
-        imageUrl: picUrl,
-        placeholder: (context, url) =>
-            _getPlaceholderOrErrorImage(size, hasBorder),
-        errorWidget: (context, url, error) =>
-            _getPlaceholderOrErrorImage(size, hasBorder));
+    ExtendedImage.network(
+        picUrl,
+        fit: BoxFit.cover,
+        cache: true,
+        loadStateChanged: (ExtendedImageState state) {
+          switch (state.extendedImageLoadState) {
+            case LoadState.loading:
+              return Center(child: OBProgressIndicator());
+              break;
+            case LoadState.completed:
+              return null;
+              break;
+            case LoadState.failed:
+              return _getPlaceholderOrErrorImage(size, hasBorder);
+              break;
+            default:
+              return _getPlaceholderOrErrorImage(size, hasBorder);
+              break;  
+          }
+        },
+      );
+            
 
 String setLastSeen(int seconds) {
   var format = DateFormat('hh:mm a');
