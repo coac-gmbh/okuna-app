@@ -956,6 +956,13 @@ class UserService {
     return User.fromJson(json.decode(response.body));
   }
 
+  Future<User> getUserWithId(String id) async {
+    HttpieResponse response = await _authApiService
+        .getUserWithUsername(id, authenticatedRequest: true);
+    _checkResponseIsOk(response);
+    return User.fromJson(json.decode(response.body));
+  }
+
   Future<int> countPostsForUser(User user, {int maxId, int count}) async {
     HttpieResponse response =
         await _authApiService.getPostsCountForUserWithName(user.username);
