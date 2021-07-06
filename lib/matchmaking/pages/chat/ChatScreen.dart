@@ -9,9 +9,11 @@ import 'package:Okuna/matchmaking/model/HomeConversationModel.dart';
 import 'package:Okuna/matchmaking/model/MessageData.dart';
 import 'package:Okuna/matchmaking/model/User.dart';
 import 'package:Okuna/matchmaking/pages/HomeScreen.dart';
+import 'package:Okuna/matchmaking/pages/chat/FullScreenImageViewer.dart';
 import 'package:Okuna/matchmaking/pages/chat/PlayerWidget.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
+import 'package:Okuna/widgets/progress_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +23,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_sound_lite/flutter_sound.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 enum RecordingState { HIDDEN, VISIBLE, Recording }
 
@@ -54,16 +57,38 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    _checkPermission();
+
     homeConversationModel = widget.homeConversationModel;
     if (homeConversationModel.isGroupChat)
       _groupNameController.text =
           homeConversationModel.conversationModel?.name ?? '';
+    
+    setupStream();
+    
+  }
+
+  void _checkPermission() async {
+    if(await Permission.microphone.status.isDenied){
+      if (await Permission.microphone.request().isGranted) {
+        PermissionStatus status = await Permission.microphone.request();
+        if (status != PermissionStatus.granted) {
+          throw RecordingPermissionException("Microphone permission not granted");
+        }
+      }
+    }
+
+    if(await Permission.microphone.status.isGranted){
+      _loadMicrophone();  
+    }
+  }
+
+  void _loadMicrophone(){
     _myRecorder.openAudioSession().then((value) {
       setState(() {
         _mRecorderIsInitialized = true;
       });
     });
-    setupStream();
   }
 
   setupStream() {
@@ -157,7 +182,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: ListTile(
                   dense: true,
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.of(context, rootNavigator: true).pop("1");
                     homeConversationModel.isGroupChat
                         ? _onGroupChatSettingsClick()
                         : _onPrivateChatSettingsClick();
@@ -490,13 +515,13 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Text("Leave Group"),
           isDefaultAction: false,
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             showProgress(context, 'Leaving group chat', false);
             bool isSuccessful = await _fireStoreUtils
                 .leaveGroup(homeConversationModel.conversationModel);
             hideProgress();
             if (isSuccessful) {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop("1");
             }
           },
         ),
@@ -504,7 +529,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Text("Rename Group"),
           isDefaultAction: true,
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             showDialog(
                 context: context,
                 builder: (context) {
@@ -518,7 +543,7 @@ class _ChatScreenState extends State<ChatScreen> {
           "Cancel",
         ),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop("1");
         },
       ),
     );
@@ -536,7 +561,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Text("Choose image from gallery"),
           isDefaultAction: false,
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             PickedFile image =
                 await _imagePicker.getImage(source: ImageSource.gallery);
             if (image != null) {
@@ -550,7 +575,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Text("Choose video from gallery"),
           isDefaultAction: false,
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             PickedFile galleryVideo =
                 await _imagePicker.getVideo(source: ImageSource.gallery);
             if (galleryVideo != null) {
@@ -566,7 +591,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Text("Take a picture"),
           isDestructiveAction: false,
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             PickedFile image =
                 await _imagePicker.getImage(source: ImageSource.camera);
             if (image != null) {
@@ -580,7 +605,7 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Text("Record video"),
           isDestructiveAction: false,
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             PickedFile recordedVideo =
                 await _imagePicker.getVideo(source: ImageSource.camera);
             if (recordedVideo != null) {
@@ -593,14 +618,6 @@ class _ChatScreenState extends State<ChatScreen> {
           },
         )
       ],
-      cancelButton: CupertinoActionSheetAction(
-        child: Text(
-          "Cancel",
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
     );
     showCupertinoModalPopup(context: context, builder: (context) => action);
   }
@@ -699,13 +716,13 @@ class _ChatScreenState extends State<ChatScreen> {
               GestureDetector(
                 onTap: () {
                   // TODO:
-                  // if (messageData.videoThumbnail.isEmpty) {
-                  //   push(
-                  //       context,
-                  //       FullScreenImageViewer(
-                  //         imageUrl: mediaUrl,
-                  //       ));
-                  // }
+                  if (messageData.videoThumbnail.isEmpty) {
+                    push(
+                        context,
+                        FullScreenImageViewer(
+                          imageUrl: mediaUrl,
+                        ));
+                  }
                 },
                 child: Hero(
                   tag: mediaUrl,
@@ -1154,7 +1171,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     children: <Widget>[
                       TextButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.of(context, rootNavigator: true).pop("1");
                           },
                           child: Text(
                             'Cancel',
@@ -1176,7 +1193,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     homeConversationModel.conversationModel);
                                 hideProgress();
                               }
-                              Navigator.pop(context);
+                              Navigator.of(context, rootNavigator: true).pop("1");
                               setState(() {});
                             }
                           },
@@ -1190,6 +1207,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ));
   }
 
+
   _onPrivateChatSettingsClick() {
     final action = CupertinoActionSheet(
       message: Text(
@@ -1200,13 +1218,13 @@ class _ChatScreenState extends State<ChatScreen> {
         CupertinoActionSheetAction(
           child: Text("Block user"),
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             showProgress(context, 'Blocking user...', false);
             bool isSuccessful = await _fireStoreUtils.blockUser(
                 homeConversationModel.members.first, 'block');
             hideProgress();
             if (isSuccessful) {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop("1");
               _showAlertDialog(context, 'Block',
                   '${homeConversationModel.members.first
                       .fullName()} has been blocked.');
@@ -1223,13 +1241,13 @@ class _ChatScreenState extends State<ChatScreen> {
         CupertinoActionSheetAction(
           child: Text("Report user"),
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             showProgress(context, 'Reporting user...', false);
             bool isSuccessful = await _fireStoreUtils.blockUser(
                 homeConversationModel.members.first, 'report');
             hideProgress();
             if (isSuccessful) {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop("1");
               _showAlertDialog(context, 'Report',
                   '${homeConversationModel.members.first
                       .fullName()} has been reported and blocked.');
@@ -1249,7 +1267,7 @@ class _ChatScreenState extends State<ChatScreen> {
           "Cancel",
         ),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop("1");
         },
       ),
     );
