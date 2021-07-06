@@ -229,6 +229,34 @@ Help us keep Okuna going! Please look into our open issues. All contribution, no
 
 ### 9. Build for production
 
+#### 9.1. Configure Firebase
+
+For Android please add the `google-services.json` to:
+```
+android/app/
+```
+
+For Android please add the `GoogleService-Info.plist` to:
+```
+ios/Runner/
+```
+
+Then in Xcode Right click on it and the press on: "Add Files to Runner"
+
+#### 9.2. Build the app
+
+Build the app using flutter
+```
+flutter build ios --flavor production
+```
+
+Then go to Xcode, change the version and build number both for `Runner` and `OneSignalNotificationServiceExtension`
+> IMPORTANT: They both must have the same version and build number
+
+Archive the app using in Xcode the "Product -> Archive" option.
+
+Then push it to the App Store Connect
+
 To build the android APK
 
 ```flutter build appbundle --target-platform android-arm,android-arm64```
@@ -255,6 +283,16 @@ In iOS, there was no official solution to it and the fix was an absolute "hack".
 
 The original issue for the build error is [this one](https://github.com/OneSignal/OneSignal-Flutter-SDK/issues/57) and the "hack" we implemented is found in [this issue](https://github.com/OneSignal/OneSignal-Flutter-SDK/issues/42#issuecomment-459476383) plus [disabling bitcode](https://stackoverflow.com/questions/50553443/xcode-ios-build-linker-command-failed-with-exit-code) in the service extension. 
 
+
+### Deploying the app using Apple M1
+
+When installing cocoa pods you may need this command instead
+```
+sudo arch -x86_64 gem install ffi
+arch -x86_64 pod install
+```
+> See: https://github.com/CocoaPods/CocoaPods/issues/10598
+> And: https://github.com/flutter/flutter/wiki/Developing-with-Flutter-on-Apple-Silicon
 
 ## Questions/stuck?
 
