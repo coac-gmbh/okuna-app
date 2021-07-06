@@ -65,6 +65,7 @@ class _MatchScreenState extends State<MatchScreen> {
                 );
                 break;  
             }
+          },
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 40.0),
@@ -144,9 +145,9 @@ class _MatchScreenState extends State<MatchScreen> {
                     'IT\'S A MATCH!',
                     style: TextStyle(
                       letterSpacing: 4,
-                      color: Colors.greenAccent,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      color: Colors.lightBlue,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 40,
                     ),
                   ),
                 )
