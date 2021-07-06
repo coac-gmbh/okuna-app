@@ -2,44 +2,29 @@ import 'package:Okuna/matchmaking/CustomFlutterTinderCard.dart';
 import 'package:Okuna/matchmaking/constants.dart';
 import 'package:Okuna/matchmaking/model/User.dart' as current;
 import 'package:Okuna/matchmaking/pages/CardProfileScreen.dart';
-import 'package:Okuna/matchmaking/pages/UserDetailsScreen.dart';
 import 'package:Okuna/matchmaking/pages/MatchScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
-import 'package:Okuna/models/user_profile.dart';
-import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/profile_card.dart';
-import 'package:Okuna/pages/home/pages/profile/widgets/profile_cover.dart';
-import 'package:Okuna/widgets/buttons/actions/follow_button.dart';
-import 'package:Okuna/widgets/nav_bars/themed_nav_bar.dart';
-import 'package:Okuna/widgets/theming/actionable_smart_text.dart';
-import 'package:Okuna/widgets/theming/primary_color_container.dart';
-import 'package:Okuna/widgets/theming/secondary_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:Okuna/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SwipeScreen extends StatefulWidget {
   final current.User user;
-  final User cardUser;
-
-  const SwipeScreen({Key key, this.user, this.cardUser}) : super(key: key);
+  const SwipeScreen({Key key, this.user}) : super(key: key);
   
   @override
   SwipeScreenState createState() => SwipeScreenState();
 }
 
 class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
-  static current.User currentUser;
-  static User cardUser;
+  static current.User firebaseUser;
   FireStoreUtils _fireStoreUtils = FireStoreUtils();
   Stream<List<current.User>> tinderUsers;
   List<current.User> swipedUsers = [];
   List<current.User> users = [];
   CardController controller = CardController();
-
 
 
   // Set default `_initialized` and `_error` state to false
@@ -49,30 +34,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
   void initializeFlutterFire() async {
     setState(() {
-      currentUser = widget.user;
-      cardUser = User(
-        id: 8,
-        uuid: 'df6e0a85-39fb-4a8e-adc0-73cf66115e33', 
-        dateJoined: DateTime.parse('2021-06-01 15:03:00.765629').toLocal() , 
-        connectionsCircleId: 9, 
-        email: 'ashley@helixsoft.com.co', 
-        username: 'ash',
-        visibility: UserVisibility.public, 
-        notificationsSettings: null, 
-        followersCount: null, 
-        followingCount: 1, 
-        postsCount: 4, 
-        isBlocked: false,
-        profile: 
-          UserProfile(
-              id: 7, 
-              name: 'Ashley', 
-              avatar: 'http://h2.dev.altix.co/media/users/8/038ea871-bd31-4609-8450-c9fc2117b38a.jpg', 
-              cover: 'http://h2.dev.altix.co/media/users/8/e3954a8c-9cd4-4dd8-a000-29c28adeb0f3.jpg', 
-              bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in metus id eros vulputate molestie vel vel nulla. In et dictum metus. Nam in orci elit. Maecenas elit nulla, lacinia vitae orci in, ultricies pharetra velit. Nulla lorem lorem, dapibus mollis condimentum et, tempus sed lectus. Praesent lobortis, libero quis porttitor ultricies, diam ipsum accumsan dui, id imperdiet dui turpis sed velit. Integer eu aliquet lorem.', 
-              url: null, location: null, badges: []),
-              
-      );
+      firebaseUser = widget.user;
     });
     try {
       _setupTinder();
@@ -85,7 +47,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
       });
     }
   }
-
 
   @override
   void initState() {
@@ -105,18 +66,18 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (auth.FirebaseAuth.instance.currentUser != null && currentUser != null) {
+    if (auth.FirebaseAuth.instance.currentUser != null && firebaseUser != null) {
       if (state == AppLifecycleState.paused) {
         //user offline
         // tokenStream.pause();
-        currentUser.active = false;
-        currentUser.lastOnlineTimestamp = Timestamp.now();
-        FireStoreUtils.updateCurrentUser(currentUser);
+        firebaseUser.active = false;
+        firebaseUser.lastOnlineTimestamp = Timestamp.now();
+        FireStoreUtils.updateCurrentUser(firebaseUser);
       } else if (state == AppLifecycleState.resumed) {
         //user online
         // tokenStream.resume();
-        currentUser.active = true;
-        FireStoreUtils.updateCurrentUser(currentUser);
+        firebaseUser.active = true;
+        FireStoreUtils.updateCurrentUser(firebaseUser);
       }
     }
   }
@@ -316,70 +277,47 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   Widget _buildCard(current.User tinderUser) {
-    return GestureDetector(
-      onTap: () async {
-        _launchDetailsScreen(tinderUser);
-      },
-      child: Card(
-        child: Stack(
-          children: <Widget>[
-            CardProfileScreen(user: cardUser,),
-            Positioned(
-              right: 5,
-              child: IconButton(
-                icon: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.grey,
+    print(tinderUser.email);
+    return Card(
+      child: Stack(
+        children: <Widget>[
+          CardProfileScreen(user: tinderUser,),
+          Positioned(
+            right: 5,
+            child: IconButton(
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+                color: Colors.grey,
+              ),
+              iconSize: 30,
+              onPressed: () => _onCardSettingsClick(tinderUser),
+            ),
+          ),
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: Visibility(
+              visible: swipedUsers.isNotEmpty,
+              child: FloatingActionButton(
+                heroTag: '${tinderUser.userID}',
+                backgroundColor: Color(COLOR_PRIMARY),
+                mini: true,
+                child: Icon(
+                  Icons.undo,
+                  color: Colors.white,
                 ),
-                iconSize: 30,
-                onPressed: () => _onCardSettingsClick(tinderUser),
+                onPressed: () => _undo(),
               ),
             ),
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: Visibility(
-                visible: swipedUsers.isNotEmpty,
-                child: FloatingActionButton(
-                  heroTag: '${tinderUser.userID}',
-                  backgroundColor: Color(COLOR_PRIMARY),
-                  mini: true,
-                  child: Icon(
-                    Icons.undo,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => _undo(),
-                ),
-              ),
-            ),
-          ],
-        ),
-        shape: RoundedRectangleBorder(
-          side: BorderSide.none,
-          borderRadius: BorderRadius.circular(25),
-        ),
-        color: Colors.white,
+          ),
+        ],
       ),
-    );
-  }
-
-
-  Future<void> _launchDetailsScreen(current.User tinderUser) async {
-    CardSwipeOrientation result = await Navigator.of(context).push(
-      new MaterialPageRoute(
-        builder: (context) => UserDetailsScreen(
-          user: tinderUser,
-          isMatch: false,
-        ),
+      shape: RoundedRectangleBorder(
+        side: BorderSide.none,
+        borderRadius: BorderRadius.circular(25),
       ),
+      color: Colors.white,
     );
-    if (result != null) {
-      if (result == CardSwipeOrientation.LEFT) {
-        controller.triggerLeft();
-      } else {
-        controller.triggerRight();
-      }
-    }
   }
 
   _onCardSettingsClick(current.User user) {
