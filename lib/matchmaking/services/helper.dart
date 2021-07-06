@@ -173,3 +173,16 @@ String formatTimestamp(int timestamp) {
   var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
   return format.format(date);
 }
+
+pushReplacement(BuildContext context, Widget destination) {
+  Navigator.of(context).pushReplacement(
+      new MaterialPageRoute(builder: (context) => destination));
+}
+
+bool isDarkMode(BuildContext context) {
+  if (Theme.of(context).brightness == Brightness.light) {
+    return false;
+  } else {
+    return true;
+  }
+}
