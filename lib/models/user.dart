@@ -56,6 +56,9 @@ class User extends UpdatableModel<User> {
   CommunityInviteList communitiesInvites;
   CategoriesList categories;
 
+
+  static final factory = UserFactory();
+
   static final navigationUsersFactory = UserFactory(
       cache:
           LfuCache<int, User>(storage: UpdatableModelSimpleStorage(size: 100)));
@@ -273,6 +276,11 @@ class User extends UpdatableModel<User> {
     if (json.containsKey('visibility')) {
       visibility = UserVisibility.parse(json['visibility']);
     }
+
+    if (json.containsKey('categories')) {
+      categories = factory.parseCategories(json['categories']);
+    }
+
   }
 
   String getEmail() {
@@ -719,7 +727,8 @@ class UserFactory extends UpdatableModelFactory<User> {
         communitiesMemberships:
             parseMemberships(json['communities_memberships']),
         communitiesInvites: parseInvites(json['communities_invites']),
-        followLists: parseFollowsLists(json['follow_lists']));
+        followLists: parseFollowsLists(json['follow_lists']),
+        categories: parseCategories(json['categories']));
   }
 
   CommunityMembershipList parseMemberships(List membershipsData) {
@@ -730,6 +739,11 @@ class UserFactory extends UpdatableModelFactory<User> {
   CommunityInviteList parseInvites(List invitesData) {
     if (invitesData == null) return null;
     return CommunityInviteList.fromJson(invitesData);
+  }
+
+  CategoriesList parseCategories(List categoriesData) {
+    if (categoriesData == null) return null;
+    return CategoriesList.fromJson(categoriesData);
   }
 
   UserProfile parseUserProfile(Map profile) {
