@@ -295,12 +295,12 @@ Future<Null> main() async {
 
 // Run the whole app in a zone to capture all uncaught errors.
   runZonedGuarded(() => runApp(app), (Object error, StackTrace stackTrace) {
-    if (isInDebugMode) {
-      print(error);
-      print(stackTrace);
-      print('In dev mode. Not sending report to Sentry.io.');
-      return;
-    }
+    // if (isInDebugMode) {
+    //   print(error);
+    //   print(stackTrace);
+    //   print('In dev mode. Not sending report to Sentry.io.');
+    //   return;
+    // }
 
     SentryClient sentryClient =
         app.openbookProviderKey.currentState.sentryClient;
