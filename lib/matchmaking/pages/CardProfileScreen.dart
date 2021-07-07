@@ -59,8 +59,9 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     var themeValueParserService = openbookProvider.themeValueParserService;
     var toastService = openbookProvider.toastService;
 
-    Future<void> _getOkunaUser(String id) async {
-      var user = await _userService.getUserWithUsername('mike');
+    Future<void> _getOkunaUser(String username) async {
+      // var user = await _userService.getUserWithUsername('mike');
+      var user = await _userService.getUserWithUsername(username);
       setState(() {
         _user = user;
         _isLoading = false;
@@ -70,7 +71,11 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     if (_needsBootstrap) {
       _userService = openbookProvider.userService;
       _needsBootstrap = false;
-      _getOkunaUser(widget.user.userID);
+
+      // TODO:
+      // Update parameter with card username.
+      // Update model if needed.
+      _getOkunaUser(widget.user.userID); 
     }
 
     List<Container> _buildCommunitiesList() {
