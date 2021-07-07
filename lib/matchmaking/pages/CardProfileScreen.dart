@@ -60,8 +60,8 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     var toastService = openbookProvider.toastService;
 
     Future<void> _getOkunaUser(String username) async {
-      // var user = await _userService.getUserWithUsername('mike');
-      var user = await _userService.getUserWithUsername(username);
+      var user = await _userService.getUserWithUsername('miguel');
+      // var user = await _userService.getUserWithUsername(username);
       setState(() {
         _user = user;
         _isLoading = false;
@@ -81,14 +81,15 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     List<Container> _buildCommunitiesList() {
       CategoriesList _categories = _user.categories;
       List<Container> _categoriesWidget = [];
-
-      for (var category in _categories.categories) {
-        _categoriesWidget.add(
-          Container(
-            padding: EdgeInsets.only(right: 10),
-            child: TextBadge(category: category),
-          )
-        );
+      if(_categories != null){
+        for (var category in _categories.categories) {
+          _categoriesWidget.add(
+            Container(
+              padding: EdgeInsets.only(right: 10),
+              child: TextBadge(category: category),
+            )
+          );
+        }
       }
 
       return _categoriesWidget;
