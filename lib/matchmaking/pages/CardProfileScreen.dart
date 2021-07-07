@@ -1,6 +1,8 @@
 import 'package:Okuna/matchmaking/constants.dart';
 import 'package:Okuna/matchmaking/widgets/Badge.dart';
 import 'package:Okuna/models/badge.dart';
+import 'package:Okuna/models/categories_list.dart';
+import 'package:Okuna/models/category.dart';
 import 'package:Okuna/models/communities_list.dart';
 import 'package:Okuna/models/community.dart';
 import 'package:Okuna/models/theme.dart';
@@ -48,26 +50,6 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     super.initState();
   }
 
-  List<Container> _buildCommunitiesList(){
-    List<Container> _communities = [
-      Container(
-        padding: EdgeInsets.only(right: 10),
-        child: TextBadge(
-          community: Community.fromJSON({"id": 16, "creator": null, "name": "ash", "type": null, "rules": null, "avatar": null, "title": "AshCommunity", "user_adjective": null, "users_adjective": null, "description": null, "color": "#5a98ae", "cover": null, "is_invited": null, "are_new_post_notifications_enabled": null, "is_creator": null, "is_reported": null, "moderators": null, "memberships": [{"id": 34, "user_id": 19, "community_id": 16, "is_administrator": false, "is_moderator": false}], "administrators": null, "is_favorite": null, "invites_enabled": null, "members_count": null, "posts_count": 2, "pending_moderated_objects_count": null, "categories": null}
-          )
-        )
-      ),
-      Container(
-        padding: EdgeInsets.only(right: 10),
-        child: TextBadge(
-          community: Community.fromJSON({"id": 14, "creator": null, "name": "testcamilo", "type": null, "rules": null, "avatar": null, "title": "TestCamilo", "user_adjective": "Member", "users_adjective": "Members", "description": null, "color": "#96C0FB", "cover": null, "is_invited": null, "are_new_post_notifications_enabled": null, "is_creator": null, "is_reported": null, "moderators": null, "memberships": null, "administrators": null, "is_favorite": false, "invites_enabled": null, "members_count": 3, "posts_count": null, "pending_moderated_objects_count": null, "categories": null}
-          )
-        )
-      ),
-    ];
-
-    return _communities;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +60,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     var toastService = openbookProvider.toastService;
 
     Future<void> _getOkunaUser(String id) async {
-      var user = await _userService.getUserWithId('mike');
+      var user = await _userService.getUserWithUsername('mike');
       setState(() {
         _user = user;
         _isLoading = false;
@@ -89,6 +71,22 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
       _userService = openbookProvider.userService;
       _needsBootstrap = false;
       _getOkunaUser(widget.user.userID);
+    }
+
+    List<Container> _buildCommunitiesList() {
+      CategoriesList _categories = _user.categories;
+      List<Container> _categoriesWidget = [];
+
+      for (var category in _categories.categories) {
+        _categoriesWidget.add(
+          Container(
+            padding: EdgeInsets.only(right: 10),
+            child: TextBadge(category: category),
+          )
+        );
+      }
+
+      return _categoriesWidget;
     }
 
     return _isLoading == true
@@ -132,22 +130,22 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                 height: 20,
                               ),
                               Container(
-                                height: 50,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('COMMUNITIES'),
-                                    const SizedBox( height: 5),
-                                    Container(
-                                      height: 30,
-                                      child: ListView(
-                                        scrollDirection: Axis.horizontal,
-                                        children: _buildCommunitiesList(),
+                                  height: 50,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('COMMUNITIES'),
+                                      const SizedBox( height: 5),
+                                      Container(
+                                        height: 30,
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: _buildCommunitiesList(),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
                               const Divider(
                                 height: 20,
                               ),
