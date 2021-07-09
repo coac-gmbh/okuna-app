@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:Okuna/delegates/localization_delegate.dart';
+import 'package:Okuna/matchmaking/model/ConversationModel.dart';
+import 'package:Okuna/matchmaking/model/HomeConversationModel.dart';
+import 'package:Okuna/matchmaking/model/User.dart';
+import 'package:Okuna/matchmaking/pages/chat/ChatScreen.dart';
+import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/pages/auth/create_account/accept_step.dart';
 import 'package:Okuna/pages/auth/create_account/done_step/done_step.dart';
 import 'package:Okuna/pages/auth/create_account/email_step.dart';
@@ -25,6 +31,8 @@ import 'package:Okuna/services/localization.dart';
 import 'package:Okuna/services/universal_links/universal_links.dart';
 import 'package:Okuna/widgets/toast.dart';
 import 'package:Okuna/translation/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +64,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale locale;
   bool _needsBootstrap;
+  StreamSubscription tokenStream;
+  static User currentUser;
 
   static const MAX_NETWORK_IMAGE_CACHE_MB = 200;
   static const MAX_NETWORK_IMAGE_CACHE_ENTRIES = 1000;
@@ -65,11 +75,48 @@ class _MyAppState extends State<MyApp> {
   bool _initialized = false;
   bool _error = false;
 
+
+  /// this key is used to navigate to the appropriate screen when the
+  /// notification is clicked from the system tray
+  final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey(debugLabel: "Main Navigator");
+
   // Define an async function to initialize FlutterFire
   void initializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and set `_initialized` state to true
       await Firebase.initializeApp();
+      RemoteMessage initialMessage =
+          await FirebaseMessaging.instance.getInitialMessage();
+      if (initialMessage != null) {
+        _handleNotification(initialMessage.data, navigatorKey);
+      }    
+      FirebaseMessaging.onMessageOpenedApp
+          .listen((RemoteMessage remoteMessage) {
+        if (remoteMessage != null) {
+          _handleNotification(remoteMessage.data, navigatorKey);
+        }
+      });
+      if (!Platform.isIOS) {
+        FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
+      }
+      await FireStoreUtils.firebaseMessaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+      tokenStream =
+          FireStoreUtils.firebaseMessaging.onTokenRefresh.listen((event) {
+        if (currentUser != null) {
+          print('token $event');
+          currentUser.fcmToken = event;
+          FireStoreUtils.updateCurrentUser(currentUser);
+        }
+      });
       setState(() {
         _initialized = true;
       });
@@ -86,6 +133,30 @@ class _MyAppState extends State<MyApp> {
     initializeFlutterFire();
     super.initState();
     _needsBootstrap = true;
+  }
+
+  @override
+  void dispose() {
+    tokenStream.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (auth.FirebaseAuth.instance.currentUser != null && currentUser != null) {
+      if (state == AppLifecycleState.paused) {
+        //user offline
+        tokenStream.pause();
+        currentUser.active = false;
+        currentUser.lastOnlineTimestamp = Timestamp.now();
+        FireStoreUtils.updateCurrentUser(currentUser);
+      } else if (state == AppLifecycleState.resumed) {
+        //user online
+        tokenStream.resume();
+        currentUser.active = true;
+        FireStoreUtils.updateCurrentUser(currentUser);
+      }
+    }
   }
 
   void bootstrap() {
@@ -351,4 +422,54 @@ TextTheme _defaultTextTheme() {
     subtitle2: style,
     headline6: style,
   );
+}
+
+/// this faction is called when the notification is clicked from system tray
+/// when the app is in the background or completely killed
+void _handleNotification(
+    Map<String, dynamic> message, GlobalKey<NavigatorState> navigatorKey) {
+  /// right now we only handle click actions on chat messages only
+  try {
+    Map<dynamic, dynamic> data = message['data'];
+    if (data.containsKey('members') &&
+        data.containsKey('conversationModel')) {
+      List<User> members = List<User>.from(
+          (jsonDecode(data['members']) as List<dynamic>)
+              .map((e) => User.fromPayload(e))).toList();
+      bool isGroup = jsonDecode(data['isGroup']);
+      ConversationModel conversationModel =
+          ConversationModel.fromPayload(jsonDecode(data['conversationModel']));
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (_) => ChatScreen(
+            homeConversationModel: HomeConversationModel(
+                members: members,
+                isGroupChat: isGroup,
+                conversationModel: conversationModel),
+          ),
+        ),
+      );
+    }
+  } catch (e, s) {
+    print('MyAppState._handleNotification $e $s');
+  }
+}
+
+
+Future<dynamic> backgroundMessageHandler(RemoteMessage remoteMessage) async {
+  await Firebase.initializeApp();
+  Map<dynamic, dynamic> message = remoteMessage.data;
+  if (message.containsKey('data')) {
+    // Handle data message
+    print('backgroundMessageHandler message.containsKey(data)');
+    final dynamic data = message['data'];
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+    print('backgroundMessageHandler message.containsKey(notification)');
+  }
+
+  // Or do other work.
 }
