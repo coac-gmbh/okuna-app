@@ -4,13 +4,21 @@ class CommunityMembership {
   final int communityId;
   bool isAdministrator;
   bool isModerator;
+  final String communityName;
+  final String communityTitle;
+  String color;
 
-  CommunityMembership(
+  CommunityMembership( 
       {this.id,
       this.userId,
       this.communityId,
       this.isAdministrator,
-      this.isModerator});
+      this.isModerator,
+      this.communityName, 
+      this.communityTitle,
+      this.color,
+      }
+  );
 
   factory CommunityMembership.fromJSON(Map<String, dynamic> parsedJson) {
     if (parsedJson == null) return null;
@@ -18,6 +26,9 @@ class CommunityMembership {
         id: parsedJson['id'],
         communityId: parsedJson['community_id'],
         userId: parsedJson['user_id'],
+        communityName: parsedJson['community_name'],
+        communityTitle: parsedJson['community_title'],
+        color: parsedJson['community_color'],
         isAdministrator: parsedJson['is_administrator'],
         isModerator: parsedJson['is_moderator']);
   }
@@ -27,8 +38,11 @@ class CommunityMembership {
     'id': id,
     'user_id': userId,
     'community_id': communityId,
+    'community_name': communityName,
+    'community_title': communityTitle,
+    'community_color': color,
     'is_administrator': isAdministrator,
-    'is_moderator': isModerator
+    'is_moderator': isModerator 
     };
   }
 

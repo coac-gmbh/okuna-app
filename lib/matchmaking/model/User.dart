@@ -20,6 +20,7 @@ class User with ChangeNotifier {
 
   String userID;
 
+  String username;
   String profilePictureURL;
 
   String appIdentifier = 'Flutter Dating ${Platform.operatingSystem}';
@@ -50,6 +51,7 @@ class User with ChangeNotifier {
     this.firstName = '',
     this.phoneNumber = '',
     this.lastName = '',
+    this.username = '',
     this.active = false,
     lastOnlineTimestamp,
     settings,
@@ -74,6 +76,7 @@ class User with ChangeNotifier {
         email: parsedJson['email'] ?? '',
         firstName: parsedJson['firstName'] ?? '',
         lastName: parsedJson['lastName'] ?? '',
+        username: parsedJson['username'] ?? '',
         active: parsedJson['active'] ?? false,
         lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
         settings: parsedJson.containsKey('settings')
@@ -97,6 +100,7 @@ class User with ChangeNotifier {
         email: parsedJson['email'] ?? '',
         firstName: parsedJson['firstName'] ?? '',
         lastName: parsedJson['lastName'] ?? '',
+        username: parsedJson['username'] ?? '',
         active: parsedJson['active'] ?? false,
         lastOnlineTimestamp: Timestamp.fromMillisecondsSinceEpoch(
             parsedJson['lastOnlineTimestamp']),
@@ -121,6 +125,7 @@ class User with ChangeNotifier {
       "email": this.email,
       "firstName": this.firstName,
       "lastName": this.lastName,
+      "username": this.username,
       "settings": this.settings.toJson(),
       "phoneNumber": this.phoneNumber,
       "id": this.userID,
@@ -146,6 +151,7 @@ class User with ChangeNotifier {
       "email": this.email,
       "firstName": this.firstName,
       "lastName": this.lastName,
+      "username": this.username,
       "settings": this.settings.toJson(),
       "phoneNumber": this.phoneNumber,
       "id": this.userID,

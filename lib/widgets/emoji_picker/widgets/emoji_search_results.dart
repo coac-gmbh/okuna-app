@@ -4,8 +4,9 @@ import 'package:Okuna/services/localization.dart';
 import 'package:Okuna/widgets/emoji_picker/emoji_picker.dart';
 import 'package:Okuna/widgets/emoji_picker/widgets/emoji_groups/widgets/emoji_group/widgets/emoji.dart';
 import 'package:Okuna/widgets/icon.dart';
+import 'package:Okuna/widgets/progress_indicator.dart';
 import 'package:Okuna/widgets/theming/text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../provider.dart';
@@ -40,13 +41,22 @@ class OBEmojiSearchResults extends StatelessWidget {
               },
               leading: ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 25),
-                child: CachedNetworkImage(
-                  imageUrl: emoji.image,
-                  errorWidget:
-                      (BuildContext context, String url, Object error) {
-                    return const SizedBox(
-                      child: Center(child: const OBText('?')),
-                    );
+                child: ExtendedImage.network(
+                  emoji.image,
+                  fit: BoxFit.cover,
+                  cache: true,
+                  loadStateChanged: (ExtendedImageState state) {
+                    switch (state.extendedImageLoadState) {
+                      case LoadState.loading:
+                        return Center(child: OBProgressIndicator());
+                        break;
+                      case LoadState.failed:
+                        return Center(child: const OBText('?'));
+                        break;
+                      default:
+                        return Center(child: const OBText('?'));
+                        break;  
+                    }
                   },
                 ),
               ),

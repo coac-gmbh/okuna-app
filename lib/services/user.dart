@@ -955,7 +955,7 @@ class UserService {
     _checkResponseIsOk(response);
     return User.fromJson(json.decode(response.body));
   }
-
+  
   Future<int> countPostsForUser(User user, {int maxId, int count}) async {
     HttpieResponse response =
         await _authApiService.getPostsCountForUserWithName(user.username);

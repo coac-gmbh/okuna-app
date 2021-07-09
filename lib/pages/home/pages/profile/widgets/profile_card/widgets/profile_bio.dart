@@ -27,6 +27,7 @@ class OBProfileBio extends StatelessWidget {
                 child: OBActionableSmartText(
                   text: bio,
                   size: OBTextSize.mediumSecondary,
+                  overflow: TextOverflow.fade,
                 ),
               )
             ],

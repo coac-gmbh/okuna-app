@@ -71,7 +71,7 @@ class FireStoreUtils {
     bool isSuccessful = false;
     BlockUserModel blockUserModel = BlockUserModel(
         type: type,
-        source: SwipeScreenState.currentUser.userID,
+        source: SwipeScreenState.firebaseUser.userID,
         dest: blockedUser.userID,
         createdAt: Timestamp.now());
     await firestore
@@ -164,7 +164,7 @@ class FireStoreUtils {
           .then((value) async {
         value.docs.forEach((DocumentSnapshot tinderUser) async {
           try {
-            if (tinderUser.id != SwipeScreenState.currentUser.userID) {
+            if (tinderUser.id != SwipeScreenState.firebaseUser.userID) {
               User user = User.fromJson(tinderUser.data() ?? {});
               if (await _isValidUserForTinderSwipe(user)) {
                 tinderUsers.insert(0, user);
@@ -190,7 +190,7 @@ class FireStoreUtils {
     //make sure that we haven't swiped right this user before
     QuerySnapshot result1 = await firestore
         .collection(SWIPES)
-        .where('user1', isEqualTo: SwipeScreenState.currentUser.userID)
+        .where('user1', isEqualTo: SwipeScreenState.firebaseUser.userID)
         .where('user2', isEqualTo: tinderUser.userID)
         .get()
         .catchError((onError) {
@@ -206,7 +206,7 @@ class FireStoreUtils {
     QuerySnapshot querySnapshot = await firestore
         .collection(SWIPES)
         .where('user1', isEqualTo: user.userID)
-        .where('user2', isEqualTo: SwipeScreenState.currentUser.userID)
+        .where('user2', isEqualTo: SwipeScreenState.firebaseUser.userID)
         .where('type', isEqualTo: 'like')
         .get();
 
@@ -218,7 +218,7 @@ class FireStoreUtils {
           type: 'like',
           hasBeenSeen: true,
           createdAt: Timestamp.now(),
-          user1: SwipeScreenState.currentUser.userID,
+          user1: SwipeScreenState.firebaseUser.userID,
           user2: user.userID);
       await document.set(swipe.toJson());
       if (user.settings.pushNewMatchesEnabled) {
@@ -226,7 +226,7 @@ class FireStoreUtils {
             user.fcmToken,
             'New match',
             'You have got a new '
-                'match: ${SwipeScreenState.currentUser.fullName()}.',
+                'match: ${SwipeScreenState.firebaseUser.fullName()}.',
             null);
       }
 
@@ -234,7 +234,7 @@ class FireStoreUtils {
     } else {
       //this user didn't send me a match request, let's send match request
       // and keep swiping
-      await sendSwipeRequest(user, SwipeScreenState.currentUser.userID);
+      await sendSwipeRequest(user, SwipeScreenState.firebaseUser.userID);
       return null;
     }
   }
@@ -264,7 +264,7 @@ class FireStoreUtils {
     Swipe leftSwipe = Swipe(
         id: documentReference.id,
         type: 'dislike',
-        user1: SwipeScreenState.currentUser.userID,
+        user1: SwipeScreenState.firebaseUser.userID,
         user2: dislikedUser.userID,
         createdAt: Timestamp.now(),
         hasBeenSeen: false);
@@ -274,7 +274,7 @@ class FireStoreUtils {
   undo(User tinderUser) async {
     await firestore
         .collection(SWIPES)
-        .where('user1', isEqualTo: SwipeScreenState.currentUser.userID)
+        .where('user1', isEqualTo: SwipeScreenState.firebaseUser.userID)
         .where('user2', isEqualTo: tinderUser.userID)
         .get()
         .then((value) async {

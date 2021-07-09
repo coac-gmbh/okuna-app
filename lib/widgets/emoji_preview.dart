@@ -1,6 +1,7 @@
 import 'package:Okuna/models/emoji.dart';
 import 'package:Okuna/widgets/icon.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:Okuna/widgets/progress_indicator.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class OBEmojiPreview extends StatelessWidget {
@@ -17,17 +18,26 @@ class OBEmojiPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     double emojiSize = _getEmojiSize(size);
 
-    return CachedNetworkImage(
-      height: emojiSize,
-      width: emojiSize,
-      imageUrl: emoji.image,
-      placeholder: (BuildContext context, String url) {
-        return const CircularProgressIndicator();
-      },
-      errorWidget: (BuildContext context, String url, Object error) {
-        return const OBIcon(OBIcons.error);
-      },
-    );
+    return ExtendedImage.network(
+        emoji.image,
+        fit: BoxFit.cover,
+        cache: true,
+        height: emojiSize,
+        width: emojiSize,
+        loadStateChanged: (ExtendedImageState state) {
+          switch (state.extendedImageLoadState) {
+            case LoadState.loading:
+              return Center(child: OBProgressIndicator());
+              break;
+            case LoadState.failed:
+              return OBIcon(OBIcons.error);
+              break;
+            default:
+              return OBIcon(OBIcons.error);
+              break;  
+          }
+        },
+      );
   }
 
   double _getEmojiSize(OBEmojiPreviewSize size) {

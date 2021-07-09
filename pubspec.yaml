@@ -89,6 +89,7 @@ dependencies:
   intl: ^0.17.0
   flutter_webrtc: ^0.6.4
   flutter_ringtone_player: ^3.0.0
+  permission_handler: ^8.1.2
 
   flutter:
     sdk: flutter
@@ -186,6 +187,7 @@ flutter:
     - assets/images/matchmaking/chat_arrow_right.png
     - assets/images/matchmaking/error_image.png
     - assets/images/matchmaking/placeholder.jpg
+    - assets/images/matchmaking/img_placeholder.png
     - assets/other/public_suffix_list.dat
     - .env.json
 

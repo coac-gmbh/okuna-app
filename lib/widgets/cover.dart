@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:Okuna/provider.dart';
-import 'package:Okuna/widgets/theming/text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:Okuna/widgets/progress_indicator.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class OBCover extends StatelessWidget {
@@ -53,25 +53,33 @@ class OBCover extends StatelessWidget {
     } else if (coverUrl == null) {
       image = _getCoverPlaceholder(coverHeight);
     } else {
-      image = CachedNetworkImage(
+      image = ExtendedImage.network(
+        coverUrl,
         fit: BoxFit.cover,
-        imageUrl: coverUrl != null ? coverUrl : '',
-        placeholder: (BuildContext context, String url) {
-          return const Center(
-            child: const CircularProgressIndicator(),
-          );
-        },
-        errorWidget: (BuildContext context, String url, Object error) {
-          return const SizedBox(
-            child: const Center(
-              child: const OBText('Could not load cover'),
-            ),
-          );
-        },
+        cache: true,
         height: double.infinity,
         width: double.infinity,
         alignment: Alignment.center,
+        loadStateChanged: (ExtendedImageState state) {
+          switch (state.extendedImageLoadState) {
+            case LoadState.loading:
+              return Center(child: OBProgressIndicator());
+              break;
+            case LoadState.completed:
+              return null;
+              break;
+            case LoadState.failed:
+              return Image.asset('assets/images/matchmaking/img_placeholder'
+                            '.png');
+              break;
+            default:
+              return Image.asset('assets/images/matchmaking/img_placeholder'
+                            '.png');
+              break;  
+          }
+        },
       );
+      
 
       if (isZoomable) {
         image = GestureDetector(
