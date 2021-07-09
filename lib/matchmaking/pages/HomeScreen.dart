@@ -1,10 +1,15 @@
 import 'package:Okuna/matchmaking/constants.dart';
+import 'package:Okuna/matchmaking/model/HomeConversationModel.dart';
 import 'package:Okuna/matchmaking/model/User.dart';
 import 'package:Okuna/matchmaking/pages/ConversationsScreen.dart';
 import 'package:Okuna/matchmaking/pages/ProfileScreen.dart';
 import 'package:Okuna/matchmaking/pages/SwipeScreen.dart';
+import 'package:Okuna/matchmaking/pages/videoCall/VideoCallScreen.dart';
+import 'package:Okuna/matchmaking/pages/voiceCall/VoiceCallScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
+import 'package:Okuna/matchmaking/services/helper.dart';
 import 'package:Okuna/pages/home/lib/poppable_page_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -134,6 +139,82 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Container();
     
     }
+  void _listenForCalls() {
+    Stream<QuerySnapshot> callStream = FireStoreUtils.firestore
+        .collection(USERS)
+        .doc(currentUser.userID)
+        .collection(CALL_DATA)
+        .snapshots();
+    // ignore: cancel_subscriptions
+    final callSubscription = callStream.listen((event) async {
+      if (event.docs.isNotEmpty) {
+        DocumentSnapshot callDocument = event.docs.first;
+        if (callDocument.id != currentUser.userID) {
+          DocumentSnapshot userSnapShot = await FireStoreUtils.firestore
+              .collection(USERS)
+              .doc(event.docs.first.id)
+              .get();
+
+          User caller = User.fromJson(userSnapShot.data() ?? {});
+          print('${caller.fullName()} called you');
+          print('${callDocument.data()['type'] ?? 'null'}');
+          String type = callDocument.data()['type'] ?? '';
+          String callType = callDocument.data()['callType'] ?? '';
+          if (type == 'offer') {
+            if (callType == VIDEO) {
+                push(
+                  context,
+                  VideoCallScreen(
+                      homeConversationModel: HomeConversationModel(
+                          isGroupChat: false,
+                          conversationModel: null,
+                          members: [caller]),
+                      isCaller: false,
+                      sessionDescription: callDocument.data()['data']
+                          ['description']['sdp'],
+                      sessionType: callDocument.data()['data']['description']
+                          ['type']),
+                );
+              
+            } else if (callType == VOICE) {
+              
+                push(
+                  context,
+                  VoiceCallScreen(
+                      homeConversationModel: HomeConversationModel(
+                          isGroupChat: false,
+                          conversationModel: null,
+                          members: [caller]),
+                      isCaller: false,
+                      sessionDescription: callDocument.data()['data']
+                          ['description']['sdp'],
+                      sessionType: callDocument.data()['data']['description']
+                          ['type']),
+                );
+            }
+          }
+        } else {
+          print('you called someone');
+        }
+      }
+    });
+    auth.FirebaseAuth.instance.authStateChanges().listen((auth.User event) {
+      if (event == null) {
+        callSubscription.cancel();
+      }
+    });
+  }
+
+  String getConnectionID(String friendID) {
+    String connectionID;
+    String selfID = HomeScreenState.currentUser.userID;
+    if (friendID.compareTo(selfID) < 0) {
+      connectionID = friendID + selfID;
+    } else {
+      connectionID = selfID + friendID;
+    }
+    return connectionID;
+  }
 }
 
 class OBHomeScreenController extends PoppablePageController {}
