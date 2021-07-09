@@ -11,6 +11,8 @@ import 'package:Okuna/matchmaking/model/User.dart';
 import 'package:Okuna/matchmaking/pages/HomeScreen.dart';
 import 'package:Okuna/matchmaking/pages/chat/FullScreenImageViewer.dart';
 import 'package:Okuna/matchmaking/pages/chat/PlayerWidget.dart';
+import 'package:Okuna/matchmaking/pages/videoCall/VideoCallScreen.dart';
+import 'package:Okuna/matchmaking/pages/voiceCall/VoiceCallScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
 import 'package:Okuna/widgets/progress_indicator.dart';
@@ -126,14 +128,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     //           sessionType: null,
                     //           caller: HomeScreenState.currentUser,
                     //         ))
-                    //     : push(
-                    //         context,
-                    //         VoiceCallScreen(
-                    //           isCaller: true,
-                    //           homeConversationModel: homeConversationModel,
-                    //           sessionDescription: null,
-                    //           sessionType: null,
-                    //         ));
+                    //     : 
+                    push(
+                            context,
+                            VoiceCallScreen(
+                              isCaller: true,
+                              homeConversationModel: homeConversationModel,
+                              sessionDescription: null,
+                              sessionType: null,
+                            ));
                   },
                   color: Colors.white,
                 )
@@ -160,14 +163,15 @@ class _ChatScreenState extends State<ChatScreen> {
                     //           sessionType: null,
                     //           caller: HomeScreenState.currentUser,
                     //         ))
-                    //     : push(
-                    //         context,
-                    //         VideoCallScreen(
-                    //           isCaller: true,
-                    //           homeConversationModel: homeConversationModel,
-                    //           sessionDescription: null,
-                    //           sessionType: null,
-                    //         ));
+                    //     : 
+                    push(
+                      context,
+                      VideoCallScreen(
+                        isCaller: true,
+                        homeConversationModel: homeConversationModel,
+                        sessionDescription: null,
+                        sessionType: null,
+                      ));
                   },
                   color: Colors.white,
                 )
