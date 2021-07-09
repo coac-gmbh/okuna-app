@@ -2,9 +2,7 @@ import 'package:Okuna/matchmaking/constants.dart';
 import 'package:Okuna/matchmaking/widgets/Badge.dart';
 import 'package:Okuna/models/badge.dart';
 import 'package:Okuna/models/categories_list.dart';
-import 'package:Okuna/models/category.dart';
-import 'package:Okuna/models/communities_list.dart';
-import 'package:Okuna/models/community.dart';
+import 'package:Okuna/models/community_membership_list.dart';
 import 'package:Okuna/models/theme.dart';
 import 'package:Okuna/models/user.dart';
 import 'package:Okuna/matchmaking/model/User.dart' as tinder;
@@ -38,15 +36,12 @@ class CardProfileScreen extends StatefulWidget {
 }
 
 class _CardProfileScreenState extends State<CardProfileScreen> {
-  static User _user;
   UserService _userService;
   bool _needsBootstrap;
-  bool _isLoading;
 
   @override
   void initState() {
     _needsBootstrap = true;
-    _isLoading = true;
     super.initState();
   }
 
@@ -59,27 +54,12 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     var themeValueParserService = openbookProvider.themeValueParserService;
     var toastService = openbookProvider.toastService;
 
-    Future<void> _getOkunaUser(String username) async {
-      var user = await _userService.getUserWithUsername('miguel');
-      // var user = await _userService.getUserWithUsername(username);
-      setState(() {
-        _user = user;
-        _isLoading = false;
-      });
-    }
-
     if (_needsBootstrap) {
       _userService = openbookProvider.userService;
-      _needsBootstrap = false;
-
-      // TODO:
-      // Update parameter with card username.
-      // Update model if needed.
-      _getOkunaUser(widget.user.userID); 
     }
 
-    List<Container> _buildCommunitiesList() {
-      CategoriesList _categories = _user.categories;
+
+    List<Container> _buildCategoriesList(CategoriesList _categories) {
       List<Container> _categoriesWidget = [];
       if(_categories != null){
         for (var category in _categories.categories) {
@@ -91,139 +71,177 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
           );
         }
       }
-
       return _categoriesWidget;
     }
 
-    return _isLoading == true
-    ? LoadingContainer() 
-    : Container(
+    List<Container> _buildCommunitiesList(CommunityMembershipList _communities) {
+      List<Container> _communitiesWidget = [];
+      if(_communities != null){
+        for (var community in _communities.communityMemberships) {
+          _communitiesWidget.add(
+            Container(
+              padding: EdgeInsets.only(right: 10),
+              child: TextBadge(community: community),
+            )
+          );
+        }
+      }
+
+      return _communitiesWidget;
+    }
+
+    return Container(
       child: Center(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25),
           child: CupertinoPageScaffold(
-          backgroundColor: Color.fromARGB(0, 0, 0, 0),
-          navigationBar: OBThemedNavigationBar(title: '@' + widget.user.email),
-          child: OBPrimaryColorContainer(
-            child: Column(
-              children:[
-                Container(height: 170,child: OBProfileCover(_user)),
-                Stack(
-                  clipBehavior: Clip.none, 
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 18.0, right: 18),
+            backgroundColor: Color.fromARGB(0, 0, 0, 0),
+            navigationBar: OBThemedNavigationBar(title: '@' + widget.user.username),
+            child: FutureBuilder<User>(
+              future: _userService.getUserWithUsername(widget.user.username),
+              builder: (context, AsyncSnapshot<User> snapshot){
+                switch (snapshot.connectionState) {
+                case ConnectionState.waiting: return LoadingContainer();
+                default:
+                  if (snapshot.hasError)
+                      {return Text('Error: ${snapshot.error}');}
+                  else{
+                    User _user = snapshot.data;
+                    return OBPrimaryColorContainer(
                       child: Column(
-                        children: [
-                          const SizedBox(
-                            height: (OBAvatar.AVATAR_SIZE_EXTRA_LARGE * 0.2),
-                            width: OBAvatar.AVATAR_SIZE_EXTRA_LARGE,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        children:[
+                          Container(height: 170,child: OBProfileCover(_user)),
+                          Stack(
+                            clipBehavior: Clip.none,
                             children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                               _buildNameRow(user: _user, context: context, toastService: toastService),
-                              OBProfileUsername(_user),
-
-                              Container( 
-                                height: 65,
-                                child: OBProfileBio(_user)
-                              ),
-                              const Divider(
-                                height: 20,
-                              ),
-                              Container(
-                                  height: 50,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('COMMUNITIES'),
-                                      const SizedBox( height: 5),
-                                      Container(
-                                        height: 30,
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          children: _buildCommunitiesList(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              const Divider(
-                                height: 20,
-                              ),
-                              Container(
-                                height: 50,
+                              Padding(
+                                padding: EdgeInsets.only(left: 18.0, right: 18),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('GROUPS'),
-                                    const SizedBox( height: 5),
-                                    Container(
-                                      height: 30,
-                                      child: ListView(
-                                        scrollDirection: Axis.horizontal,
-                                        children: _buildCommunitiesList(),
-                                      ),
+                                    const SizedBox(
+                                      height: (OBAvatar.AVATAR_SIZE_EXTRA_LARGE * 0.2),
+                                      width: OBAvatar.AVATAR_SIZE_EXTRA_LARGE,
                                     ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        _buildNameRow(user: _user, context: context, toastService: toastService),
+                                        OBProfileUsername(_user),
+
+                                        _user.profile.bio != null ? Container(
+                                          height: 65,
+                                          child: OBProfileBio(_user)
+                                        ) : SizedBox(),
+
+                                        _user.categories.categories.length >0 ?  Column(
+                                        children: [
+                                          const Divider(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                              height: 50,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('CATEGORIES'),
+                                                  const SizedBox( height: 5),
+                                                  Container(
+                                                    height: 30,
+                                                    child: ListView(
+                                                      scrollDirection: Axis.horizontal,
+                                                      children: _buildCategoriesList(_user.categories),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                        ]) : SizedBox(),
+
+                                        _user.communitiesMemberships.communityMemberships.length > 0
+                                        ?  Column(
+                                        children: [
+                                          const Divider(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                              height: 50,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('GROUPS'),
+                                                  const SizedBox( height: 5),
+                                                  Container(
+                                                    height: 30,
+                                                    child: ListView(
+                                                      scrollDirection: Axis.horizontal,
+                                                      children: _buildCommunitiesList(_user.communitiesMemberships),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                        ]) : SizedBox(),
+
+                                        OBProfileDetails(_user),
+                                        OBProfileCounts(_user),
+                                        OBProfileConnectedIn(_user),
+                                        OBProfileConnectionRequest(_user),
+                                        OBProfileFollowRequest(_user),
+                                        OBProfileInLists(_user),
+
+                                    ]),
                                   ],
                                 ),
                               ),
-                              OBProfileDetails(_user),
-                              OBProfileCounts(_user),
-                              OBProfileConnectedIn(_user),
-                              OBProfileConnectionRequest(_user),
-                              OBProfileFollowRequest(_user),
-                              OBProfileInLists(_user),
-                              
-                          ]),
-                        ],
-                      ),
-                    ),
-                      Positioned(
-                        child: StreamBuilder(
-                            stream: themeService.themeChange,
-                            initialData: themeService.getActiveTheme(),
-                            builder: (BuildContext context, AsyncSnapshot<OBTheme> snapshot) {
-                              var theme = snapshot.data;
+                              Positioned(
+                                child: StreamBuilder(
+                                  stream: themeService.themeChange,
+                                  initialData: themeService.getActiveTheme(),
+                                  builder: (BuildContext context, AsyncSnapshot<OBTheme> snapshot) {
+                                    var theme = snapshot.data;
 
-                              return Container(
-                                height: 20,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: themeValueParserService
-                                        .parseColor(theme.primaryColor),
-                                    borderRadius: BorderRadius.only(
+                                    return Container(
+                                      height: 20,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color: themeValueParserService.parseColor(theme.primaryColor),
+                                        borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(50),
                                         topRight: Radius.circular(50))),
-                              );
-                            }),
-                        top: -19,
-                      ),
-                      Positioned(
-                        top: -((OBAvatar.AVATAR_SIZE_EXTRA_LARGE / 2)) - 10,
-                        left: 18,
-                        child: StreamBuilder(
-                            stream: _user.updateSubject,
-                            initialData: _user,
-                            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                              var user = snapshot.data;
+                                      );
+                                    },
+                                  ),
+                                top: -19,
+                              ),
+                              Positioned(
+                                top: -((OBAvatar.AVATAR_SIZE_EXTRA_LARGE / 2)) - 10,
+                                left: 18,
+                                child: StreamBuilder(
+                                  stream: _user.updateSubject,
+                                  initialData: _user,
+                                  builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                                    var user = snapshot.data;
 
-                              return OBAvatar(
-                                borderWidth: 3,
-                                avatarUrl: user?.getProfileAvatar(),
-                                size: OBAvatarSize.extraLarge,
-                                isZoomable: true,
-                              );
-                            }),
-                      ),
-                    ],
-                  )
-                ]
-              ),
+                                    return OBAvatar(
+                                      borderWidth: 3,
+                                      avatarUrl: user?.getProfileAvatar(),
+                                      size: OBAvatarSize.extraLarge,
+                                      isZoomable: false,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          )
+                        ]
+                      ),   
+                    );
+                  }
+                }
+              }    
             ),
           ),
         ),
@@ -231,11 +249,6 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     );
   }
 
-  Future<List<Community>> _getJoinedCommunities() async {
-    CommunitiesList joinedCommunitiesList =
-        await _userService.getJoinedCommunities();
-    return joinedCommunitiesList.communities;
-  }
 
   Widget _buildNameRow(
       {@required User user,

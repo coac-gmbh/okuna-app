@@ -277,7 +277,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   Widget _buildCard(current.User tinderUser) {
-    print(tinderUser.email);
     return Card(
       child: Stack(
         children: <Widget>[
