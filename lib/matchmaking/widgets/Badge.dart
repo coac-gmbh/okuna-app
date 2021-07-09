@@ -1,6 +1,5 @@
 import 'package:Okuna/models/category.dart';
-import 'package:Okuna/models/community.dart';
-import 'package:Okuna/models/theme.dart';
+import 'package:Okuna/models/community_membership.dart';
 import 'package:Okuna/provider.dart';
 import 'package:Okuna/services/theme_value_parser.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +8,7 @@ import 'package:flutter/material.dart';
 class TextBadge extends StatelessWidget {
   final OBCategoryBadgeSize size;
   final Category category;
-  final Community community;
+  final CommunityMembership community;
 
 
   const TextBadge({
@@ -26,7 +25,7 @@ class TextBadge extends StatelessWidget {
 
     return _buildBadge(
         color: badgeColor,
-        text: category != null ? category.name : community.name,
+        text: category != null ? category.name : community.communityTitle,
         textColor: badgeIsDark ? Colors.white : Colors.black);
   }
   
@@ -35,11 +34,13 @@ class TextBadge extends StatelessWidget {
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(5)),
       padding: _getPadding(),
-      child: Text(
-        text,
-        style: TextStyle(
-            color: textColor,
-            fontSize: _getFontSize()),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+              color: textColor,
+              fontSize: _getFontSize()),
+        ),
       ),
     );
   }
