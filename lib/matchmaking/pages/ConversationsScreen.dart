@@ -7,7 +7,6 @@ import 'package:Okuna/matchmaking/model/User.dart';
 import 'package:Okuna/matchmaking/pages/chat/ChatScreen.dart';
 import 'package:Okuna/matchmaking/services/FirebaseHelper.dart';
 import 'package:Okuna/matchmaking/services/helper.dart';
-import 'package:Okuna/pages/home/pages/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
