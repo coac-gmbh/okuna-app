@@ -2,7 +2,7 @@ import 'package:Okuna/matchmaking/constants.dart';
 import 'package:Okuna/matchmaking/model/HomeConversationModel.dart';
 import 'package:Okuna/matchmaking/model/User.dart';
 import 'package:Okuna/matchmaking/pages/ConversationsScreen.dart';
-import 'package:Okuna/matchmaking/pages/ProfileScreen.dart';
+import 'package:Okuna/matchmaking/pages/SettingsScreen.dart';
 import 'package:Okuna/matchmaking/pages/SwipeScreen.dart';
 import 'package:Okuna/matchmaking/pages/videoCall/VideoCallScreen.dart';
 import 'package:Okuna/matchmaking/pages/voiceCall/VoiceCallScreen.dart';
@@ -40,6 +40,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         user: currentUser,
       );
     });
+    if (CALLS_ENABLED) _listenForCalls();
   }
 
   @override
@@ -96,16 +97,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
                 leading: IconButton(
                   icon: Icon(
-                    Icons.person,
-                    color: _appBarTitle == 'Profile'
+                    Icons.settings,
+                    color: _appBarTitle == 'Settings'
                             ? Color(COLOR_PRIMARY)
                             : Colors.grey,
                   ),
-                  iconSize: _appBarTitle == 'Profile' ? 35 : 24,
+                  iconSize: _appBarTitle == 'Settings' ? 35 : 24,
                   onPressed: () {
                     setState(() {
-                      _appBarTitle = 'Profile';
-                      _currentWidget = ProfileScreen(user: currentUser);
+                      _appBarTitle = 'Settings';
+                      _currentWidget = SettingsScreen(user: currentUser);
                     });
                   }
                 ),
