@@ -666,14 +666,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       heroTag: messageData.messageID,
                       backgroundColor: Color(COLOR_ACCENT),
                       onPressed: () {
-
-                        // TODO:
-                        // push(
-                        //     context,
-                        //     FullScreenVideoViewer(
-                        //       heroTag: messageData.messageID,
-                        //       videoUrl: messageData.url.url,
-                        //     ));
+                        push(
+                          context,
+                          FullScreenVideoViewer(
+                            heroTag: messageData.messageID,
+                            videoUrl: messageData.url.url,
+                          ));
                       },
                       child: Icon(
                         Icons.play_arrow,
@@ -787,8 +785,6 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     }
     if (mediaUrl.contains('audio')) {
-      print('AUDIO');
-      print(mediaUrl);
       return Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.bottomLeft,
@@ -832,7 +828,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       );
     } else if (mediaUrl.isNotEmpty) {
-      print(mediaUrl);
       return ConstrainedBox(
           constraints: BoxConstraints(
             minWidth: 50,
