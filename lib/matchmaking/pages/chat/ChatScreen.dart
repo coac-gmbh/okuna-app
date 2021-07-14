@@ -10,6 +10,7 @@ import 'package:Okuna/matchmaking/model/MessageData.dart';
 import 'package:Okuna/matchmaking/model/User.dart';
 import 'package:Okuna/matchmaking/pages/HomeScreen.dart';
 import 'package:Okuna/matchmaking/pages/chat/FullScreenImageViewer.dart';
+import 'package:Okuna/matchmaking/pages/chat/FullScreenVideoViewer.dart';
 import 'package:Okuna/matchmaking/pages/chat/PlayerWidget.dart';
 import 'package:Okuna/matchmaking/pages/videoCall/VideoCallScreen.dart';
 import 'package:Okuna/matchmaking/pages/voiceCall/VoiceCallScreen.dart';
@@ -109,34 +110,24 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: <Widget>[
-          CALLS_ENABLED
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: CALLS_ENABLED
               ? IconButton(
                   tooltip: 'Voice call',
                   iconSize: 20,
                   constraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
                   icon: Icon(Icons.call),
                   onPressed: () {
-                    // TODO:
-                    // homeConversationModel.isGroupChat
-                    //     ? push(
-                    //         context,
-                    //         VoiceCallsGroupScreen(
-                    //           isCaller: true,
-                    //           homeConversationModel: homeConversationModel,
-                    //           sessionDescription: null,
-                    //           sessionType: null,
-                    //           caller: HomeScreenState.currentUser,
-                    //         ))
-                    //     : 
                     push(
-                            context,
-                            VoiceCallScreen(
-                              isCaller: true,
-                              homeConversationModel: homeConversationModel,
-                              sessionDescription: null,
-                              sessionType: null,
-                            ));
+                      context,
+                      VoiceCallScreen(
+                        isCaller: true,
+                        homeConversationModel: homeConversationModel,
+                        sessionDescription: null,
+                        sessionType: null,
+                      ));
                   },
                   color: Colors.white,
                 )
@@ -144,26 +135,17 @@ class _ChatScreenState extends State<ChatScreen> {
                   width: 0,
                   height: 0,
                 ),
-          CALLS_ENABLED
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CALLS_ENABLED
               ? IconButton(
+                  padding: const EdgeInsets.only(right: 8.0),
                   tooltip: 'Video call',
                   constraints: BoxConstraints(maxWidth: 24, maxHeight: 24),
                   iconSize: 20,
                   icon: Icon(Icons.videocam),
                   onPressed: () {
-
-                    // TODO:
-                    // homeConversationModel.isGroupChat
-                    //     ? push(
-                    //         context,
-                    //         VideoCallsGroupScreen(
-                    //           isCaller: true,
-                    //           homeConversationModel: homeConversationModel,
-                    //           sessionDescription: null,
-                    //           sessionType: null,
-                    //           caller: HomeScreenState.currentUser,
-                    //         ))
-                    //     : 
                     push(
                       context,
                       VideoCallScreen(
@@ -179,43 +161,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   width: 0,
                   height: 0,
                 ),
-          PopupMenuButton(
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                    child: ListTile(
-                  dense: true,
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true).pop("1");
-                    homeConversationModel.isGroupChat
-                        ? _onGroupChatSettingsClick()
-                        : _onPrivateChatSettingsClick();
-                  },
-                  contentPadding: const EdgeInsets.all(0),
-                  leading: Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ),
-                  title: Text(
-                    'Settings',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ))
-              ];
-            },
           ),
         ],
         centerTitle: true,
         iconTheme: IconThemeData( color: Colors.white),
         backgroundColor: Color(COLOR_PRIMARY),
-        title: homeConversationModel.isGroupChat
-            ? Text(
-          homeConversationModel.conversationModel?.name ?? '',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              )
-            : Column(
+        title: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -507,53 +458,6 @@ class _ChatScreenState extends State<ChatScreen> {
         style: TextStyle(fontSize: 15, color: Colors.grey.shade200));
   }
 
-  _onGroupChatSettingsClick() {
-    final action = CupertinoActionSheet(
-      message: Text(
-        "Group Chat Settings",
-        style: TextStyle(fontSize: 15.0),
-      ),
-      actions: <Widget>[
-        CupertinoActionSheetAction(
-          isDestructiveAction: true,
-          child: Text("Leave Group"),
-          isDefaultAction: false,
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop("1");
-            showProgress(context, 'Leaving group chat', false);
-            bool isSuccessful = await _fireStoreUtils
-                .leaveGroup(homeConversationModel.conversationModel);
-            hideProgress();
-            if (isSuccessful) {
-              Navigator.of(context, rootNavigator: true).pop("1");
-            }
-          },
-        ),
-        CupertinoActionSheetAction(
-          child: Text("Rename Group"),
-          isDefaultAction: true,
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop("1");
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return _showRenameGroupDialog();
-                });
-          },
-        ),
-      ],
-      cancelButton: CupertinoActionSheetAction(
-        child: Text(
-          "Cancel",
-        ),
-        onPressed: () {
-          Navigator.of(context, rootNavigator: true).pop("1");
-        },
-      ),
-    );
-    showCupertinoModalPopup(context: context, builder: (context) => action);
-  }
-
   _onCameraClick() {
     final action = CupertinoActionSheet(
       message: Text(
@@ -628,13 +532,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget buildMessage(MessageData messageData, List<User> members) {
     if (messageData.senderID == HomeScreenState.currentUser.userID) {
-      return myMessageView(messageData);
+      return myMessageView(messageData); // 1
     } else {
       return remoteMessageView(
           messageData,
           members.where((user) {
             return user.userID == messageData.senderID;
-          }).first);
+          }).first); // 2
     }
   }
 
@@ -719,7 +623,6 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Stack(alignment: Alignment.center, children: [
               GestureDetector(
                 onTap: () {
-                  // TODO:
                   if (messageData.videoThumbnail.isEmpty) {
                     push(
                         context,
@@ -738,6 +641,11 @@ class _ChatScreenState extends State<ChatScreen> {
                       switch (state.extendedImageLoadState) {
                         case LoadState.loading:
                           return Center(child: OBProgressIndicator());
+                          break;
+                        case LoadState.completed:
+                          return ExtendedRawImage(
+                            image: state.extendedImageInfo?.image,
+                          );
                           break;
                         case LoadState.failed:
                           return Image.asset('assets/images/matchmaking/error_image'
@@ -879,6 +787,8 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     }
     if (mediaUrl.contains('audio')) {
+      print('AUDIO');
+      print(mediaUrl);
       return Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.bottomLeft,
@@ -922,6 +832,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       );
     } else if (mediaUrl.isNotEmpty) {
+      print(mediaUrl);
       return ConstrainedBox(
           constraints: BoxConstraints(
             minWidth: 50,
@@ -932,15 +843,14 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Stack(alignment: Alignment.center, children: [
               GestureDetector(
                 onTap: () {
-
                   // TODO:
-                  // if (messageData.videoThumbnail.isEmpty) {
-                  //   push(
-                  //       context,
-                  //       FullScreenImageViewer(
-                  //         imageUrl: mediaUrl,
-                  //       ));
-                  // }
+                  if (messageData.videoThumbnail.isEmpty) {
+                    push(
+                        context,
+                        FullScreenImageViewer(
+                          imageUrl: mediaUrl,
+                        ));
+                  }
                 },
                 child: Hero(
                   tag: mediaUrl,
@@ -957,6 +867,11 @@ class _ChatScreenState extends State<ChatScreen> {
                           return Image.asset('assets/images/matchmaking/error_image'
                                         '.png');
                           break;
+                        case LoadState.completed:
+                          return ExtendedRawImage(
+                            image: state.extendedImageInfo?.image,
+                          );
+                          break;
                         default:
                           return Image.asset('assets/images/matchmaking/img_placeholder'
                                         '.png');
@@ -972,14 +887,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       heroTag: messageData.messageID,
                       backgroundColor: Color(COLOR_ACCENT),
                       onPressed: () {
-
-                        // TODO:
-                        // push(
-                        //     context,
-                        //     FullScreenVideoViewer(
-                        //       heroTag: messageData.messageID,
-                        //       videoUrl: messageData.url.url,
-                        //     ));
+                        push(
+                            context,
+                            FullScreenVideoViewer(
+                              heroTag: messageData.messageID,
+                              videoUrl: messageData.url.url,
+                            ));
                       },
                       child: Icon(
                         Icons.play_arrow,
@@ -1139,156 +1052,6 @@ class _ChatScreenState extends State<ChatScreen> {
     _messageController.dispose();
     _groupNameController.dispose();
     super.dispose();
-  }
-
-  Widget _showRenameGroupDialog() {
-    return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-        elevation: 16,
-        child: Container(
-          height: 200,
-          width: 350,
-          child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 40.0, left: 16, right: 16, bottom: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  TextField(
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.text,
-                    textCapitalization: TextCapitalization.sentences,
-                    controller: _groupNameController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: BorderSide(
-                              color: Color(COLOR_ACCENT), width: 2.0)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0)),
-                      labelText: 'Group name',
-                    ),
-                  ),
-                  Spacer(),
-                  Wrap(
-                    spacing: 30,
-                    children: <Widget>[
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop("1");
-                          },
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          )),
-                      TextButton(
-                          onPressed: () async {
-                            if (_groupNameController.text.isNotEmpty) {
-                              if (homeConversationModel
-                                      .conversationModel.name !=
-                                  _groupNameController.text) {
-                                showProgress(context,
-                                    'Renaming group, Please wait...', false);
-                                homeConversationModel.conversationModel.name =
-                                    _groupNameController.text.trim();
-                                await _fireStoreUtils.updateChannel(
-                                    homeConversationModel.conversationModel);
-                                hideProgress();
-                              }
-                              Navigator.of(context, rootNavigator: true).pop("1");
-                              setState(() {});
-                            }
-                          },
-                          child: Text('Rename',
-                              style: TextStyle(
-                                  fontSize: 18, color: Color(COLOR_ACCENT)))),
-                    ],
-                  )
-                ],
-              )),
-        ));
-  }
-
-
-  _onPrivateChatSettingsClick() {
-    final action = CupertinoActionSheet(
-      message: Text(
-        "Chat Settings",
-        style: TextStyle(fontSize: 15.0),
-      ),
-      actions: <Widget>[
-        CupertinoActionSheetAction(
-          child: Text("Block user"),
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop("1");
-            showProgress(context, 'Blocking user...', false);
-            bool isSuccessful = await _fireStoreUtils.blockUser(
-                homeConversationModel.members.first, 'block');
-            hideProgress();
-            if (isSuccessful) {
-              Navigator.of(context, rootNavigator: true).pop("1");
-              _showAlertDialog(context, 'Block',
-                  '${homeConversationModel.members.first
-                      .fullName()} has been blocked.');
-            } else {
-              _showAlertDialog(
-                  context,
-                  'Block',
-                  'Couldn'
-                      '\'t block ${homeConversationModel.members.first
-                      .fullName()}, please try again later.');
-            }
-          },
-        ),
-        CupertinoActionSheetAction(
-          child: Text("Report user"),
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop("1");
-            showProgress(context, 'Reporting user...', false);
-            bool isSuccessful = await _fireStoreUtils.blockUser(
-                homeConversationModel.members.first, 'report');
-            hideProgress();
-            if (isSuccessful) {
-              Navigator.of(context, rootNavigator: true).pop("1");
-              _showAlertDialog(context, 'Report',
-                  '${homeConversationModel.members.first
-                      .fullName()} has been reported and blocked.');
-            } else {
-              _showAlertDialog(
-                  context,
-                  'Report',
-                  'Couldn'
-                      '\'t report ${homeConversationModel.members.first
-                      .fullName()}, please try again later.');
-            }
-          },
-        ),
-      ],
-      cancelButton: CupertinoActionSheetAction(
-        child: Text(
-          "Cancel",
-        ),
-        onPressed: () {
-          Navigator.of(context, rootNavigator: true).pop("1");
-        },
-      ),
-    );
-    showCupertinoModalPopup(context: context, builder: (context) => action);
-  }
-
-  _showAlertDialog(BuildContext context, String title, String message) {
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(message),
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   _onMicClicked() async {
