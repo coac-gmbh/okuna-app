@@ -62,11 +62,6 @@ dependencies:
   throttling: ^1.0.0
   wakelock: ^0.5.2
   rxdart: ^0.27.1
-  # video_player:
-  #   git:
-  #     url: https://github.com/OkunaOrg/plugins.git
-  #     ref: ricardo/develop2
-  #     path: packages/video_player
   sprintf: ^6.0.0
   image_picker: ^0.8.0+3
   image_cropper: ^1.4.0
