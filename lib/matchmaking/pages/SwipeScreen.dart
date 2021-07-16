@@ -242,20 +242,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                 ),
                 FloatingActionButton(
                   elevation: 1,
-                  heroTag: 'center',
-                  onPressed: () {
-                    controller.triggerRight();
-                  },
-                  backgroundColor: Colors.white,
-                  mini: true,
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.blue,
-                    size: 30,
-                  ),
-                ),
-                FloatingActionButton(
-                  elevation: 1,
                   heroTag: 'right',
                   onPressed: () {
                     controller.triggerRight();
@@ -286,7 +272,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
             child: IconButton(
               icon: Icon(
                 Icons.keyboard_arrow_down,
-                color: Colors.grey,
+                color: Colors.white,
               ),
               iconSize: 30,
               onPressed: () => _onCardSettingsClick(tinderUser),
