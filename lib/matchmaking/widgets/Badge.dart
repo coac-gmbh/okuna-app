@@ -33,56 +33,16 @@ class TextBadge extends StatelessWidget {
     return Container(
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(5)),
-      padding: _getPadding(),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       child: Center(
         child: Text(
           text,
           style: TextStyle(
               color: textColor,
-              fontSize: _getFontSize()),
+              fontSize: 14),
         ),
       ),
     );
-  }
-
-  EdgeInsets _getPadding() {
-    EdgeInsets padding;
-
-    switch (size) {
-      case OBCategoryBadgeSize.small:
-        padding = const EdgeInsets.symmetric(horizontal: 6, vertical: 2);
-        break;
-      case OBCategoryBadgeSize.medium:
-        padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 3);
-        break;
-      case OBCategoryBadgeSize.large:
-        padding = const EdgeInsets.symmetric(horizontal: 15, vertical: 6);
-        break;
-      default:
-        throw 'Unhandled category badge size';
-    }
-
-    return padding;
-  }
-
-  double _getFontSize() {
-    double fontSize;
-
-    switch (size) {
-      case OBCategoryBadgeSize.small:
-        fontSize = 14;
-        break;
-      case OBCategoryBadgeSize.medium:
-        fontSize = 16;
-        break;
-      case OBCategoryBadgeSize.large:
-        fontSize = 18;
-        break;
-      default:
-        throw 'Unhandled category badge size';
-    }
-
-    return fontSize;
   }
 }
 
