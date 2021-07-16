@@ -7,12 +7,8 @@ import 'package:Okuna/models/theme.dart';
 import 'package:Okuna/models/user.dart';
 import 'package:Okuna/matchmaking/model/User.dart' as tinder;
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_bio.dart';
-import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_connected_in.dart';
-import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_connection_request.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_counts/profile_counts.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_details/profile_details.dart';
-import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_follow_request.dart';
-import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_in_lists.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_name.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_username.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_cover.dart';
@@ -20,7 +16,6 @@ import 'package:Okuna/provider.dart';
 import 'package:Okuna/services/toast.dart';
 import 'package:Okuna/services/user.dart';
 import 'package:Okuna/widgets/avatars/avatar.dart';
-import 'package:Okuna/widgets/nav_bars/themed_nav_bar.dart';
 import 'package:Okuna/widgets/theming/primary_color_container.dart';
 import 'package:Okuna/widgets/user_badge.dart';
 import 'package:flutter/cupertino.dart';
@@ -96,7 +91,6 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
           borderRadius: BorderRadius.circular(25),
           child: CupertinoPageScaffold(
             backgroundColor: Color.fromARGB(0, 0, 0, 0),
-            navigationBar: OBThemedNavigationBar(title: '@' + widget.user.username),
             child: FutureBuilder<User>(
               future: _userService.getUserWithUsername(widget.user.username),
               builder: (context, AsyncSnapshot<User> snapshot){
@@ -110,7 +104,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                     return OBPrimaryColorContainer(
                       child: Column(
                         children:[
-                          Container(height: 170,child: OBProfileCover(_user)),
+                          Container(height: 80,child: OBProfileCover(_user)),
                           Stack(
                             clipBehavior: Clip.none,
                             children: [
@@ -119,8 +113,8 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                 child: Column(
                                   children: [
                                     const SizedBox(
-                                      height: (OBAvatar.AVATAR_SIZE_EXTRA_LARGE * 0.2),
-                                      width: OBAvatar.AVATAR_SIZE_EXTRA_LARGE,
+                                      height: (OBAvatar.AVATAR_SIZE_MEDIUM * 0.2),
+                                      width: OBAvatar.AVATAR_SIZE_MEDIUM,
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +140,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text('CATEGORIES'),
+                                                  Text('CATEGORIES', style: TextStyle(fontSize: 8),),
                                                   const SizedBox( height: 5),
                                                   Container(
                                                     height: 30,
@@ -171,7 +165,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text('GROUPS'),
+                                                  Text('GROUPS', style: TextStyle(fontSize: 8),),
                                                   const SizedBox( height: 5),
                                                   Container(
                                                     height: 30,
@@ -187,10 +181,6 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
 
                                         OBProfileDetails(_user),
                                         OBProfileCounts(_user),
-                                        OBProfileConnectedIn(_user),
-                                        OBProfileConnectionRequest(_user),
-                                        OBProfileFollowRequest(_user),
-                                        OBProfileInLists(_user),
 
                                     ]),
                                   ],
@@ -217,7 +207,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                 top: -19,
                               ),
                               Positioned(
-                                top: -((OBAvatar.AVATAR_SIZE_EXTRA_LARGE / 2)) - 10,
+                                top: -((OBAvatar.AVATAR_SIZE_MEDIUM/ 2)) - 10,
                                 left: 18,
                                 child: StreamBuilder(
                                   stream: _user.updateSubject,
@@ -228,7 +218,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                     return OBAvatar(
                                       borderWidth: 3,
                                       avatarUrl: user?.getProfileAvatar(),
-                                      size: OBAvatarSize.extraLarge,
+                                      size: OBAvatarSize.medium,
                                       isZoomable: false,
                                     );
                                   },
