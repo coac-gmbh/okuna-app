@@ -3,6 +3,7 @@ import 'package:Okuna/services/httpie.dart';
 class DocumentsService {
   HttpieService _httpService;
 
+  // TODO: Legal steps link
   static const guidelinesUrl =
       'https://about.okuna.io/docs/COMMUNITY_GUIDELINES.md';
   static const privacyPolicyUrl =
