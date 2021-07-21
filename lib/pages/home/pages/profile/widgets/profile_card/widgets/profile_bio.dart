@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class OBProfileBio extends StatelessWidget {
   final User user;
+  final OBTextSize size;
 
-  const OBProfileBio(this.user);
+  const OBProfileBio({this.user, this.size = OBTextSize.mediumSecondary});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class OBProfileBio extends StatelessWidget {
               Flexible(
                 child: OBActionableSmartText(
                   text: bio,
-                  size: OBTextSize.mediumSecondary,
+                  size: size,
                   overflow: TextOverflow.fade,
                 ),
               )
