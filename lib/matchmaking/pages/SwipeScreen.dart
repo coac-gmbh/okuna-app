@@ -157,7 +157,8 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
   Stream<List<ProfileCardUser>> _getFullUserInformation(List<current.User> data) async* {
   StreamController<List<ProfileCardUser>> profileCardsStreamController = StreamController<List<ProfileCardUser>>();
     List<ProfileCardUser> extendedUsers = [];
-    data.forEach((current.User basicInformation) async {
+    data.forEach((current.User basicInformation) async { 
+      print(basicInformation.username);
       _userService.getUserWithUsername(basicInformation.username).then((value) {
         try {
           ProfileCardUser _extended = ProfileCardUser(
@@ -207,6 +208,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
               ),
             );
           case ConnectionState.active:
+          print(snapshot.data);
             return Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -255,20 +257,17 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                               current.User result =
                                   await _fireStoreUtils.onSwipeRight(data[index]);
                               if (result != null) {
-                                snapshot.data.removeAt(index);
                                 data.removeAt(index);
                                 _fireStoreUtils.updateCardStream(data);
                                 push(context, MatchScreen(matchedUser: result));
                               } else {
                                 swipedUsers.add(data[index]);
-                                snapshot.data.removeAt(index);
                                 data.removeAt(index);
                                 _fireStoreUtils.updateCardStream(data);
                               }
                             } else if (orientation == CardSwipeOrientation.LEFT) {
                               swipedUsers.add(data[index]);
                               await _fireStoreUtils.onSwipeLeft(data[index]);
-                              snapshot.data.removeAt(index);
                               data.removeAt(index);
                               _fireStoreUtils.updateCardStream(data);
                             }

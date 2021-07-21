@@ -113,7 +113,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
 
   Future<void> start() async => await _myPlayer.startPlayer(
       fromURI: widget.url,
-      codec: Codec.mp3,
+      codec: Codec.aacADTS,
       whenFinished: () {
         setState(() {
           // _sliderPosition.position = Duration(seconds: 0);
