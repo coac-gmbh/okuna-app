@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "182509470975",
+    "project_id": "h2pro3-helix",
+    "storage_bucket": "h2pro3-helix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182509470975:android:696667348c5373e62ab8ca",
+        "android_client_info": {
+          "package_name": "de.coac.h2pro3.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "182509470975-c6mfga4ctd10j4ks9m4bt14pdbhllthq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV9a8tRgz2ytdM8qRW4ZxRojDdRYZ-dtA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "182509470975-c6mfga4ctd10j4ks9m4bt14pdbhllthq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

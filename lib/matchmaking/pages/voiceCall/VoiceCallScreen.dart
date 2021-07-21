@@ -32,7 +32,7 @@ class VoiceCallScreen extends StatefulWidget {
 
 class _VoiceCallScreenState extends State<VoiceCallScreen> {
   VoiceCallsHandler _signaling;
-  bool _isCallActive = false, _micOn = true, _speakerOn = true;
+  bool _isCallActive = false, _micOn = true, _speakerOn = false;
   MediaStream _localStream;
   String _callDuration = '';
 
