@@ -9,6 +9,8 @@ import 'package:Okuna/models/user.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_bio.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_counts/profile_counts.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_details/profile_details.dart';
+import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_details/widgets/profile_age.dart';
+import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_details/widgets/profile_url.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_name.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_card/widgets/profile_username.dart';
 import 'package:Okuna/pages/home/pages/profile/widgets/profile_cover.dart';
@@ -18,6 +20,7 @@ import 'package:Okuna/widgets/avatars/avatar.dart';
 import 'package:Okuna/widgets/theming/actionable_smart_text.dart';
 import 'package:Okuna/widgets/theming/primary_color_container.dart';
 import 'package:Okuna/widgets/user_badge.dart';
+import 'package:Okuna/widgets/user_posts_count.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +95,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
             child: OBPrimaryColorContainer(
               child: Column(
                 children:[
-                  Container(height: 80,child: OBProfileCover(_user)),
+                  Container(height: 140,child: OBProfileCover(_user)),
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -108,13 +111,34 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 20,),
-                                _buildNameRow(user: _user, context: context, toastService: toastService),
-                                OBProfileUsername(_user),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    OBProfileName(_user),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.18,
+                                      child: OBProfileAge(_user),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    OBProfileUsername(_user),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.18,
+                                      child: OBUserPostsCount(_user),
+                                    )
+                                  ],
+                                ),
 
                                 _user.profile.bio != null ? Container(
                                   height: 65,
                                   child: OBProfileBio(user: _user, size: OBTextSize.small,)
                                 ) : SizedBox(),
+
+
+                                OBProfileUrl(_user),
 
                                 _user.categories.categories.length >0 ?  Column(
                                   children: [
@@ -161,8 +185,6 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                           ),
                                         ]) : SizedBox(),
 
-                                OBProfileDetails(_user),
-                                OBProfileCounts(_user),
 
                               ]),
                           ],
@@ -217,38 +239,6 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
     );
   }
 
-
-  Widget _buildNameRow(
-      {@required User user,
-      @required BuildContext context,
-      @required ToastService toastService}) {
-    if (user.hasProfileBadges() && user.getProfileBadges().length > 0) {
-      return Row(children: <Widget>[
-        OBProfileName(user),
-        _getUserBadge(user: user, toastService: toastService, context: context)
-      ]);
-    }
-    return OBProfileName(user);
-  }
-
-  Widget _getUserBadge(
-      {@required User user,
-      @required ToastService toastService,
-      @required BuildContext context}) {
-    Badge badge = user.getProfileBadges()[0];
-    return GestureDetector(
-      onTap: () {
-        toastService.info(
-            message: _getUserBadgeDescription(user), context: context);
-      },
-      child: OBUserBadge(badge: badge, size: OBUserBadgeSize.small),
-    );
-  }
-
-  String _getUserBadgeDescription(User user) {
-    Badge badge = user.getProfileBadges()[0];
-    return badge.getKeywordDescription();
-  }
 }
 
 class LoadingContainer extends StatelessWidget {
