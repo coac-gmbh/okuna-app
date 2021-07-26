@@ -71,7 +71,7 @@ class OBProfileCard extends StatelessWidget {
                   _buildNameRow(
                       user: user, context: context, toastService: toastService),
                   OBProfileUsername(user),
-                  OBProfileBio(user),
+                  OBProfileBio(user: user),
                   OBProfileDetails(user),
                   OBProfileCounts(user),
                   OBProfileConnectedIn(user),
