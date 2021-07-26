@@ -57,20 +57,22 @@ class OBTermsOfUsePageState extends State {
       child: OBPrimaryColorContainer(
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: _guidelinesText.isNotEmpty
-                  ? OBMarkdown(
-                      data: _guidelinesText,
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [OBProgressIndicator()],
-                      ),
-                    ),
-            )
+            Container(),
+            // TODO:
+            // Expanded(
+            //   child: _guidelinesText.isNotEmpty
+            //       ? OBMarkdown(
+            //           data: _guidelinesText,
+            //         )
+            //       : Padding(
+            //           padding: const EdgeInsets.all(20),
+            //           child: Row(
+            //             crossAxisAlignment: CrossAxisAlignment.center,
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [OBProgressIndicator()],
+            //           ),
+            //         ),
+            // )
           ],
         ),
       ),
