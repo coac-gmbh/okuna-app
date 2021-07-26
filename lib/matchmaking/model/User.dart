@@ -86,7 +86,6 @@ class User with ChangeNotifier {
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '',
         fcmToken: parsedJson['fcmToken'] ?? '',
-        isVip: parsedJson['isVip'] ?? false,
         //dating app related fields
         showMe: parsedJson['showMe'] ?? parsedJson['showMeOnTinder'] ?? true,
         school: parsedJson['school'] ?? 'N/A',
@@ -114,7 +113,6 @@ class User with ChangeNotifier {
         school: parsedJson['school'] ?? 'N/A',
         age: parsedJson['age'] ?? '',
         bio: parsedJson['bio'] ?? 'N/A',
-        isVip: parsedJson['isVip'] ?? false,
         showMe: parsedJson['showMe'] ?? parsedJson['showMeOnTinder'] ?? true,
         photos: parsedJson['photos'] ?? [].cast<String>());
   }
@@ -134,7 +132,6 @@ class User with ChangeNotifier {
       "profilePictureURL": this.profilePictureURL,
       'appIdentifier': this.appIdentifier,
       'fcmToken': this.fcmToken,
-      'isVip': this.isVip,
 
       //tinder related fields
       'showMe': this.settings.showMe,
