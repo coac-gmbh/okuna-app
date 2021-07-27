@@ -28,10 +28,11 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
   static current.User firebaseUser;
   FireStoreUtils _fireStoreUtils = FireStoreUtils();
   Stream<List<current.User>> tinderUsers;
-  List<current.User> swipedUsers = [];
-  List<current.User> users = [];
+  List<ProfileCardUser> swipedUsers = [];
+  List<ProfileCardUser> users = [];
   UserService _userService;
   CardController controller = CardController();
+  StreamController<List<ProfileCardUser>> profileCardsStreamController;
 
 
   // Set default `_initialized` and `_error` state to false
@@ -155,7 +156,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   Stream<List<ProfileCardUser>> _getFullUserInformation(List<current.User> data) async* {
-  StreamController<List<ProfileCardUser>> profileCardsStreamController = StreamController<List<ProfileCardUser>>();
+  profileCardsStreamController = StreamController<List<ProfileCardUser>>();
     List<ProfileCardUser> extendedUsers = [];
     data.forEach((current.User basicInformation) async {
       _userService.getUserWithUsername(basicInformation.username).then((value) {
@@ -180,7 +181,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   Widget _asyncCards(BuildContext context, List<current.User> data) {
-    users = data ?? [];
     if (data == null || data.isEmpty)
       return Center(
         child: Padding(
@@ -207,6 +207,8 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
               ),
             );
           case ConnectionState.active:
+            users = snapshot.data ?? [];
+
             return Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -249,28 +251,25 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                       cardController: controller,
                       swipeCompleteCallback:
                           (CardSwipeOrientation orientation, int index) async {
+                            
                         if (orientation == CardSwipeOrientation.LEFT ||
                             orientation == CardSwipeOrientation.RIGHT) {
                             if (orientation == CardSwipeOrientation.RIGHT) {
                               current.User result =
-                                  await _fireStoreUtils.onSwipeRight(data[index]);
+                                  await _fireStoreUtils.onSwipeRight(snapshot.data[index].basicInformation);
                               if (result != null) {
-                                data.removeAt(index);
                                 snapshot.data.removeAt(index);
-                                _fireStoreUtils.updateCardStream(data);
                                 push(context, MatchScreen(matchedUser: result));
                               } else {
-                                swipedUsers.add(data[index]);
-                                data.removeAt(index);
+                                swipedUsers.add(snapshot.data[index]);
                                 snapshot.data.removeAt(index);
-                                _fireStoreUtils.updateCardStream(data);
+                                profileCardsStreamController.add(snapshot.data);
                               }
                             } else if (orientation == CardSwipeOrientation.LEFT) {
-                              swipedUsers.add(data[index]);
-                              await _fireStoreUtils.onSwipeLeft(data[index]);
-                              data.removeAt(index);
+                              swipedUsers.add(snapshot.data[index]);
+                              await _fireStoreUtils.onSwipeLeft(snapshot.data[index].basicInformation);
                               snapshot.data.removeAt(index);
-                              _fireStoreUtils.updateCardStream(data);
+                              profileCardsStreamController.add(snapshot.data);
                             }
                         }
                       },
@@ -278,7 +277,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                   ),
                 ]),
               ),
-              Padding(
+              snapshot.data.length > 0 ? Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -315,7 +314,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                     )
                   ],
                 ),
-              )
+              ) : Container()
             ]);
      
           case ConnectionState.done:
@@ -340,7 +339,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
                 color: Colors.white,
               ),
               iconSize: 30,
-              onPressed: () => _onCardSettingsClick(extendedUser.basicInformation),
+              onPressed: () => _onCardSettingsClick(extendedUser),
             ),
           ),
           Positioned(
@@ -370,35 +369,35 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     );
   }
 
-  _onCardSettingsClick(current.User user) {
+  _onCardSettingsClick(ProfileCardUser user) {
     final action = CupertinoActionSheet(
       message: Text(
-        user.fullName(),
+        user.basicInformation.fullName(),
         style: TextStyle(fontSize: 15.0),
       ),
       actions: <Widget>[
         CupertinoActionSheetAction(
           child: Text("Block user"),
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             showProgress(context, 'Blocking user...', false);
             bool isSuccessful = await _fireStoreUtils.blockUser(
-                user, 'block');
+                user.basicInformation, 'block');
             hideProgress();
             if (isSuccessful) {
-              await _fireStoreUtils.onSwipeLeft(user);
+              await _fireStoreUtils.onSwipeLeft(user.basicInformation);
               users.remove(user);
-              _fireStoreUtils.updateCardStream(users);
+              profileCardsStreamController.add(users);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${user.fullName()} has been blocked.'),
+                  content: Text('${user.basicInformation.fullName()} has been blocked.'),
                 ),
               );
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                      'Couldn\'t block ${user.fullName()}, please try again later.'),
+                      'Couldn\'t block ${user.basicInformation.fullName()}, please try again later.'),
                 ),
               );
             }
@@ -407,26 +406,26 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
         CupertinoActionSheetAction(
           child: Text("Report user"),
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop("1");
             showProgress(context, 'Reporting user...', false);
             bool isSuccessful = await _fireStoreUtils.blockUser(
-                user, 'report');
+                user.basicInformation, 'report');
             hideProgress();
             if (isSuccessful) {
-              await _fireStoreUtils.onSwipeLeft(user);
-              users.removeWhere((element) => element.userID == user.userID);
-              _fireStoreUtils.updateCardStream(users);
+              await _fireStoreUtils.onSwipeLeft(user.basicInformation);
+              users.removeWhere((element) => element.basicInformation.userID == user.basicInformation.userID);
+              profileCardsStreamController.add(users);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content:
-                      Text('${user.fullName()} has been reported and blocked.'),
+                      Text('${user.basicInformation.fullName()} has been reported and blocked.'),
                 ),
               );
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                      'Couldn\'t report ${user.fullName()}, please try again later.'),
+                      'Couldn\'t report ${user.basicInformation.fullName()}, please try again later.'),
                 ),
               );
             }
@@ -438,7 +437,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
           "Cancel",
         ),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop("1");
         },
       ),
     );
@@ -447,10 +446,11 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
 
   _undo() async {
-      current.User undoUser = swipedUsers.removeLast();
+      ProfileCardUser undoUser = swipedUsers.removeLast();
       users.insert(0, undoUser);
-      _fireStoreUtils.updateCardStream(users);
-      await _fireStoreUtils.undo(undoUser);
+      // _fireStoreUtils.updateCardStream(users); 
+      await _fireStoreUtils.undo(undoUser.basicInformation);
+      profileCardsStreamController.add(users);
   }
 
   _setupTinder() async {
