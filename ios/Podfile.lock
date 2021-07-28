@@ -483,11 +483,9 @@ PODS:
     - Flutter
   - video_player (0.0.1):
     - Flutter
-    - VIMediaCache
   - video_thumbnail (0.0.1):
     - Flutter
     - libwebp
-  - VIMediaCache (0.4)
   - wakelock (0.0.1):
     - Flutter
 
@@ -567,7 +565,6 @@ SPEC REPOS:
     - SwiftyGif
     - tau_core
     - TOCropViewController
-    - VIMediaCache
 
 EXTERNAL SOURCES:
   cloud_firestore:
@@ -710,9 +707,8 @@ SPEC CHECKSUMS:
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  video_player: fd8b6188941ec5a530d6ab0830a34f78faa0452e
+  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
-  VIMediaCache: aa650f82cb114c68a343beb4e67416cf5eb2f3a2
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
 PODFILE CHECKSUM: f67955194192e9f01b065042d3b794ed878990ef
