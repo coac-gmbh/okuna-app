@@ -5,6 +5,7 @@ import 'package:Okuna/models/community.dart';
 import 'package:Okuna/models/theme.dart';
 import 'package:Okuna/models/user.dart';
 import 'package:Okuna/pages/home/lib/poppable_page_controller.dart';
+import 'package:Okuna/pages/home/pages/communities/widgets/badge_tab.dart';
 import 'package:Okuna/pages/home/pages/communities/widgets/category_tab.dart';
 import 'package:Okuna/pages/home/pages/communities/widgets/my_communities/my_communities.dart';
 import 'package:Okuna/pages/home/pages/communities/widgets/trending_communities.dart';
@@ -157,17 +158,15 @@ class OBMainCommunitiesPageState extends State<OBMainCommunitiesPage>
   List<Widget> _buildTabs() {
     User loggedInUser = _userService.getLoggedInUser();
 
+    Category _allCategory = 
+      Category(title: "All", color: "2d2d2d");
+    Category _youCategory = Category();
+
     List<Widget> tabs = [
       OBUserAvatarTab(
         user: loggedInUser,
       ),
-      OBImageTab(
-        text: _localizationService.community__communities_all_text,
-        color: Pigment.fromString('#2d2d2d'),
-        textColor: Pigment.fromString('#ffffff'),
-        imageProvider:
-            const AssetImage('assets/images/categories/category_all-min.png'),
-      ),
+      OBCategoryTab(category: _allCategory,)
     ];
 
     List<Widget> categoriesTabs = _categories.map((Category category) {
