@@ -236,7 +236,7 @@ For Android please add the `google-services.json` to:
 android/app/
 ```
 
-For Android please add the `GoogleService-Info.plist` to:
+For iOS please add the `GoogleService-Info.plist` to:
 ```
 ios/Runner/
 ```

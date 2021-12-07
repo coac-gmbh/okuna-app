@@ -119,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m49(groupName) => "${groupName} Tümünü gör";
 
-  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Hey, seni Okuna\'ya davet etmek istiyorum.\n\nApple için, önce TestFlight (${testFlightLink}) uygulamasını iTunes\'a indirin ve ardından Okuna uygulamasını (${iosLink}) indirin\n\nAndroid için Play Store\'dan indirin (${androidLink}).\n\nİkinci olarak, bu kişiselleştirilmiş davet bağlantısını Okuna Uygulamasındaki \'Kayıt ol\' formuna yapıştırın: ${inviteLink}";
+  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Hey, seni H2Pro3\'ya davet etmek istiyorum.\n\nApple için, önce TestFlight (${testFlightLink}) uygulamasını iTunes\'a indirin ve ardından H2Pro3 uygulamasını (${iosLink}) indirin\n\nAndroid için Play Store\'dan indirin (${androidLink}).\n\nİkinci olarak, bu kişiselleştirilmiş davet bağlantısını H2Pro3 Uygulamasındaki \'Kayıt ol\' formuna yapıştırın: ${inviteLink}";
 
   static m51(username) => "@${username} kullanıcı adı ile katıldı";
 
@@ -131,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m55(maxLength) => "Konum adı ${maxLength} karakterden daha uzun olamaz.";
 
-  static m56(age) => "On Okuna since ${age}";
+  static m56(age) => "On H2Pro3 since ${age}";
 
   static m57(takenConnectionsCircleName) => "Çevre adı \'${takenConnectionsCircleName}\' olarak alındı";
 
@@ -459,7 +459,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__help" : MessageLookupByLibrary.simpleMessage("Destek ve Geri Bildirim"),
     "drawer__lists" : MessageLookupByLibrary.simpleMessage("Listelerim"),
     "drawer__logout" : MessageLookupByLibrary.simpleMessage("Oturumu Kapat"),
-    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Benim Okuna\'m"),
+    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Benim H2Pro3\'m"),
     "drawer__menu_title" : MessageLookupByLibrary.simpleMessage("Menü"),
     "drawer__my_circles" : MessageLookupByLibrary.simpleMessage("Çevrelerim"),
     "drawer__my_followers" : MessageLookupByLibrary.simpleMessage("Takipçilerim"),
@@ -471,7 +471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__profile" : MessageLookupByLibrary.simpleMessage("Profil"),
     "drawer__settings" : MessageLookupByLibrary.simpleMessage("Ayarlar"),
     "drawer__themes" : MessageLookupByLibrary.simpleMessage("Temalar"),
-    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("Okuna\'nın ilkeleri"),
+    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("H2Pro3\'nın ilkeleri"),
     "drawer__useful_links_guidelines_bug_tracker" : MessageLookupByLibrary.simpleMessage("Hata izleyici"),
     "drawer__useful_links_guidelines_bug_tracker_desc" : MessageLookupByLibrary.simpleMessage("Bir hata rapor edin veya var olan hataları oylayın"),
     "drawer__useful_links_guidelines_desc" : MessageLookupByLibrary.simpleMessage("Hepinizin sağlıklı ve dostça bir ortak varlığınızı korumak için izlemeniz gereken kurallar."),
@@ -479,11 +479,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__useful_links_guidelines_feature_requests_desc" : MessageLookupByLibrary.simpleMessage("Bir özellik isteyin veya var olan istekleri oylayın"),
     "drawer__useful_links_guidelines_github" : MessageLookupByLibrary.simpleMessage("Github proje panosu"),
     "drawer__useful_links_guidelines_github_desc" : MessageLookupByLibrary.simpleMessage("Şu anda üzerinde çalıştığımıza bir göz atın"),
-    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("Okuna el kitabı"),
+    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("H2Pro3 el kitabı"),
     "drawer__useful_links_guidelines_handbook_desc" : MessageLookupByLibrary.simpleMessage("Platformu kullanma hakkında bilmeniz gereken her şeyi içeren bir kitap"),
     "drawer__useful_links_slack_channel" : MessageLookupByLibrary.simpleMessage("Topluluk çözüm kanalı"),
-    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("Okuna hakkında her şeyi tartışacağınız bir yer"),
-    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Okuna Destek"),
+    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("H2Pro3 hakkında her şeyi tartışacağınız bir yer"),
+    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("H2Pro3 Destek"),
     "drawer__useful_links_support_desc" : MessageLookupByLibrary.simpleMessage("Yolculuğumuzda bizi destekleyebilecek bir yönteme bakın!"),
     "drawer__useful_links_title" : MessageLookupByLibrary.simpleMessage("Faydalı bağlantılar"),
     "error__no_internet_connection" : MessageLookupByLibrary.simpleMessage("İnternet bağlantısı yok"),
@@ -507,7 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__confirm_report_post_reported" : MessageLookupByLibrary.simpleMessage("Gönderi bildirildi"),
     "moderation__confirm_report_provide_details" : MessageLookupByLibrary.simpleMessage("Raporla alakalı olabilecek ilave detaylar verebilir misiniz?"),
     "moderation__confirm_report_provide_happen_next" : MessageLookupByLibrary.simpleMessage("İşte bundan sonra ne olacak:"),
-    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("-Raporunuz isimsiz olarak gönderilecektir. \n-Bir gönderi veya yorum bildiriyorsanız, rapor Okuna çalışanına ve varsa topluluk moderatörlerine gönderilecek ve gönderi yayınınızdan gizlenecektir \n- Bir hesap veya topluluğu rapor ediyorsanız, Okuna çalışanına gönderilir. \n- Onaylanırsa, içerik silinecek ve hesabın silinmesinden raporun ciddiyetine bağlı olarak belirli saatlere kadar askıya alınmasına karar verilir ve kişilere verilen cezalar gözden geçirilir. \n- Raporun platformdaki başka bir üyeye veya topluluğa zarar vermek amacıyla belirtilen nedenle herhangi bir ihlal yapılmadığı tespit edilirse, cezalar size uygulanacaktır.\n"),
+    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("-Raporunuz isimsiz olarak gönderilecektir. \n-Bir gönderi veya yorum bildiriyorsanız, rapor H2Pro3 çalışanına ve varsa topluluk moderatörlerine gönderilecek ve gönderi yayınınızdan gizlenecektir \n- Bir hesap veya topluluğu rapor ediyorsanız, H2Pro3 çalışanına gönderilir. \n- Onaylanırsa, içerik silinecek ve hesabın silinmesinden raporun ciddiyetine bağlı olarak belirli saatlere kadar askıya alınmasına karar verilir ve kişilere verilen cezalar gözden geçirilir. \n- Raporun platformdaki başka bir üyeye veya topluluğa zarar vermek amacıyla belirtilen nedenle herhangi bir ihlal yapılmadığı tespit edilirse, cezalar size uygulanacaktır.\n"),
     "moderation__confirm_report_provide_optional_hint_text" : MessageLookupByLibrary.simpleMessage("Buraya yaz..."),
     "moderation__confirm_report_provide_optional_info" : MessageLookupByLibrary.simpleMessage("(İsteğe Bağlı)"),
     "moderation__confirm_report_submit" : MessageLookupByLibrary.simpleMessage("Anladım, gönder."),
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__moderated_object_title" : MessageLookupByLibrary.simpleMessage("Nesne"),
     "moderation__moderated_object_true_text" : MessageLookupByLibrary.simpleMessage("Doğru"),
     "moderation__moderated_object_verified" : MessageLookupByLibrary.simpleMessage("Doğrulandı"),
-    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Okuna çalışanı tarafından doğrulandı"),
+    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("H2Pro3 çalışanı tarafından doğrulandı"),
     "moderation__my_moderation_penalties_resouce_singular" : MessageLookupByLibrary.simpleMessage("moderasyon cezası"),
     "moderation__my_moderation_penalties_resource_plural" : MessageLookupByLibrary.simpleMessage("moderasyon cezaları"),
     "moderation__my_moderation_penalties_title" : MessageLookupByLibrary.simpleMessage("Moderasyon cezaları"),
@@ -795,7 +795,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "user__confirm_guidelines_reject_chat_with_team" : MessageLookupByLibrary.simpleMessage("Ekiple sohbet et."),
     "user__confirm_guidelines_reject_delete_account" : MessageLookupByLibrary.simpleMessage("Hesabı sil"),
     "user__confirm_guidelines_reject_go_back" : MessageLookupByLibrary.simpleMessage("Geri dön"),
-    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Kuralları kabul edene kadar Okuna\'yı kullanamazsınız."),
+    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Kuralları kabul edene kadar H2Pro3\'yı kullanamazsınız."),
     "user__confirm_guidelines_reject_join_slack" : MessageLookupByLibrary.simpleMessage("Çözüm kanalına katılın."),
     "user__confirm_guidelines_reject_title" : MessageLookupByLibrary.simpleMessage("Kurallar Redded"),
     "user__connect_to_user_add_connection" : MessageLookupByLibrary.simpleMessage("Çevrene bağlantı ekle"),

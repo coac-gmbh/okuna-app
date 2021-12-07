@@ -119,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m49(groupName) => "Visa alla ${groupName}";
 
-  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Hej, jag vill bjuda in dig till Okuna.\n\nFör Apple, ladda först ner TestFlight-appen från iTunes (${testFlightLink}) och ladda sedan ner Okuna-appen (${iosLink}).\n\nFör Android, ladda ner Okuna-appen från Play Store (${androidLink}).\n\nEfter det så klistrar du in den här personliga inbjudningslänken i \'Registrera dig\'-formuläret i Okuna-appen: ${inviteLink}";
+  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Hej, jag vill bjuda in dig till H2Pro3.\n\nFör Apple, ladda först ner TestFlight-appen från iTunes (${testFlightLink}) och ladda sedan ner H2Pro3-appen (${iosLink}).\n\nFör Android, ladda ner H2Pro3-appen från Play Store (${androidLink}).\n\nEfter det så klistrar du in den här personliga inbjudningslänken i \'Registrera dig\'-formuläret i H2Pro3-appen: ${inviteLink}";
 
   static m51(username) => "Gick med under användarnamnet @${username}";
 
@@ -131,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m55(maxLength) => "En plats kan inte vara längre än ${maxLength} tecken.";
 
-  static m56(age) => "På Okuna sedan ${age}";
+  static m56(age) => "På H2Pro3 sedan ${age}";
 
   static m57(takenConnectionsCircleName) => "Kretsnamnet \'${takenConnectionsCircleName}\' är upptaget";
 
@@ -213,7 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "auth__create_acc__password_empty_error" : MessageLookupByLibrary.simpleMessage("😱 Du måste ange ett lösenord"),
     "auth__create_acc__password_length_error" : MessageLookupByLibrary.simpleMessage("😅 Ett lösenord måste vara mellan 8 och 64 tecken."),
     "auth__create_acc__paste_link" : MessageLookupByLibrary.simpleMessage("Klistra in din registreringslänk nedan"),
-    "auth__create_acc__paste_link_help_text" : MessageLookupByLibrary.simpleMessage("Använd länken från Join Okuna-knappen i din inbjudan."),
+    "auth__create_acc__paste_link_help_text" : MessageLookupByLibrary.simpleMessage("Använd länken från Join H2Pro3-knappen i din inbjudan."),
     "auth__create_acc__paste_password_reset_link" : MessageLookupByLibrary.simpleMessage("Klistra in din lösenordsåterställningslänk nedan"),
     "auth__create_acc__previous" : MessageLookupByLibrary.simpleMessage("Tillbaka"),
     "auth__create_acc__register" : MessageLookupByLibrary.simpleMessage("Registrera"),
@@ -459,7 +459,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__help" : MessageLookupByLibrary.simpleMessage("Hjälp och feedback"),
     "drawer__lists" : MessageLookupByLibrary.simpleMessage("Mina listor"),
     "drawer__logout" : MessageLookupByLibrary.simpleMessage("Logga ut"),
-    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Mitt Okuna"),
+    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Mitt H2Pro3"),
     "drawer__menu_title" : MessageLookupByLibrary.simpleMessage("Meny"),
     "drawer__my_circles" : MessageLookupByLibrary.simpleMessage("Mina cirklar"),
     "drawer__my_followers" : MessageLookupByLibrary.simpleMessage("Mina följare"),
@@ -471,7 +471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__profile" : MessageLookupByLibrary.simpleMessage("Profil"),
     "drawer__settings" : MessageLookupByLibrary.simpleMessage("Inställningar"),
     "drawer__themes" : MessageLookupByLibrary.simpleMessage("Teman"),
-    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("Okunas riktlinjer"),
+    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("H2Pro3s riktlinjer"),
     "drawer__useful_links_guidelines_bug_tracker" : MessageLookupByLibrary.simpleMessage("Felrapportering"),
     "drawer__useful_links_guidelines_bug_tracker_desc" : MessageLookupByLibrary.simpleMessage("Rapportera ett fel eller rösta för existerande rapporter"),
     "drawer__useful_links_guidelines_desc" : MessageLookupByLibrary.simpleMessage("Riktlinjerna vi alla förväntas att följa för en hälsosam och vänlig samvaro."),
@@ -479,11 +479,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__useful_links_guidelines_feature_requests_desc" : MessageLookupByLibrary.simpleMessage("Föreslå en ny funktion eller rösta för existerande förslag"),
     "drawer__useful_links_guidelines_github" : MessageLookupByLibrary.simpleMessage("Projekttavla på Github"),
     "drawer__useful_links_guidelines_github_desc" : MessageLookupByLibrary.simpleMessage("Ta en titt på vad vi arbetar på just nu"),
-    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("Okunas handbok"),
+    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("H2Pro3s handbok"),
     "drawer__useful_links_guidelines_handbook_desc" : MessageLookupByLibrary.simpleMessage("En bok med allt du behöver veta om att använda plattformen"),
     "drawer__useful_links_slack_channel" : MessageLookupByLibrary.simpleMessage("Gemenskapens Slack-kanal"),
-    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("En plats för diskussioner om allt om Okuna"),
-    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Stöd Okuna"),
+    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("En plats för diskussioner om allt om H2Pro3"),
+    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Stöd H2Pro3"),
     "drawer__useful_links_support_desc" : MessageLookupByLibrary.simpleMessage("Hitta ett sätt på vilket du kan hjälpa oss under vår resa!"),
     "drawer__useful_links_title" : MessageLookupByLibrary.simpleMessage("Användbara länkar"),
     "error__no_internet_connection" : MessageLookupByLibrary.simpleMessage("Ingen internetuppkoppling"),
@@ -507,7 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__confirm_report_post_reported" : MessageLookupByLibrary.simpleMessage("Inlägg anmält"),
     "moderation__confirm_report_provide_details" : MessageLookupByLibrary.simpleMessage("Kan du delge extra information som kan vara relevant för anmälan?"),
     "moderation__confirm_report_provide_happen_next" : MessageLookupByLibrary.simpleMessage("Detta kommer hända härnäst:"),
-    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- Din anmälan skickas in anonymt.\n- Om du anmäler ett inlägg eller en kommentar så kommer anmälan skickas till Okunas personal och, om tillämpligt, gemenskapens moderatorer, och inlägget kommer döljas från ditt flöde.\n- Om du anmäler ett konto eller en gemenskap kommer anmälan skickas till Okunas personal.\n- Vi granskar anmälan och om den godkänns kommer innehållet tas bort och straff utmätas till de som är inblandade, från tillfällig avstängning till borttagning av konto beroende på hur allvarlig överträdelsen var.\n- Om anmälan bedöms vara gjord för att försöka skada en annan medlem eller gemenskap på plattformen utan att den angivna överträdelsen har skett kommer straff istället utmätas mot dig. \n"),
+    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- Din anmälan skickas in anonymt.\n- Om du anmäler ett inlägg eller en kommentar så kommer anmälan skickas till H2Pro3s personal och, om tillämpligt, gemenskapens moderatorer, och inlägget kommer döljas från ditt flöde.\n- Om du anmäler ett konto eller en gemenskap kommer anmälan skickas till H2Pro3s personal.\n- Vi granskar anmälan och om den godkänns kommer innehållet tas bort och straff utmätas till de som är inblandade, från tillfällig avstängning till borttagning av konto beroende på hur allvarlig överträdelsen var.\n- Om anmälan bedöms vara gjord för att försöka skada en annan medlem eller gemenskap på plattformen utan att den angivna överträdelsen har skett kommer straff istället utmätas mot dig. \n"),
     "moderation__confirm_report_provide_optional_hint_text" : MessageLookupByLibrary.simpleMessage("Skriv här..."),
     "moderation__confirm_report_provide_optional_info" : MessageLookupByLibrary.simpleMessage("(Valfritt)"),
     "moderation__confirm_report_submit" : MessageLookupByLibrary.simpleMessage("Jag förstår, skicka."),
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__moderated_object_title" : MessageLookupByLibrary.simpleMessage("Objekt"),
     "moderation__moderated_object_true_text" : MessageLookupByLibrary.simpleMessage("Sant"),
     "moderation__moderated_object_verified" : MessageLookupByLibrary.simpleMessage("Verifierad"),
-    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Verifierad av Okunas personal"),
+    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Verifierad av H2Pro3s personal"),
     "moderation__my_moderation_penalties_resouce_singular" : MessageLookupByLibrary.simpleMessage("modereringsstraff"),
     "moderation__my_moderation_penalties_resource_plural" : MessageLookupByLibrary.simpleMessage("modereringsstraff"),
     "moderation__my_moderation_penalties_title" : MessageLookupByLibrary.simpleMessage("Modereringsstraff"),
@@ -795,7 +795,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "user__confirm_guidelines_reject_chat_with_team" : MessageLookupByLibrary.simpleMessage("Chatta med teamet."),
     "user__confirm_guidelines_reject_delete_account" : MessageLookupByLibrary.simpleMessage("Ta bort konto"),
     "user__confirm_guidelines_reject_go_back" : MessageLookupByLibrary.simpleMessage("Tillbaka"),
-    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Du kan inte använda Okuna förrän du har godkänt riktlinjerna."),
+    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Du kan inte använda H2Pro3 förrän du har godkänt riktlinjerna."),
     "user__confirm_guidelines_reject_join_slack" : MessageLookupByLibrary.simpleMessage("Gå med i Slack-kanalen."),
     "user__confirm_guidelines_reject_title" : MessageLookupByLibrary.simpleMessage("Avvisande av riktlinjer"),
     "user__connect_to_user_add_connection" : MessageLookupByLibrary.simpleMessage("Lägg till kontakt i krets"),

@@ -119,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m49(groupName) => "Ver ${groupName}";
 
-  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Ei, eu gostaria de convidar você para a rede social Okuna.\n\nSe tiver iOS, primeiro, baixe o aplicativo TestFlight na App Store (${testFlightLink}) e, em seguida, baixe o aplicativo Okuna (${iosLink})\n\nSe tiver Android, faça o download na Play Store (${androidLink}).\n\nDepois, cole este link de convite personalizado no formulário \'Cadastrar-se\' no aplicativo Okuna: ${inviteLink}";
+  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Ei, eu gostaria de convidar você para a rede social H2Pro3.\n\nSe tiver iOS, primeiro, baixe o aplicativo TestFlight na App Store (${testFlightLink}) e, em seguida, baixe o aplicativo H2Pro3 (${iosLink})\n\nSe tiver Android, faça o download na Play Store (${androidLink}).\n\nDepois, cole este link de convite personalizado no formulário \'Cadastrar-se\' no aplicativo H2Pro3: ${inviteLink}";
 
   static m51(username) => "Entrou com o nome de usuário @${username}";
 
@@ -131,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m55(maxLength) => "O local não pode ser maior que ${maxLength} caracteres.";
 
-  static m56(age) => "Na Okuna desde ${age}";
+  static m56(age) => "Na H2Pro3 desde ${age}";
 
   static m57(takenConnectionsCircleName) => "O nome de círculo \'${takenConnectionsCircleName}\' já está em uso";
 
@@ -459,7 +459,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__help" : MessageLookupByLibrary.simpleMessage("Suporte e Feedback"),
     "drawer__lists" : MessageLookupByLibrary.simpleMessage("Minhas listas"),
     "drawer__logout" : MessageLookupByLibrary.simpleMessage("Sair"),
-    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Okuna"),
+    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("H2Pro3"),
     "drawer__menu_title" : MessageLookupByLibrary.simpleMessage("Menu"),
     "drawer__my_circles" : MessageLookupByLibrary.simpleMessage("Meus círculos"),
     "drawer__my_followers" : MessageLookupByLibrary.simpleMessage("Meus seguidores"),
@@ -471,7 +471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__profile" : MessageLookupByLibrary.simpleMessage("Perfil"),
     "drawer__settings" : MessageLookupByLibrary.simpleMessage("Configurações"),
     "drawer__themes" : MessageLookupByLibrary.simpleMessage("Temas"),
-    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("Diretrizes da Okuna"),
+    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("Diretrizes da H2Pro3"),
     "drawer__useful_links_guidelines_bug_tracker" : MessageLookupByLibrary.simpleMessage("Rastreador de bugs"),
     "drawer__useful_links_guidelines_bug_tracker_desc" : MessageLookupByLibrary.simpleMessage("Reportar um bug ou votar em bugs existentes"),
     "drawer__useful_links_guidelines_desc" : MessageLookupByLibrary.simpleMessage("As diretrizes que todos esperamos seguir para uma coexistência saudável e amigável."),
@@ -479,11 +479,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__useful_links_guidelines_feature_requests_desc" : MessageLookupByLibrary.simpleMessage("Sugerir um recurso ou votar em sugestões existentes"),
     "drawer__useful_links_guidelines_github" : MessageLookupByLibrary.simpleMessage("Projeto no Github"),
     "drawer__useful_links_guidelines_github_desc" : MessageLookupByLibrary.simpleMessage("Dê uma olhada no que estamos trabalhando atualmente"),
-    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("Manual da Okuna"),
+    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("Manual da H2Pro3"),
     "drawer__useful_links_guidelines_handbook_desc" : MessageLookupByLibrary.simpleMessage("Um manual para aprender tudo sobre o uso da plataforma"),
     "drawer__useful_links_slack_channel" : MessageLookupByLibrary.simpleMessage("Canal da comunidade no Slack"),
-    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("Um lugar para discutir tudo sobre a Okuna"),
-    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Apoie a Okuna"),
+    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("Um lugar para discutir tudo sobre a H2Pro3"),
+    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Apoie a H2Pro3"),
     "drawer__useful_links_support_desc" : MessageLookupByLibrary.simpleMessage("Encontre uma maneira de nos apoiar em nossa jornada!"),
     "drawer__useful_links_title" : MessageLookupByLibrary.simpleMessage("Links úteis"),
     "error__no_internet_connection" : MessageLookupByLibrary.simpleMessage("Sem conexão com a internet"),
@@ -507,7 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__confirm_report_post_reported" : MessageLookupByLibrary.simpleMessage("Publicação denunciada"),
     "moderation__confirm_report_provide_details" : MessageLookupByLibrary.simpleMessage("Você pode fornecer mais detalhes relevantes para a denúncia?"),
     "moderation__confirm_report_provide_happen_next" : MessageLookupByLibrary.simpleMessage("Aqui está o que acontecerá a seguir:"),
-    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- Sua denúncia será enviada anonimamente. \n- Se você estiver denunciando uma publicação ou comentário, a denúncia será enviada à equipe da Okuna e aos moderadores da comunidade (se aplicável), e o conteúdo denunciado ficará oculto do seu feed. \n- Se você estiver denunciando uma conta ou comunidade, a denúncia será enviada para a equipe da Okuna. \n- Vamos analisar a denúncia e, se aprovada, o conteúdo será excluído e as penalidades serão aplicadas às pessoas envolvidas, desde uma suspensão temporária até a exclusão da conta, dependendo da gravidade da transgressão. \n- Se a denúncia for apenas uma tentativa de prejudicar um membro ou comunidade que não cometeu a infração apontada por você, as penalidades serão aplicadas a você. \n"),
+    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- Sua denúncia será enviada anonimamente. \n- Se você estiver denunciando uma publicação ou comentário, a denúncia será enviada à equipe da H2Pro3 e aos moderadores da comunidade (se aplicável), e o conteúdo denunciado ficará oculto do seu feed. \n- Se você estiver denunciando uma conta ou comunidade, a denúncia será enviada para a equipe da H2Pro3. \n- Vamos analisar a denúncia e, se aprovada, o conteúdo será excluído e as penalidades serão aplicadas às pessoas envolvidas, desde uma suspensão temporária até a exclusão da conta, dependendo da gravidade da transgressão. \n- Se a denúncia for apenas uma tentativa de prejudicar um membro ou comunidade que não cometeu a infração apontada por você, as penalidades serão aplicadas a você. \n"),
     "moderation__confirm_report_provide_optional_hint_text" : MessageLookupByLibrary.simpleMessage("Digite aqui..."),
     "moderation__confirm_report_provide_optional_info" : MessageLookupByLibrary.simpleMessage("(Opcional)"),
     "moderation__confirm_report_submit" : MessageLookupByLibrary.simpleMessage("Eu entendo, envie."),
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__moderated_object_title" : MessageLookupByLibrary.simpleMessage("Objeto"),
     "moderation__moderated_object_true_text" : MessageLookupByLibrary.simpleMessage("Verdadeiro"),
     "moderation__moderated_object_verified" : MessageLookupByLibrary.simpleMessage("Verificado"),
-    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Verificado pela equipe da Okuna"),
+    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Verificado pela equipe da H2Pro3"),
     "moderation__my_moderation_penalties_resouce_singular" : MessageLookupByLibrary.simpleMessage("penalidade de moderação"),
     "moderation__my_moderation_penalties_resource_plural" : MessageLookupByLibrary.simpleMessage("penalidades de moderação"),
     "moderation__my_moderation_penalties_title" : MessageLookupByLibrary.simpleMessage("Penalidades de moderação"),
@@ -795,7 +795,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "user__confirm_guidelines_reject_chat_with_team" : MessageLookupByLibrary.simpleMessage("Converse com a equipe."),
     "user__confirm_guidelines_reject_delete_account" : MessageLookupByLibrary.simpleMessage("Excluir a minha conta"),
     "user__confirm_guidelines_reject_go_back" : MessageLookupByLibrary.simpleMessage("Voltar"),
-    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Você não pode usar a Okuna até aceitar as diretrizes."),
+    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Você não pode usar a H2Pro3 até aceitar as diretrizes."),
     "user__confirm_guidelines_reject_join_slack" : MessageLookupByLibrary.simpleMessage("Junte-se ao canal no Slack."),
     "user__confirm_guidelines_reject_title" : MessageLookupByLibrary.simpleMessage("Rejeição das diretrizes"),
     "user__connect_to_user_add_connection" : MessageLookupByLibrary.simpleMessage("Adicionar conexão ao círculo"),

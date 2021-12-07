@@ -119,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m49(groupName) => "Zie alle ${groupName}";
 
-  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Hey, ik wil u uitnodigen voor Okuna.\n\nVoor Apple, eerst, download de TestFlight app op iTunes (${testFlightLink}) en download dan de Okuna app (${iosLink})\n\nvoor Android, download het uit de Play store (${androidLink}).\n\nseconde, plak deze persoonlijke uitnodiging in het formulier \'Aanmelden\' in de Okuna App: ${inviteLink}";
+  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Hey, ik wil u uitnodigen voor H2Pro3.\n\nVoor Apple, eerst, download de TestFlight app op iTunes (${testFlightLink}) en download dan de H2Pro3 app (${iosLink})\n\nvoor Android, download het uit de Play store (${androidLink}).\n\nseconde, plak deze persoonlijke uitnodiging in het formulier \'Aanmelden\' in de H2Pro3 App: ${inviteLink}";
 
   static m51(username) => "Doet mee met gebruikersnaam @${username}";
 
@@ -131,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m55(maxLength) => "De locatie mag niet langer zijn dan ${maxLength} tekens.";
 
-  static m56(age) => "Op Okuna sinds ${age}";
+  static m56(age) => "Op H2Pro3 sinds ${age}";
 
   static m57(takenConnectionsCircleName) => "De naam van de cirkel ‘${takenConnectionsCircleName}’ is al bezet";
 
@@ -213,7 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "auth__create_acc__password_empty_error" : MessageLookupByLibrary.simpleMessage("😱 Je wachtwoord kan niet leeg zijn"),
     "auth__create_acc__password_length_error" : MessageLookupByLibrary.simpleMessage("😅 Een wachtwoord moet tussen 8 en 64 karakters zijn."),
     "auth__create_acc__paste_link" : MessageLookupByLibrary.simpleMessage("Plak uw registratie link hieronder"),
-    "auth__create_acc__paste_link_help_text" : MessageLookupByLibrary.simpleMessage("Gebruik de link van de Join Okuna knop in uw uitnodigingsmail."),
+    "auth__create_acc__paste_link_help_text" : MessageLookupByLibrary.simpleMessage("Gebruik de link van de Join H2Pro3 knop in uw uitnodigingsmail."),
     "auth__create_acc__paste_password_reset_link" : MessageLookupByLibrary.simpleMessage("Plak uw wachtwoord herstel-link hieronder"),
     "auth__create_acc__previous" : MessageLookupByLibrary.simpleMessage("Terug"),
     "auth__create_acc__register" : MessageLookupByLibrary.simpleMessage("Registreren"),
@@ -459,7 +459,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__help" : MessageLookupByLibrary.simpleMessage("Ondersteuning & Feedback"),
     "drawer__lists" : MessageLookupByLibrary.simpleMessage("Mijn lijsten"),
     "drawer__logout" : MessageLookupByLibrary.simpleMessage("Afmelden"),
-    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Mijn Okuna"),
+    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Mijn H2Pro3"),
     "drawer__menu_title" : MessageLookupByLibrary.simpleMessage("Menu"),
     "drawer__my_circles" : MessageLookupByLibrary.simpleMessage("Mijn cirkels"),
     "drawer__my_followers" : MessageLookupByLibrary.simpleMessage("Mijn volgers"),
@@ -471,7 +471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__profile" : MessageLookupByLibrary.simpleMessage("Profiel"),
     "drawer__settings" : MessageLookupByLibrary.simpleMessage("Instellingen"),
     "drawer__themes" : MessageLookupByLibrary.simpleMessage("Thema’s"),
-    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("Okuna richtlijnen"),
+    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("H2Pro3 richtlijnen"),
     "drawer__useful_links_guidelines_bug_tracker" : MessageLookupByLibrary.simpleMessage("Bug Tracker"),
     "drawer__useful_links_guidelines_bug_tracker_desc" : MessageLookupByLibrary.simpleMessage("Meld een bug of stem op een bestaande"),
     "drawer__useful_links_guidelines_desc" : MessageLookupByLibrary.simpleMessage("De richtlijnen die we allemaal horen te volgen voor een gezond en gezellig samenzijn."),
@@ -479,11 +479,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__useful_links_guidelines_feature_requests_desc" : MessageLookupByLibrary.simpleMessage("Vraag een feature aan of stem op een bestaande"),
     "drawer__useful_links_guidelines_github" : MessageLookupByLibrary.simpleMessage("Github projectbord"),
     "drawer__useful_links_guidelines_github_desc" : MessageLookupByLibrary.simpleMessage("Kijk eens naar waar we nu aan werken"),
-    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("Okuna gebruikershandleiding"),
+    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("H2Pro3 gebruikershandleiding"),
     "drawer__useful_links_guidelines_handbook_desc" : MessageLookupByLibrary.simpleMessage("Een website met alles wat er te weten is over het gebruik van het platform"),
     "drawer__useful_links_slack_channel" : MessageLookupByLibrary.simpleMessage("Slack kanaal voor de community"),
-    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("Een plek om alles te bespreken over Okuna"),
-    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Okuna ondersteunen"),
+    "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("Een plek om alles te bespreken over H2Pro3"),
+    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("H2Pro3 ondersteunen"),
     "drawer__useful_links_support_desc" : MessageLookupByLibrary.simpleMessage("Vind een manier om ons te steunen op onze reis!"),
     "drawer__useful_links_title" : MessageLookupByLibrary.simpleMessage("Handige links"),
     "error__no_internet_connection" : MessageLookupByLibrary.simpleMessage("Geen internet verbinding"),
@@ -507,7 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__confirm_report_post_reported" : MessageLookupByLibrary.simpleMessage("Gemelde post"),
     "moderation__confirm_report_provide_details" : MessageLookupByLibrary.simpleMessage("Kun je aanvullende details verstrekken die wellicht relevant zijn voor de melding?"),
     "moderation__confirm_report_provide_happen_next" : MessageLookupByLibrary.simpleMessage("Dit is de volgende stap:"),
-    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- Je melding zal anoniem ingediend worden.\n- Als je een post of commentaar meldt, zal de melding aan medewerkers van Okuna en indien van toepassing aan de community moderators gestuurd worden. De post zal niet zichtbaar zijn in je tijdlijn.\n- Als je een account of community aanmeldt, zal deze naar medewerkers van Okuna gestuurd worden.\n- We zullen het bekijken en indien mee eens, zal de content verwijderd worden. Daarnaast zullen sancties uitgedeeld worden aan de mensen die betrokken zijn. Deze sancties variëren van een tijdelijke schorsing tot het verwijderen van het account, afhankelijk van de ernst van de overtreding. \n- Als de melding wordt gedaan in een poging om de reputatie van een ander lid of een andere gemeenschap in het platform te schaden zonder dat er sprake is van een inbreuk op de vermelde grond, zullen er sancties aan u worden opgelegd. \n"),
+    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- Je melding zal anoniem ingediend worden.\n- Als je een post of commentaar meldt, zal de melding aan medewerkers van H2Pro3 en indien van toepassing aan de community moderators gestuurd worden. De post zal niet zichtbaar zijn in je tijdlijn.\n- Als je een account of community aanmeldt, zal deze naar medewerkers van H2Pro3 gestuurd worden.\n- We zullen het bekijken en indien mee eens, zal de content verwijderd worden. Daarnaast zullen sancties uitgedeeld worden aan de mensen die betrokken zijn. Deze sancties variëren van een tijdelijke schorsing tot het verwijderen van het account, afhankelijk van de ernst van de overtreding. \n- Als de melding wordt gedaan in een poging om de reputatie van een ander lid of een andere gemeenschap in het platform te schaden zonder dat er sprake is van een inbreuk op de vermelde grond, zullen er sancties aan u worden opgelegd. \n"),
     "moderation__confirm_report_provide_optional_hint_text" : MessageLookupByLibrary.simpleMessage("Typ hier..."),
     "moderation__confirm_report_provide_optional_info" : MessageLookupByLibrary.simpleMessage("(Optioneel)"),
     "moderation__confirm_report_submit" : MessageLookupByLibrary.simpleMessage("Ik begrijp het en dien in."),
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__moderated_object_title" : MessageLookupByLibrary.simpleMessage("Object"),
     "moderation__moderated_object_true_text" : MessageLookupByLibrary.simpleMessage("Waar"),
     "moderation__moderated_object_verified" : MessageLookupByLibrary.simpleMessage("Geverifieerd"),
-    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Geverifieerd door Okuna staf"),
+    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Geverifieerd door H2Pro3 staf"),
     "moderation__my_moderation_penalties_resouce_singular" : MessageLookupByLibrary.simpleMessage("strafpunt"),
     "moderation__my_moderation_penalties_resource_plural" : MessageLookupByLibrary.simpleMessage("strafpunten"),
     "moderation__my_moderation_penalties_title" : MessageLookupByLibrary.simpleMessage("Strafpunten"),
@@ -795,7 +795,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "user__confirm_guidelines_reject_chat_with_team" : MessageLookupByLibrary.simpleMessage("Met het team chatten."),
     "user__confirm_guidelines_reject_delete_account" : MessageLookupByLibrary.simpleMessage("Verwijder account"),
     "user__confirm_guidelines_reject_go_back" : MessageLookupByLibrary.simpleMessage("Terug"),
-    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Je kunt Okuna niet gebruiken totdat je de richtlijnen accepteert."),
+    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Je kunt H2Pro3 niet gebruiken totdat je de richtlijnen accepteert."),
     "user__confirm_guidelines_reject_join_slack" : MessageLookupByLibrary.simpleMessage("Neem deel aan het Slack-kanaal."),
     "user__confirm_guidelines_reject_title" : MessageLookupByLibrary.simpleMessage("Afwijzing van richtlijnen"),
     "user__connect_to_user_add_connection" : MessageLookupByLibrary.simpleMessage("Voeg connectie toe aan de cirkel"),

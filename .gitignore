@@ -16,6 +16,7 @@ android/app/google-services.json
 Appfile
 report.xml
 /crowdin.yml
+local/
 
 
 .flutter-plugins-dependencies

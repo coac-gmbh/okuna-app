@@ -119,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m49(groupName) => "Vedi tutti/e ${groupName}";
 
-  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Ehi, vorrei invitarti su Okuna.\n\nPer Apple, prima scarica l\'app TestFlight su iTunes (${testFlightLink}) e poi scarica l\'app Okuna (${iosLink})\n\nPer Android, scaricala dal Play store (${androidLink}).\n\nIn seguito, incolla questo link di invito personalizzato nel modulo \'Iscriviti\' nell\'App Okuna: ${inviteLink}";
+  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Ehi, vorrei invitarti su H2Pro3.\n\nPer Apple, prima scarica l\'app TestFlight su iTunes (${testFlightLink}) e poi scarica l\'app H2Pro3 (${iosLink})\n\nPer Android, scaricala dal Play store (${androidLink}).\n\nIn seguito, incolla questo link di invito personalizzato nel modulo \'Iscriviti\' nell\'App H2Pro3: ${inviteLink}";
 
   static m51(username) => "Iscritto con nome utente @${username}";
 
@@ -131,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m55(maxLength) => "Il luogo non può essere più lungo di ${maxLength} caratteri.";
 
-  static m56(age) => "Su Okuna dal ${age}";
+  static m56(age) => "Su H2Pro3 dal ${age}";
 
   static m57(takenConnectionsCircleName) => "Nome cerchia \'${takenConnectionsCircleName}\' già utilizzato";
 
@@ -213,7 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "auth__create_acc__password_empty_error" : MessageLookupByLibrary.simpleMessage("😱 La tua password non può essere vuota"),
     "auth__create_acc__password_length_error" : MessageLookupByLibrary.simpleMessage("😅 La password deve essere compresa tra 8 e 64 caratteri."),
     "auth__create_acc__paste_link" : MessageLookupByLibrary.simpleMessage("Incolla il link di registrazione qui sotto"),
-    "auth__create_acc__paste_link_help_text" : MessageLookupByLibrary.simpleMessage("Usa il link dal pulsante Join Okuna nella tua email di invito."),
+    "auth__create_acc__paste_link_help_text" : MessageLookupByLibrary.simpleMessage("Usa il link dal pulsante Join H2Pro3 nella tua email di invito."),
     "auth__create_acc__paste_password_reset_link" : MessageLookupByLibrary.simpleMessage("Incolla il link di reset della password qui sotto"),
     "auth__create_acc__previous" : MessageLookupByLibrary.simpleMessage("Indietro"),
     "auth__create_acc__register" : MessageLookupByLibrary.simpleMessage("Iscriviti"),
@@ -459,7 +459,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__help" : MessageLookupByLibrary.simpleMessage("Assistenza & Feedback"),
     "drawer__lists" : MessageLookupByLibrary.simpleMessage("Liste"),
     "drawer__logout" : MessageLookupByLibrary.simpleMessage("Disconnetti"),
-    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Okuna"),
+    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("H2Pro3"),
     "drawer__menu_title" : MessageLookupByLibrary.simpleMessage("Menu"),
     "drawer__my_circles" : MessageLookupByLibrary.simpleMessage("Cerchie"),
     "drawer__my_followers" : MessageLookupByLibrary.simpleMessage("Follower"),
@@ -483,7 +483,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__useful_links_guidelines_handbook_desc" : MessageLookupByLibrary.simpleMessage("Un manuale con tutto quello che c\'è da sapere sull\'utilizzo della piattaforma"),
     "drawer__useful_links_slack_channel" : MessageLookupByLibrary.simpleMessage("Canale Slack della comunità"),
     "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("Un luogo dove discutere tutto riguardo Openspace"),
-    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Sostieni Okuna"),
+    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Sostieni H2Pro3"),
     "drawer__useful_links_support_desc" : MessageLookupByLibrary.simpleMessage("Trova un modo per sostenerci nel nostro viaggio!"),
     "drawer__useful_links_title" : MessageLookupByLibrary.simpleMessage("Link utili"),
     "error__no_internet_connection" : MessageLookupByLibrary.simpleMessage("Nessuna connessione Internet"),
@@ -507,7 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__confirm_report_post_reported" : MessageLookupByLibrary.simpleMessage("Post segnalato"),
     "moderation__confirm_report_provide_details" : MessageLookupByLibrary.simpleMessage("Puoi fornire ulteriori dettagli che potrebbero essere utili per la segnalazione?"),
     "moderation__confirm_report_provide_happen_next" : MessageLookupByLibrary.simpleMessage("Ecco cosa accadrà dopo:"),
-    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- La tua segnalazione sarà sottomessa in maniera anonima.\n- Se stai segnalando un post o commento, la segnalazione sarà inviata agli addetti Okuna e ai moderatori della comunità (dove applicabile), e il post sarà nascosto dal tuo feed.\n- Se stai segnalando un account o una comunità, sarà inviata agli addetti Okuna\n- Verificheremo la segnalazione, se approvata, il contenuto sarà eliminato e le penalizzazioni saranno assegnate alle persone coinvolte, variabili da una sospensione temporanea all\'eliminazione dell\'account, in base alla gravità della trasgressione. \n- Se la segnalazione risulterà fatta con lo scopo di danneggiare la reputazione di un altro membro o comunità della piattaforma, senza che le trasgressioni fossero veritiere, le penalizzazioni saranno applicate a te.\n"),
+    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- La tua segnalazione sarà sottomessa in maniera anonima.\n- Se stai segnalando un post o commento, la segnalazione sarà inviata agli addetti H2Pro3 e ai moderatori della comunità (dove applicabile), e il post sarà nascosto dal tuo feed.\n- Se stai segnalando un account o una comunità, sarà inviata agli addetti H2Pro3\n- Verificheremo la segnalazione, se approvata, il contenuto sarà eliminato e le penalizzazioni saranno assegnate alle persone coinvolte, variabili da una sospensione temporanea all\'eliminazione dell\'account, in base alla gravità della trasgressione. \n- Se la segnalazione risulterà fatta con lo scopo di danneggiare la reputazione di un altro membro o comunità della piattaforma, senza che le trasgressioni fossero veritiere, le penalizzazioni saranno applicate a te.\n"),
     "moderation__confirm_report_provide_optional_hint_text" : MessageLookupByLibrary.simpleMessage("Digita qui..."),
     "moderation__confirm_report_provide_optional_info" : MessageLookupByLibrary.simpleMessage("(Opzionale)"),
     "moderation__confirm_report_submit" : MessageLookupByLibrary.simpleMessage("Ho capito, invia la segnalazione."),
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__moderated_object_title" : MessageLookupByLibrary.simpleMessage("Oggetto"),
     "moderation__moderated_object_true_text" : MessageLookupByLibrary.simpleMessage("Vero"),
     "moderation__moderated_object_verified" : MessageLookupByLibrary.simpleMessage("Verificato"),
-    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Verificato dagli addetti Okuna"),
+    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Verificato dagli addetti H2Pro3"),
     "moderation__my_moderation_penalties_resouce_singular" : MessageLookupByLibrary.simpleMessage("sanzione moderazione"),
     "moderation__my_moderation_penalties_resource_plural" : MessageLookupByLibrary.simpleMessage("sanzioni moderazione"),
     "moderation__my_moderation_penalties_title" : MessageLookupByLibrary.simpleMessage("Sanzioni moderazione"),
@@ -795,7 +795,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "user__confirm_guidelines_reject_chat_with_team" : MessageLookupByLibrary.simpleMessage("Chatta con il team."),
     "user__confirm_guidelines_reject_delete_account" : MessageLookupByLibrary.simpleMessage("Elimina account"),
     "user__confirm_guidelines_reject_go_back" : MessageLookupByLibrary.simpleMessage("Torna indietro"),
-    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Non puoi usare Okuna finché non accetti le linee guida."),
+    "user__confirm_guidelines_reject_info" : MessageLookupByLibrary.simpleMessage("Non puoi usare H2Pro3 finché non accetti le linee guida."),
     "user__confirm_guidelines_reject_join_slack" : MessageLookupByLibrary.simpleMessage("Entra nel canale Slack."),
     "user__confirm_guidelines_reject_title" : MessageLookupByLibrary.simpleMessage("Rifiuto Linee guida"),
     "user__connect_to_user_add_connection" : MessageLookupByLibrary.simpleMessage("Aggiungi connessione alla cerchia"),

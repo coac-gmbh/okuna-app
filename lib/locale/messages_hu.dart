@@ -119,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m49(groupName) => "Összes ${groupName} megtekintése";
 
-  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Szia! Meg szeretnélek hívni az Okuna közösségi hálózatra.\n\niOS esetén először töltsd le a TestFlight alkalmazást az iTunes-ról (${testFlightLink}), majd töltsd le az Okuna alkalmazást (${iosLink}).\n\nAndroid esetén töltsd le a Play áruházból (${androidLink}).\n\nMiután sikeresen letöltötted az alkalmazást, illeszd be ezt a személyre szabott meghívó linket az Okuna alkalmazás regisztrációs űrlapjába: ${inviteLink}";
+  static m50(iosLink, testFlightLink, androidLink, inviteLink) => "Szia! Meg szeretnélek hívni az H2Pro3 közösségi hálózatra.\n\niOS esetén először töltsd le a TestFlight alkalmazást az iTunes-ról (${testFlightLink}), majd töltsd le az H2Pro3 alkalmazást (${iosLink}).\n\nAndroid esetén töltsd le a Play áruházból (${androidLink}).\n\nMiután sikeresen letöltötted az alkalmazást, illeszd be ezt a személyre szabott meghívó linket az H2Pro3 alkalmazás regisztrációs űrlapjába: ${inviteLink}";
 
   static m51(username) => "Regisztrált a(z) @${username} felhasználónévvel";
 
@@ -131,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m55(maxLength) => "A hely nem lehet ${maxLength} karakternél hosszabb.";
 
-  static m56(age) => "On Okuna since ${age}";
+  static m56(age) => "On H2Pro3 since ${age}";
 
   static m57(takenConnectionsCircleName) => "A(z) \'${takenConnectionsCircleName}\' körnév már foglalt";
 
@@ -459,7 +459,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__help" : MessageLookupByLibrary.simpleMessage("Segítség és visszajelzés"),
     "drawer__lists" : MessageLookupByLibrary.simpleMessage("Listáim"),
     "drawer__logout" : MessageLookupByLibrary.simpleMessage("Kijelentkezés"),
-    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Saját Okuna"),
+    "drawer__main_title" : MessageLookupByLibrary.simpleMessage("Saját H2Pro3"),
     "drawer__menu_title" : MessageLookupByLibrary.simpleMessage("Menü"),
     "drawer__my_circles" : MessageLookupByLibrary.simpleMessage("Köreim"),
     "drawer__my_followers" : MessageLookupByLibrary.simpleMessage("Követőim"),
@@ -471,7 +471,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__profile" : MessageLookupByLibrary.simpleMessage("Profilom"),
     "drawer__settings" : MessageLookupByLibrary.simpleMessage("Beállítások"),
     "drawer__themes" : MessageLookupByLibrary.simpleMessage("Témák"),
-    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("Okuna irányelvek"),
+    "drawer__useful_links_guidelines" : MessageLookupByLibrary.simpleMessage("H2Pro3 irányelvek"),
     "drawer__useful_links_guidelines_bug_tracker" : MessageLookupByLibrary.simpleMessage("Hibakövető"),
     "drawer__useful_links_guidelines_bug_tracker_desc" : MessageLookupByLibrary.simpleMessage("Jelents be egy hibát vagy szavazz a már létezőekre"),
     "drawer__useful_links_guidelines_desc" : MessageLookupByLibrary.simpleMessage("Az irányelvek, melyeket mindenkinek be kell tartania a barátságos és kényelmes körülmények megteremtéséhez."),
@@ -479,11 +479,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawer__useful_links_guidelines_feature_requests_desc" : MessageLookupByLibrary.simpleMessage("Javasolj egy funkciót vagy szavazz a már létezőekre"),
     "drawer__useful_links_guidelines_github" : MessageLookupByLibrary.simpleMessage("GitHub projekttábla"),
     "drawer__useful_links_guidelines_github_desc" : MessageLookupByLibrary.simpleMessage("Tekintsd meg, min dolgozunk jelenleg"),
-    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("Okuna kézikönyv"),
+    "drawer__useful_links_guidelines_handbook" : MessageLookupByLibrary.simpleMessage("H2Pro3 kézikönyv"),
     "drawer__useful_links_guidelines_handbook_desc" : MessageLookupByLibrary.simpleMessage("Egy kézikönyv, mely mindent leír a platform használatáról"),
     "drawer__useful_links_slack_channel" : MessageLookupByLibrary.simpleMessage("Közösségi Slack csatorna"),
     "drawer__useful_links_slack_channel_desc" : MessageLookupByLibrary.simpleMessage("A hely ahol bármit megbeszélhetsz az Okunával kapcsolatban"),
-    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Az Okuna támogatása"),
+    "drawer__useful_links_support" : MessageLookupByLibrary.simpleMessage("Az H2Pro3 támogatása"),
     "drawer__useful_links_support_desc" : MessageLookupByLibrary.simpleMessage("Segíthetsz, hogy tovább tudjunk evezni a terveink tengerén!"),
     "drawer__useful_links_title" : MessageLookupByLibrary.simpleMessage("Hasznos linkek"),
     "error__no_internet_connection" : MessageLookupByLibrary.simpleMessage("Nincs internetkapcsolat"),
@@ -507,7 +507,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__confirm_report_post_reported" : MessageLookupByLibrary.simpleMessage("Jelentett bejegyzés"),
     "moderation__confirm_report_provide_details" : MessageLookupByLibrary.simpleMessage("Tudnál további részleteket szolgáltatni amelyek lényegesek lennének a bejelentéshez?"),
     "moderation__confirm_report_provide_happen_next" : MessageLookupByLibrary.simpleMessage("Ez fog történni most:"),
-    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- A jelentés névtelenül lesz elküldve. \n- Ha egy bejegyzést vagy hozzászólást jelentesz, a jelentés el lesz küldve az Okuna vezetőségéhez és adott esetben a közösség moderátoraihoz, valamint a bejegyzés el lesz rejtve a hírfolyamodból. \n- Ha egy fiókot vagy közösséget jelentesz, a jelentés el lesz küldve az Okuna vezetőségéhez. \n- Felülvizsgáljuk a jelentést és amennyiben ütközik irányelveinkkel, a jelentett tartalmat törölni fogjuk és kiszabjuk a megfelelő büntetést az érintett felekre, mely az áthágás súlyosságának függvényében lehet ideiglenes felfüggesztés vagy a teljes fiók törlése. \n- Ha a jelentett tartalom nem ütközik irányelveinkkel és a jelentés azért lett létrehozva, hogy más felhasználó vagy közösség hírnevét csökkentse, a büntetést terád fogjuk kiszabni.\n"),
+    "moderation__confirm_report_provide_happen_next_desc" : MessageLookupByLibrary.simpleMessage("- A jelentés névtelenül lesz elküldve. \n- Ha egy bejegyzést vagy hozzászólást jelentesz, a jelentés el lesz küldve az H2Pro3 vezetőségéhez és adott esetben a közösség moderátoraihoz, valamint a bejegyzés el lesz rejtve a hírfolyamodból. \n- Ha egy fiókot vagy közösséget jelentesz, a jelentés el lesz küldve az H2Pro3 vezetőségéhez. \n- Felülvizsgáljuk a jelentést és amennyiben ütközik irányelveinkkel, a jelentett tartalmat törölni fogjuk és kiszabjuk a megfelelő büntetést az érintett felekre, mely az áthágás súlyosságának függvényében lehet ideiglenes felfüggesztés vagy a teljes fiók törlése. \n- Ha a jelentett tartalom nem ütközik irányelveinkkel és a jelentés azért lett létrehozva, hogy más felhasználó vagy közösség hírnevét csökkentse, a büntetést terád fogjuk kiszabni.\n"),
     "moderation__confirm_report_provide_optional_hint_text" : MessageLookupByLibrary.simpleMessage("Írj ide..."),
     "moderation__confirm_report_provide_optional_info" : MessageLookupByLibrary.simpleMessage("(Nem kötelező)"),
     "moderation__confirm_report_submit" : MessageLookupByLibrary.simpleMessage("Megértettem, küldés."),
@@ -532,7 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moderation__moderated_object_title" : MessageLookupByLibrary.simpleMessage("Tárgy"),
     "moderation__moderated_object_true_text" : MessageLookupByLibrary.simpleMessage("Igaz"),
     "moderation__moderated_object_verified" : MessageLookupByLibrary.simpleMessage("Ellenőrizve"),
-    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Az Okuna csapata által ellenőrizve"),
+    "moderation__moderated_object_verified_by_staff" : MessageLookupByLibrary.simpleMessage("Az H2Pro3 csapata által ellenőrizve"),
     "moderation__my_moderation_penalties_resouce_singular" : MessageLookupByLibrary.simpleMessage("moderációs büntetés"),
     "moderation__my_moderation_penalties_resource_plural" : MessageLookupByLibrary.simpleMessage("moderációs büntetés"),
     "moderation__my_moderation_penalties_title" : MessageLookupByLibrary.simpleMessage("Moderációs büntetések"),
