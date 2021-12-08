@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 class SwipeScreen extends StatefulWidget {
   final current.User user;
   const SwipeScreen({Key key, this.user}) : super(key: key);
-  
+
   @override
   SwipeScreenState createState() => SwipeScreenState();
 }
@@ -34,12 +34,10 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
   CardController controller = CardController();
   StreamController<List<ProfileCardUser>> profileCardsStreamController;
 
-
   // Set default `_initialized` and `_error` state to false
   bool _initialized = false;
   bool _error = false;
   bool _needsBootstrap;
-
 
   void initializeFlutterFire() async {
     setState(() {
@@ -64,7 +62,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     initializeFlutterFire();
     WidgetsBinding.instance?.addObserver(this);
   }
-  
 
   @override
   void dispose() {
@@ -73,10 +70,10 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (auth.FirebaseAuth.instance.currentUser != null && firebaseUser != null) {
+    if (auth.FirebaseAuth.instance.currentUser != null &&
+        firebaseUser != null) {
       if (state == AppLifecycleState.paused) {
         //user offline
         // tokenStream.pause();
@@ -94,8 +91,6 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-
-
     var openbookProvider = OpenbookProvider.of(context);
     if (_needsBootstrap) {
       _userService = openbookProvider.userService;
@@ -110,7 +105,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
         ),
       );
     }
-    
+
     if (_error) {
       return Container(
         color: Colors.white,
@@ -154,31 +149,33 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     );
   }
 
-
-  Stream<List<ProfileCardUser>> _getFullUserInformation(List<current.User> data) async* {
-  profileCardsStreamController = StreamController<List<ProfileCardUser>>();
+  Stream<List<ProfileCardUser>> _getFullUserInformation(
+      List<current.User> data) async* {
+    profileCardsStreamController = StreamController<List<ProfileCardUser>>();
     List<ProfileCardUser> extendedUsers = [];
+    if (data.isEmpty) {
+      profileCardsStreamController.add([]);
+    }
     data.forEach((current.User basicInformation) async {
-      _userService.getUserWithUsername(basicInformation.username).then((value) {
-        try {
-          ProfileCardUser _extended = ProfileCardUser(
-            basicInformation: basicInformation, 
-            extendedInformation: value
-          );
-          extendedUsers.add(_extended);
+      try {
+        var djangoUser =
+            await _userService.getUserWithUsername(basicInformation.username);
+        ProfileCardUser _extended = ProfileCardUser(
+            basicInformation: basicInformation,
+            extendedInformation: djangoUser);
+        extendedUsers.add(_extended);
+        profileCardsStreamController.add(extendedUsers);
+      } catch (e) {
+        if (extendedUsers.isEmpty) {
           profileCardsStreamController.add(extendedUsers);
-        } catch (e) {
-          print(e);
         }
-
-      });
+        print(
+            'Swipescreen - skipped django user not working: ${basicInformation.username}');
+      }
     });
 
-
     yield* profileCardsStreamController.stream;
-
   }
-
 
   Widget _asyncCards(BuildContext context, List<current.User> data) {
     if (data == null || data.isEmpty)
@@ -186,151 +183,151 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            'There’s no one around you. Try increasing the distance radius to get more recommendations.',
+            'There’s no one else to match for now.',
             textAlign: TextAlign.center,
           ),
         ),
       );
 
-
     return StreamBuilder<List<ProfileCardUser>>(
-      stream: _getFullUserInformation(data),
-      builder: (context, snapshot) {
+        stream: _getFullUserInformation(data),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(Color(COLOR_ACCENT)),
+                ),
+              );
+            case ConnectionState.active:
+              users = snapshot.data ?? [];
 
-        if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(COLOR_ACCENT)),
-              ),
-            );
-          case ConnectionState.active:
-            users = snapshot.data ?? [];
-
-            return Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Flexible(
-                child: Stack(children: [
-                  Container(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'There’s no one around you. Try increasing '
-                              'the distance radius to get more recommendations.',
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.9,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    child: new TinderSwapCard(
-                      animDuration: 500,
-                      orientation: AmassOrientation.BOTTOM,
-                      totalNum: snapshot.data.length,
-                      stackNum: 3,
-                      swipeEdge: 15,
-                      maxWidth: MediaQuery.of(context).size.width,
-                      maxHeight: MediaQuery.of(context).size.height,
-                      minWidth: MediaQuery.of(context).size.width * 0.9,
-                      minHeight: MediaQuery.of(context).size.height * 0.9,
-                      cardBuilder: (context, index) => _buildCard(snapshot.data[index]),
-                      cardController: controller,
-                      swipeCompleteCallback:
-                          (CardSwipeOrientation orientation, int index) async {
-                            
-                        if (orientation == CardSwipeOrientation.LEFT ||
-                            orientation == CardSwipeOrientation.RIGHT) {
-                            if (orientation == CardSwipeOrientation.RIGHT) {
-                              current.User result =
-                                  await _fireStoreUtils.onSwipeRight(snapshot.data[index].basicInformation);
-                              if (result != null) {
-                                snapshot.data.removeAt(index);
-                                push(context, MatchScreen(matchedUser: result));
-                              } else {
-                                swipedUsers.add(snapshot.data[index]);
-                                snapshot.data.removeAt(index);
-                                profileCardsStreamController.add(snapshot.data);
-                              }
-                            } else if (orientation == CardSwipeOrientation.LEFT) {
-                              swipedUsers.add(snapshot.data[index]);
-                              await _fireStoreUtils.onSwipeLeft(snapshot.data[index].basicInformation);
-                              snapshot.data.removeAt(index);
-                              profileCardsStreamController.add(snapshot.data);
-                            }
-                        }
-                      },
-                    ),
-                  ),
-                ]),
-              ),
-              snapshot.data.length > 0 ? Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              return Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    FloatingActionButton(
-                      elevation: 1,
-                      heroTag: 'left',
-                      onPressed: () {
-                        controller.triggerLeft();
-                      },
-                      backgroundColor: Colors.white,
-                      mini: false,
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.red,
-                        size: 40,
-                      ),
+                    Flexible(
+                      child: Stack(children: [
+                        Container(
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'There’s no one else to match for now. Try again later.',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.9,
+                          width: MediaQuery.of(context).size.width,
+                          child: new TinderSwapCard(
+                            animDuration: 500,
+                            orientation: AmassOrientation.BOTTOM,
+                            totalNum: snapshot.data.length,
+                            stackNum: 3,
+                            swipeEdge: 15,
+                            maxWidth: MediaQuery.of(context).size.width,
+                            maxHeight: MediaQuery.of(context).size.height,
+                            minWidth: MediaQuery.of(context).size.width * 0.9,
+                            minHeight: MediaQuery.of(context).size.height * 0.9,
+                            cardBuilder: (context, index) =>
+                                _buildCard(snapshot.data[index]),
+                            cardController: controller,
+                            swipeCompleteCallback:
+                                (CardSwipeOrientation orientation,
+                                    int index) async {
+                              if (orientation == CardSwipeOrientation.LEFT ||
+                                  orientation == CardSwipeOrientation.RIGHT) {
+                                if (orientation == CardSwipeOrientation.RIGHT) {
+                                  current.User result = await _fireStoreUtils
+                                      .onSwipeRight(snapshot
+                                          .data[index].basicInformation);
+                                  if (result != null) {
+                                    snapshot.data.removeAt(index);
+                                    push(context,
+                                        MatchScreen(matchedUser: result));
+                                  } else {
+                                    swipedUsers.add(snapshot.data[index]);
+                                    snapshot.data.removeAt(index);
+                                    profileCardsStreamController
+                                        .add(snapshot.data);
+                                  }
+                                } else if (orientation ==
+                                    CardSwipeOrientation.LEFT) {
+                                  swipedUsers.add(snapshot.data[index]);
+                                  await _fireStoreUtils.onSwipeLeft(
+                                      snapshot.data[index].basicInformation);
+                                  snapshot.data.removeAt(index);
+                                  profileCardsStreamController
+                                      .add(snapshot.data);
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                      ]),
                     ),
-                    FloatingActionButton(
-                      elevation: 1,
-                      heroTag: 'right',
-                      onPressed: () {
-                        controller.triggerRight();
-                      },
-                      backgroundColor: Colors.white,
-                      mini: false,
-                      child: Icon(
-                        Icons.thumb_up,
-                        color: Colors.green,
-                        size: 35,
-                      ),
-                    )
-                  ],
-                ),
-              ) : Container()
-            ]);
-     
-          case ConnectionState.done:
-        }
-        return Container(); // unreachable
-         }
-    );
+                    snapshot.data.length > 0
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                FloatingActionButton(
+                                  elevation: 1,
+                                  heroTag: 'left',
+                                  onPressed: () {
+                                    controller.triggerLeft();
+                                  },
+                                  backgroundColor: Colors.white,
+                                  mini: false,
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                    size: 40,
+                                  ),
+                                ),
+                                FloatingActionButton(
+                                  elevation: 1,
+                                  heroTag: 'right',
+                                  onPressed: () {
+                                    controller.triggerRight();
+                                  },
+                                  backgroundColor: Colors.white,
+                                  mini: false,
+                                  child: Icon(
+                                    Icons.thumb_up,
+                                    color: Colors.green,
+                                    size: 35,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : Container()
+                  ]);
+
+            case ConnectionState.done:
+          }
+          return Container(); // unreachable
+        });
   }
-
-
 
   Widget _buildCard(ProfileCardUser extendedUser) {
     return Card(
       child: Stack(
         children: <Widget>[
-          CardProfileScreen(extendedUser: extendedUser,),
+          CardProfileScreen(
+            extendedUser: extendedUser,
+          ),
           Positioned(
             right: 5,
             child: IconButton(
@@ -381,8 +378,8 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
           onPressed: () async {
             Navigator.of(context, rootNavigator: true).pop("1");
             showProgress(context, 'Blocking user...', false);
-            bool isSuccessful = await _fireStoreUtils.blockUser(
-                user.basicInformation, 'block');
+            bool isSuccessful =
+                await _fireStoreUtils.blockUser(user.basicInformation, 'block');
             hideProgress();
             if (isSuccessful) {
               await _fireStoreUtils.onSwipeLeft(user.basicInformation);
@@ -390,7 +387,8 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
               profileCardsStreamController.add(users);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${user.basicInformation.fullName()} has been blocked.'),
+                  content: Text(
+                      '${user.basicInformation.fullName()} has been blocked.'),
                 ),
               );
             } else {
@@ -413,12 +411,14 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
             hideProgress();
             if (isSuccessful) {
               await _fireStoreUtils.onSwipeLeft(user.basicInformation);
-              users.removeWhere((element) => element.basicInformation.userID == user.basicInformation.userID);
+              users.removeWhere((element) =>
+                  element.basicInformation.userID ==
+                  user.basicInformation.userID);
               profileCardsStreamController.add(users);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content:
-                      Text('${user.basicInformation.fullName()} has been reported and blocked.'),
+                  content: Text(
+                      '${user.basicInformation.fullName()} has been reported and blocked.'),
                 ),
               );
             } else {
@@ -444,17 +444,16 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
     showCupertinoModalPopup(context: context, builder: (context) => action);
   }
 
-
   _undo() async {
-      ProfileCardUser undoUser = swipedUsers.removeLast();
-      users.insert(0, undoUser);
-      // _fireStoreUtils.updateCardStream(users); 
-      await _fireStoreUtils.undo(undoUser.basicInformation);
-      profileCardsStreamController.add(users);
+    ProfileCardUser undoUser = swipedUsers.removeLast();
+    users.insert(0, undoUser);
+    // _fireStoreUtils.updateCardStream(users);
+    await _fireStoreUtils.undo(undoUser.basicInformation);
+    profileCardsStreamController.add(users);
   }
 
   _setupTinder() async {
     tinderUsers = _fireStoreUtils.getTinderUsers();
-  //   await _fireStoreUtils.matchChecker(context);
+    //   await _fireStoreUtils.matchChecker(context);
   }
 }
