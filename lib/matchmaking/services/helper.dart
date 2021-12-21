@@ -45,7 +45,7 @@ showAlertDialog(BuildContext context, String title, String content) {
   Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () {
-      Navigator.pop(context);
+      Navigator.maybePop(context);
     },
   );
   AlertDialog alert = AlertDialog(
