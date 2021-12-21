@@ -106,8 +106,10 @@ class OBUserPostsCountState extends State<OBUserPostsCount> {
   }
 
   void _setRequestInProgress(bool requestInProgress) {
-    setState(() {
-      _requestInProgress = requestInProgress;
-    });
+    if (mounted) {
+      setState(() {
+        _requestInProgress = requestInProgress;
+      });
+    }
   }
 }

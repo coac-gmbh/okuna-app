@@ -73,11 +73,14 @@ class OBAuthLoginPageState extends State<OBAuthLoginPage> {
                       const SizedBox(
                         height: 30.0,
                       ),
+                      _buildLoginFeedback(),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                       _buildLoginForm(),
                       const SizedBox(
                         height: 20.0,
                       ),
-                      _buildLoginFeedback()
                     ],
                   ))),
         ),
@@ -157,6 +160,11 @@ class OBAuthLoginPageState extends State<OBAuthLoginPage> {
     } on HttpieConnectionRefusedError {
       _setLoginFeedback(
           _localizationService.trans('auth__login__connection_error'));
+    } catch (e) {
+      _setLoginFeedback(
+          _localizationService.trans('auth__login__server_error') +
+              ': ' +
+              e.toString());
     }
     _setLoginInProgress(false);
   }
