@@ -263,7 +263,7 @@ To build the android APK
 
 To build the iOS archive
 
-```flutter build ios```
+```flutter build ipa --flavor production --release```
 
 ## Official workaround's list
 
