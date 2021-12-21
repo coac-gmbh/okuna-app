@@ -124,11 +124,7 @@ class _CardProfileScreenState extends State<CardProfileScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    OBProfileUsername(_user),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width * 0.18,
-                                      child: OBUserPostsCount(_user),
-                                    )
+                                    OBProfileUsername(_user)
                                   ],
                                 ),
 
