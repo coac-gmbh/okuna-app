@@ -325,7 +325,7 @@ class _ConversationsState extends State<ConversationsScreen> {
           child: Text("View Profile"),
           isDefaultAction: true,
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.maybePop(context);
             // TODO: Get user by id
             // push(context, OBProfilePage(user));
           },
@@ -336,7 +336,7 @@ class _ConversationsState extends State<ConversationsScreen> {
           "Cancel",
         ),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.maybePop(context);
         },
       ),
     );

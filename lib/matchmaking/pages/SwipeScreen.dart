@@ -169,8 +169,7 @@ class SwipeScreenState extends State<SwipeScreen> with WidgetsBindingObserver {
         if (extendedUsers.isEmpty) {
           profileCardsStreamController.add(extendedUsers);
         }
-        print(
-            'Swipescreen - skipped django user not working: ${basicInformation.username}');
+        print('Swipescreen - skipped django user not working: ${basicInformation.username}');
       }
     });
 

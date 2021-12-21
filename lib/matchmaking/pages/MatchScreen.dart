@@ -78,7 +78,7 @@ class _MatchScreenState extends State<MatchScreen> {
                   onTap: () {
                     SystemChrome.setEnabledSystemUIOverlays(
                         [SystemUiOverlay.bottom, SystemUiOverlay.top]);
-                    Navigator.pop(context);
+                    Navigator.maybePop(context);
                   },
                   child: Text(
                     'KEEP SWIPING',

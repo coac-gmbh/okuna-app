@@ -131,7 +131,7 @@ class VideoCallsHandler {
     hangupSub = hangupStream.listen((event) {
       if (!event.exists) {
         print('VideoCallsHandler.setupOnRemoteHangupListener');
-        Navigator.pop(context);
+        Navigator.maybePop(context);
       }
     });
   }

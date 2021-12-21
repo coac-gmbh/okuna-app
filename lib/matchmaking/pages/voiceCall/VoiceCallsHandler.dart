@@ -125,7 +125,7 @@ class VoiceCallsHandler {
     hangupSub = hangupStream.listen((event) {
       if (!event.exists) {
         print('VoiceCallsHandler.setupOnRemoteHangupListener');
-        Navigator.pop(context);
+        Navigator.maybePop(context);
       }
     });
   }
