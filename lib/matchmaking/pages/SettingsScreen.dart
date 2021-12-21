@@ -79,48 +79,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             showMe = newValue;
                             setState(() {});
                           }),
-                      ListTile(
-                        title: Text(
-                          'Distance Radius',
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: isDarkMode(context)
-                                ? Colors.white : Colors.black,
-                          ),
-                        ),
-                        trailing: GestureDetector(
-                          onTap: _onDistanceRadiusClick,
-                          child: Text(
-                                  radius.isNotEmpty
-                                      ? '$radius Miles'
-                                      : 'Unlimited',
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: isDarkMode(context)
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Gender',
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: isDarkMode(context)
-                                ? Colors.white : Colors.black,
-                          ),
-                        ),
-                        trailing: GestureDetector(
-                          onTap: _onGenderClick,
-                          child: Text('$gender',
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  color: isDarkMode(context)
-                                      ? Colors.white : Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ),
+                      // ListTile(
+                      //   title: Text(
+                      //     'Distance Radius',
+                      //     style: TextStyle(
+                      //       fontSize: 17,
+                      //       color: isDarkMode(context)
+                      //           ? Colors.white : Colors.black,
+                      //     ),
+                      //   ),
+                      //   trailing: GestureDetector(
+                      //     onTap: _onDistanceRadiusClick,
+                      //     child: Text(
+                      //             radius.isNotEmpty
+                      //                 ? '$radius Miles'
+                      //                 : 'Unlimited',
+                      //             style: TextStyle(
+                      //                 fontSize: 17,
+                      //                 color: isDarkMode(context)
+                      //                     ? Colors.white
+                      //                     : Colors.black,
+                      //                 fontWeight: FontWeight.bold)),
+                      //   ),
+                      // ),
+                      // ListTile(
+                      //   title: Text(
+                      //     'Gender',
+                      //     style: TextStyle(
+                      //       fontSize: 17,
+                      //       color: isDarkMode(context)
+                      //           ? Colors.white : Colors.black,
+                      //     ),
+                      //   ),
+                      //   trailing: GestureDetector(
+                      //     onTap: _onGenderClick,
+                      //     child: Text('$gender',
+                      //         style: TextStyle(
+                      //             fontSize: 17,
+                      //             color: isDarkMode(context)
+                      //                 ? Colors.white : Colors.black,
+                      //             fontWeight: FontWeight.bold)),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -316,7 +316,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       cancelButton: CupertinoActionSheetAction(
         child: Text("Cancel"),
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop("1");
         },
       ),
     );
